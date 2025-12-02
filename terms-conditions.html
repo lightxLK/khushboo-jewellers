@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - Khushboo Jewellers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/logo-blue.png">
+    <style>
+        .legal-page {
+            min-height: 100vh;
+            padding: 140px 24px 60px;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .legal-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/konark-pattern.png');
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            opacity: 0.06;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
+        .legal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .legal-title {
+            font-size: 40px;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .legal-updated {
+            color: var(--text-gray);
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .legal-content {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 48px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .legal-section {
+            margin-bottom: 32px;
+        }
+
+        .legal-section h2 {
+            color: var(--text-dark);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .legal-section p {
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .legal-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .legal-section ul li {
+            color: var(--text-gray);
+            padding: 8px 0 8px 28px;
+            position: relative;
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .legal-section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(184, 134, 11, 0.03) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 32px;
+        }
+
+        .contact-box h3 {
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .contact-box p {
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .contact-box a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-box a:hover {
+            color: var(--gold-dark);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--gold);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 32px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .back-btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .legal-content {
+                padding: 32px 24px;
+            }
+
+            .legal-title {
+                font-size: 32px;
+            }
+
+            .legal-section h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Same as main site) -->
+    <header class="header scrolled">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo-container">
+                    <img src="images/logo-blue.png" alt="Khushboo Jewellers" class="logo-img">
+                    <div class="logo-text">
+                        <span class="brand-name">KHUSHBOO</span>
+                        <span class="brand-subtitle">Since 2002 • Cuttack, Odisha</span>
+                    </div>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="index.html#why-choose" class="nav-link">Why Choose Us</a></li>
+                    <li><a href="index.html#collections" class="nav-link">Collections</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="index.html#contact" class="cta-btn-header">Partner With Us</a>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Legal Content -->
+    <div class="legal-page">
+        <div class="legal-container">
+            <div class="legal-header">
+                <h1 class="legal-title">Terms & Conditions</h1>
+                <p class="legal-updated">Last updated: December 1, 2024</p>
+            </div>
+
+            <div class="legal-content">
+                <div class="legal-section">
+                    <h2>1. Wholesale Partnership Agreement</h2>
+                    <p>By contacting Khushboo Jewellers for wholesale partnership, you agree to provide accurate business information and maintain professional business conduct in all communications and transactions. These terms govern your wholesale relationship with us.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>2. Product Quality & Certification</h2>
+                    <p>All our silver jewellery is certified 925 sterling silver with BIS hallmark. We guarantee the quality and purity of our products:</p>
+                    <ul>
+                        <li>100% certified 925 sterling silver</li>
+                        <li>BIS hallmark on all eligible products</li>
+                        <li>Quality concerns must be reported within 7 days of receipt</li>
+                        <li>Certification documentation provided with bulk orders</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>3. Pricing & Order Terms</h2>
+                    <ul>
+                        <li>All prices are in Indian Rupees (INR)</li>
+                        <li>Minimum order quantities may apply for wholesale pricing</li>
+                        <li>Prices are subject to change based on silver market rates</li>
+                        <li>Custom design orders require advance discussion and approval</li>
+                        <li>Bulk order discounts available for larger quantities</li>
+                        <li>Price quotes are valid for 30 days unless specified otherwise</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>4. Payment Terms</h2>
+                    <p>We accept various payment methods for wholesale orders:</p>
+                    <ul>
+                        <li>Bank transfer (NEFT/RTGS/IMPS)</li>
+                        <li>UPI payments for smaller orders</li>
+                        <li>Payment terms to be discussed and agreed before processing</li>
+                        <li>Advance payment may be required for first-time orders</li>
+                        <li>Credit terms available for established partners (subject to approval)</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>5. Shipping & Delivery</h2>
+                    <ul>
+                        <li>Delivery timelines depend on order quantity and customization</li>
+                        <li>Standard delivery: 7-15 business days for regular orders</li>
+                        <li>Custom orders: 15-30 business days depending on complexity</li>
+                        <li>Shipping costs calculated based on destination and order size</li>
+                        <li>Secure packaging provided for all jewellery items</li>
+                        <li>Tracking information provided for all shipments</li>
+                        <li>Insurance available for high-value shipments</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>6. Returns & Exchanges</h2>
+                    <p>Due to the nature of wholesale jewellery business:</p>
+                    <ul>
+                        <li>Returns accepted only for manufacturing defects</li>
+                        <li>Defects must be reported within 7 days of delivery</li>
+                        <li>Products must be in original condition with tags intact</li>
+                        <li>Custom-made items are non-returnable unless defective</li>
+                        <li>Return shipping costs borne by customer unless product is defective</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>7. Intellectual Property</h2>
+                    <p>All designs, patterns, and creative works are the intellectual property of Khushboo Jewellers. Unauthorized reproduction or distribution of our designs is prohibited.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>8. Limitation of Liability</h2>
+                    <p>Khushboo Jewellers shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services. Our total liability is limited to the value of the specific order in question.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>9. Dispute Resolution</h2>
+                    <p>Any disputes arising from these terms shall be resolved through mutual discussion. If resolution is not possible, disputes shall be subject to the jurisdiction of courts in Cuttack, Odisha.</p>
+                </div>
+
+                <div class="contact-box">
+                    <h3>10. Contact Information</h3>
+                    <p>For any questions regarding these terms or to discuss wholesale partnership:</p>
+                    <p><strong>Khushboo Jewellers</strong><br>
+                    Nayasadak, Cuttack, Odisha - 753002</p>
+                    <p>📞 <a href="tel:+917873590001">+91 78735 90001</a><br>
+                    ✉️ <a href="mailto:khushboojewellers416@gmail.com">khushboojewellers416@gmail.com</a></p>
+                    <p><strong>Business Hours:</strong> Monday - Saturday, 10:00 AM - 8:00 PM</p>
+                </div>
+
+                <a href="index.html" class="back-btn">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Same as main site) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="images/logo-white.png" alt="Khushboo Jewellers">
+                    </div>
+                    <p class="footer-desc">Your Trusted Traditional Silver Jewellery Wholesale Partner in Cuttack, Odisha</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#why-choose">Why Choose Us</a></li>
+                            <li><a href="index.html#collections">Collections</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link">Facebook</a>
+                            <a href="#" class="social-link">Instagram</a>
+                            <a href="#" class="social-link">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Khushboo Jewellers, Nayasadak Cuttack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
