@@ -223,6 +223,22 @@ def download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
         logger.exception(f"Drive download error: {e}")
         return None
 
+def resolve_image(image_code, save_folder, upload_folder, local_index, folder_id):
+    """Resolve one image code to a saved, processed image path.
+
+    Local ZIP index is checked first and wins if present; Drive is the
+    fallback for any code not found locally.
+    """
+    if not image_code:
+        return None
+    local_path = local_index.get(image_code.upper()) if local_index else None
+    if local_path:
+        with open(local_path, 'rb') as f:
+            return process_and_store_image(f.read(), image_code, save_folder, upload_folder)
+    if folder_id:
+        return download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
+    return None
+
 def run_import_background(file_bytes, overwrite_images=False):
     task_id = str(uuid.uuid4())
     import_tasks_store[task_id] = {'state': 'PENDING', 'progress': 0, 'status': 'Starting...', 'result': None}
