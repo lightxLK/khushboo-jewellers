@@ -239,29 +239,38 @@ def resolve_image(image_code, save_folder, upload_folder, local_index, folder_id
         return download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
     return None
 
-def run_import_background(file_bytes, overwrite_images=False):
+def run_import_background(file_bytes, overwrite_images=False, zip_path=None):
     task_id = str(uuid.uuid4())
     import_tasks_store[task_id] = {'state': 'PENDING', 'progress': 0, 'status': 'Starting...', 'result': None}
-    
+
     def background_worker():
         import_tasks_store[task_id]['state'] = 'PROGRESS'
-        run_import_logic(task_id, file_bytes, overwrite_images)
-        
+        run_import_logic(task_id, file_bytes, overwrite_images, zip_path=zip_path)
+
     thread = threading.Thread(target=background_worker)
     thread.daemon = True
     thread.start()
     return task_id
 
-def run_import_logic(task_id, file_bytes, overwrite_images):
+def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
     import openpyxl
     from app import app, db
     from models import Segment, Category, Subcategory, Product
 
+    extraction_dir = None
     try:
         with app.app_context():
             upload_folder = app.config['UPLOAD_FOLDER']
             wb = openpyxl.load_workbook(io.BytesIO(file_bytes))
             results = {'segments': 0, 'categories': 0, 'subcategories': 0, 'products': 0, 'errors': []}
+
+            local_index = {}
+            if zip_path:
+                if task_id in import_tasks_store:
+                    import_tasks_store[task_id]['status'] = 'Extracting image ZIP...'
+                local_index, extraction_dir = validate_and_index_zip(zip_path)
+                if task_id in import_tasks_store:
+                    import_tasks_store[task_id]['status'] = f'Indexed {len(local_index)} images from ZIP'
 
             # Identify sheets flexibly
             sheet_map = {}
@@ -291,6 +300,8 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                 raise Exception("No valid inventory sheets found. Please ensure your Excel sheets are named correctly (e.g., SEGMENTS, CATEGORIES, SUBCATS, PRODUCTS).")
 
             # SHEET 1: SEGMENTS
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Importing Segments...'
             if 'segments' in sheet_map:
                 ws = wb[sheet_map['segments']]
                 for row in ws.iter_rows(min_row=2, values_only=True):
@@ -312,10 +323,11 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                         if existing and existing.image_path and not overwrite_images:
                             should_download = False
                             
-                        if should_download and img_code and drive_link and 'PASTE' not in drive_link:
-                            folder_id = get_drive_file_id(drive_link)
-                            if folder_id:
-                                img_path = download_image_from_drive(folder_id, img_code, 'segments', upload_folder)
+                        if should_download and img_code:
+                            folder_id = None
+                            if drive_link and 'PASTE' not in drive_link:
+                                folder_id = get_drive_file_id(drive_link)
+                            img_path = resolve_image(img_code, 'segments', upload_folder, local_index, folder_id)
 
                         if existing:
                             existing.name = seg_name
@@ -334,6 +346,8 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                 db.session.commit()
 
             # SHEET 2: CATEGORIES
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Importing Categories...'
             if 'categories' in sheet_map:
                 ws = wb[sheet_map['categories']]
                 for row in ws.iter_rows(min_row=2, values_only=True):
@@ -363,15 +377,16 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                         if existing and existing.image_path and not overwrite_images:
                             should_download = False
 
-                        if should_download and drive_link and 'PASTE' not in drive_link:
-                            folder_id = get_drive_file_id(drive_link)
-                            if folder_id:
-                                if img_code:
-                                    img_path = download_image_from_drive(folder_id, img_code, 'categories', upload_folder)
-                                for gc in gal_codes:
-                                    gp = download_image_from_drive(folder_id, gc, 'categories', upload_folder)
-                                    if gp:
-                                        gallery_paths.append(gp)
+                        if should_download:
+                            folder_id = None
+                            if drive_link and 'PASTE' not in drive_link:
+                                folder_id = get_drive_file_id(drive_link)
+                            if img_code:
+                                img_path = resolve_image(img_code, 'categories', upload_folder, local_index, folder_id)
+                            for gc in gal_codes:
+                                gp = resolve_image(gc, 'categories', upload_folder, local_index, folder_id)
+                                if gp:
+                                    gallery_paths.append(gp)
 
                         if existing:
                             existing.name = cat_name
@@ -392,6 +407,8 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                 db.session.commit()
 
             # SHEET 3: SUBCATEGORIES
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Importing Subcategories...'
             if 'subcategories' in sheet_map:
                 ws = wb[sheet_map['subcategories']]
                 for row in ws.iter_rows(min_row=2, values_only=True):
@@ -421,15 +438,16 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                         if existing and existing.image_path and not overwrite_images:
                             should_download = False
                             
-                        if should_download and drive_link and 'PASTE' not in drive_link:
-                            folder_id = get_drive_file_id(drive_link)
-                            if folder_id:
-                                if img_code:
-                                    img_path = download_image_from_drive(folder_id, img_code, 'subcategories', upload_folder)
-                                for gc in gal_codes:
-                                    gp = download_image_from_drive(folder_id, gc, 'subcategories', upload_folder)
-                                    if gp:
-                                        gallery_paths.append(gp)
+                        if should_download:
+                            folder_id = None
+                            if drive_link and 'PASTE' not in drive_link:
+                                folder_id = get_drive_file_id(drive_link)
+                            if img_code:
+                                img_path = resolve_image(img_code, 'subcategories', upload_folder, local_index, folder_id)
+                            for gc in gal_codes:
+                                gp = resolve_image(gc, 'subcategories', upload_folder, local_index, folder_id)
+                                if gp:
+                                    gallery_paths.append(gp)
 
                         if existing:
                             existing.name = sub_name
@@ -450,6 +468,8 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                 db.session.commit()
 
             # SHEET 4: PRODUCTS
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Importing Products...'
             if 'products' in sheet_map:
                 ws = wb[sheet_map['products']]
                 for row in ws.iter_rows(min_row=2, values_only=True):
@@ -483,15 +503,16 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                         if existing and existing.primary_image and not overwrite_images:
                             should_download = False
 
-                        if should_download and drive_link and 'PASTE' not in drive_link:
-                            folder_id = get_drive_file_id(drive_link)
-                            if folder_id:
-                                if img_code:
-                                    primary_path = download_image_from_drive(folder_id, img_code, 'products/primary', upload_folder)
-                                for sc in sec_codes:
-                                    sp = download_image_from_drive(folder_id, sc, 'products/gallery', upload_folder)
-                                    if sp:
-                                        secondary_paths.append(sp)
+                        if should_download:
+                            folder_id = None
+                            if drive_link and 'PASTE' not in drive_link:
+                                folder_id = get_drive_file_id(drive_link)
+                            if img_code:
+                                primary_path = resolve_image(img_code, 'products/primary', upload_folder, local_index, folder_id)
+                            for sc in sec_codes:
+                                sp = resolve_image(sc, 'products/gallery', upload_folder, local_index, folder_id)
+                                if sp:
+                                    secondary_paths.append(sp)
 
                         if existing:
                             existing.name = prod_name
@@ -516,12 +537,24 @@ def run_import_logic(task_id, file_bytes, overwrite_images):
                         update_progress("Error in product row")
                 db.session.commit()
 
+        logger.info(
+            f"Import complete: {results['segments']} segments, {results['categories']} "
+            f"categories, {results['subcategories']} subcategories, {results['products']} "
+            f"products, {len(local_index)} images available from ZIP, "
+            f"{len(results['errors'])} row errors."
+        )
         if task_id in import_tasks_store:
             import_tasks_store[task_id]['state'] = 'SUCCESS'
             import_tasks_store[task_id]['progress'] = 100
             import_tasks_store[task_id]['result'] = results
-            
+
     except Exception as e:
         if task_id in import_tasks_store:
             import_tasks_store[task_id]['state'] = 'FAILURE'
             import_tasks_store[task_id]['status'] = str(e)
+        logger.exception("Import failed")
+    finally:
+        if extraction_dir and os.path.isdir(extraction_dir):
+            shutil.rmtree(extraction_dir, ignore_errors=True)
+        if zip_path and os.path.exists(zip_path):
+            os.remove(zip_path)
