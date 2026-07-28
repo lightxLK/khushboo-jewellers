@@ -1,9 +1,8 @@
 # Admin Panel UI Polish — Design
 
-Status: Approved (2026-07-28), revised after spec review (2026-07-28)
-Scope: all templates under `backend/templates/admin/` — the 17 pages plus the `base.html` shell
-they extend. Public storefront (`backend/templates/*.html` outside `admin/`) is explicitly out
-of scope for this spec.
+Status: Approved (2026-07-28), revised after spec review (2026-07-28, 2026-07-28)
+Scope: all templates under `backend/templates/admin/`, including `base.html`. Public storefront
+(`backend/templates/*.html` outside `admin/`) is explicitly out of scope for this spec.
 
 ## Problem
 
@@ -30,8 +29,8 @@ The admin panel lacks visual consistency and a coherent design system:
 - No layout/structure change — sidebar nav, page structure, and route behavior stay as-is.
 - No change to the public storefront.
 - No new JS dependencies.
-- Not a Tailwind-style utility framework — a small, hand-picked utility layer only (~20 classes),
-  enough to eliminate repeated CSS, not a full atomic-CSS system.
+- Not a Tailwind-style utility framework — a deliberately small utility layer covering only
+  repeated patterns observed across the admin templates, not a full atomic-CSS system.
 
 ## Design
 
@@ -45,24 +44,35 @@ top to bottom in the file:
 2. **Reset additions** (box-sizing, focus-visible baseline, etc.)
 3. **Typography** (type scale + font utilities)
 4. **Layout primitives** (stack/cluster/grid)
-5. **Components** (sidebar, topbar, cards, buttons, tables, badges, stat cards)
+5. **Buttons**
 6. **Forms**
-7. **Utilities**
-8. **Responsive** (breakpoint overrides, kept near the bottom so they win the cascade)
+7. **Cards** (incl. stat cards)
+8. **Tables**
+9. **Badges**
+10. **Navigation** (sidebar, topbar, page header)
+11. **Utilities**
+12. **Responsive** (breakpoint overrides, kept near the bottom so they win the cascade)
 
 #### Tokens
 
+Variables alphabetized within each category during implementation, for scanability.
+
 ```
-Color:      existing --lux-gold / --lux-gold-dark / --lux-navy / --lux-bg / --lux-border /
-            --lux-text-primary / --lux-text-secondary / --lux-success / --lux-danger
+Color:      --lux-bg / --lux-border / --lux-danger / --lux-gold / --lux-gold-dark /
+            --lux-navy / --lux-success / --lux-text-primary / --lux-text-secondary
             (moved from base.html's inline <style>, not duplicated)
 Spacing:    --space-1 (4px) … --space-8 (48px), 4px base unit — matches the 4/8px steps
             already visible in current inline styles
-Radius:     --radius-sm / --radius-md / --radius-lg
-Shadow:     --shadow-sm / --shadow-md / --shadow-lg
-Transition: --transition-fast / --transition-normal
-Z-index:    --z-sidebar / --z-dropdown / --z-modal
-Layout:     --content-max-width, --border-light
+Radius:     --radius-lg / --radius-md / --radius-sm
+Shadow:     --shadow-lg / --shadow-md / --shadow-sm
+Motion:     --transition-fast (~120ms, hover/focus states) / --transition-normal (~200ms,
+            card hover elevation, dropdown/panel open) — one deliberate pair so no page
+            invents its own timing (one used 100ms, another 400ms, etc.); applied to button
+            hover, card hover elevation, focus outline transition, dropdown/menu open
+Z-index:    --z-dropdown / --z-modal / --z-sidebar
+Breakpoint: --bp-tablet (1024px) — the one breakpoint currently in use, named instead of
+            repeated as a raw media-query value
+Layout:     --border-light / --content-max-width
 ```
 
 #### Layout primitives
@@ -71,35 +81,57 @@ Layout:     --content-max-width, --border-light
 `.grid-3` (CSS grid with a shared gap token) — replace the repeated
 `display:flex; gap:16px` / `display:grid; gap:24px` one-offs scattered per page.
 
-#### Components
+#### Buttons
 
-- **Buttons:** `.btn` base + `.btn-primary` / `.btn-danger` / `.btn-ghost` for intent,
-  `.btn-sm` / `.btn-md` / `.btn-lg` for size, `.btn-icon` for icon-only buttons.
-- **Cards:** `.card`, plus `.stat-card` / `.stat-value` / `.stat-label` / `.stat-icon` as a
-  formalized version of the dashboard's stat tiles (currently bespoke to `dashboard.html`).
-- **Tables:** `.table` with `thead`/`tbody`/`th`/`td` rules, `.table-actions` (the per-row
-  action-button cluster), `.table-empty` (empty-state row).
-- **Badges:** `.badge` base + `.badge-success` / `.badge-warning` / `.badge-danger` /
-  `.badge-info` / `.badge-neutral`.
-- **Icons:** `.icon-sm` (16px) / `.icon-md` (18px) / `.icon-lg` (22px), each with
-  `display:inline-flex; align-items:center; justify-content:center` so sizing and vertical
-  alignment are both fixed by the same class.
-- **Typography:** `.font-display` (Playfair Display 700 — see §2), `.heading-xl` /
-  `.heading-lg` / `.heading-md`, `.text-muted`, `.text-small` — pages style headings/labels
-  through these instead of raw `h1`/`h2`/inline styles.
+`.btn` base + `.btn-primary` / `.btn-danger` / `.btn-ghost` for intent, `.btn-sm` / `.btn-md` /
+`.btn-lg` for size, `.btn-icon` for icon-only buttons, `.btn:disabled` (reduced opacity,
+`cursor: not-allowed`) as a canonical disabled state for Save/Delete-in-progress buttons.
 
 #### Forms
 
 `.form-group`, `.form-label`, `.form-input`, `.form-select`, `.form-textarea`,
 `.form-checkbox`, `.form-help`, `.form-error`, `.form-row` (label+input pairs laid out
-horizontally where a page needs it).
+horizontally where a page needs it). `.form-input:focus` / `.form-select:focus` /
+`.form-textarea:focus` share one consistent focus-ring treatment (ties into the
+`:focus-visible` baseline from §Accessibility).
+
+#### Cards
+
+`.card`, plus `.stat-card` / `.stat-value` / `.stat-label` / `.stat-icon` as a formalized
+version of the dashboard's stat tiles (currently bespoke to `dashboard.html`).
+
+#### Tables
+
+`.table` with `thead`/`tbody`/`th`/`td` rules (including `vertical-align: middle` on `td` so
+rows mixing icons, badges, and action buttons align cleanly), `.table-actions` (the per-row
+action-button cluster), `.table-empty` (empty-state row).
+
+#### Badges
+
+`.badge` base + `.badge-success` / `.badge-warning` / `.badge-danger` / `.badge-info` /
+`.badge-neutral`.
+
+#### Navigation
+
+Sidebar, topbar, and page-header — currently defined ad hoc inside `base.html`'s inline
+`<style>`, formalized as their own component block (`.sidebar`, `.sidebar-link`, `.topbar`,
+`.page-header`, etc.) so `base.html` itself has something concrete to migrate to in §Rollout
+step 2.
+
+#### Typography (utility classes)
+
+`.font-display` (Playfair Display 700 — see §2), `.heading-xl` / `.heading-lg` / `.heading-md`,
+`.text-muted`, `.text-small` — pages style headings/labels through these instead of raw
+`h1`/`h2`/inline styles. `.icon-sm` (16px) / `.icon-md` (18px) / `.icon-lg` (22px) live here too,
+each with `display:inline-flex; align-items:center; justify-content:center` so sizing and
+vertical alignment are both fixed by the same class.
 
 #### Utilities
 
-A small hand-picked set (~20 classes) covering what's actually repeated today:
-spacing (`.mt-2`, `.mt-4`, `.mb-2`, `.mb-4`, `.gap-2`, `.gap-4`), layout (`.flex`,
-`.flex-between`, `.hidden`, `.w-full`), text (`.text-center`). Not a general-purpose
-utility framework — only what removes real, observed duplication.
+A deliberately small utility layer covering only repeated patterns observed across the admin
+templates: spacing (`.mt-2`, `.mt-4`, `.mb-2`, `.mb-4`, `.gap-2`, `.gap-4`), layout (`.flex`,
+`.flex-between`, `.hidden`, `.w-full`), text (`.text-center`). Not a general-purpose utility
+framework — only what removes real, observed duplication.
 
 ### 2. Typography
 
@@ -142,9 +174,9 @@ No behavior changes in this pass, but the shared system bakes in a floor:
 Unchanged in substance, documented explicitly so future edits know what's intentional:
 
 - Sidebar collapse behavior stays as currently implemented.
-- `.grid-2` / `.grid-3` / card layouts stack to a single column below 1024px.
+- `.grid-2` / `.grid-3` / card layouts stack to a single column below `--bp-tablet`.
 - Tables scroll horizontally on narrow viewports rather than compressing columns.
-- Forms remain single-column below tablet width.
+- Forms remain single-column below `--bp-tablet`.
 
 ### 6. Rollout
 
@@ -158,9 +190,9 @@ Unchanged in substance, documented explicitly so future edits know what's intent
    run the visual regression checklist (§Testing) against that page before moving to the next.
 4. Delete now-dead per-page CSS once its page is migrated — no lingering duplicate rules.
 
-Going forward: **no new inline styles are permitted unless the style is truly page-specific and
-cannot reasonably be represented by an existing component, primitive, or utility.** This is the
-rule that keeps the drift from recurring.
+Going forward: **new shared styling belongs in `admin.css`; inline styles are permitted only for
+genuinely page-specific values that cannot reasonably be represented by an existing token,
+primitive, component, or utility.** This is the rule that keeps the drift from recurring.
 
 No database, route, or JS-behavior changes anywhere in this pass — purely template/CSS.
 
@@ -177,11 +209,13 @@ Per-page visual regression checklist, run after migrating each page (logged in a
 - [ ] Alerts/flash messages render correctly
 - [ ] Icons render at consistent sizes, no layout shift vs. before
 - [ ] Keyboard-tab through the page shows visible focus on every interactive element
+- [ ] No visual regressions at 125% browser zoom
 
 Repo-wide, after all pages migrated:
 
-- `grep -n "font-family:\|style=\"width:.*px" backend/templates/admin/*.html` returns nothing
-  outside the legitimate page-specific one-offs identified during migration.
+- `grep -n "style=" backend/templates/admin/*.html` — every remaining hit manually reviewed and
+  confirmed a genuine page-specific one-off per the governance rule above, not a
+  should-have-been-shared value slipping back in.
 - No console errors from the pinned Lucide version (icons still render).
 
 ## Risks
