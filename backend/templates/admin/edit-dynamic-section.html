@@ -1,0 +1,338 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Showcase - Khushboo Jewellers{% endblock %}
+{% block page_title %}Modify Performance Section{% endblock %}
+
+{% block content %}
+<link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+<style>
+    /* ==================== 💎 LUXURY DYNAMIC UI ==================== */
+    :root {
+        --lux-gold: #C9A961;
+        --lux-gold-light: #D4B87D;
+        --lux-gold-dark: #9B7E46;
+        --lux-slate: #1E293B;
+        --lux-bg: #F9FAFB;
+        --lux-card-bg: #FFFFFF;
+        --lux-border: #E2E8F0;
+        --lux-text-primary: #0F172A;
+        --lux-text-secondary: #64748B;
+        --lux-success: #10B981;
+        --lux-danger: #EF4444;
+    }
+
+    .page-wrapper {
+        padding: 30px 40px;
+        background: var(--lux-bg);
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb a {
+        color: var(--lux-gold-dark);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* LAYOUT */
+    .management-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    .lux-card {
+        background: var(--lux-card-bg);
+        border: 1px solid var(--lux-border);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        margin-bottom: 24px;
+    }
+
+    .card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--lux-text-primary);
+        margin-bottom: 12px;
+    }
+
+    .card-subtitle {
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 30px;
+    }
+
+    /* MODES (Locked in Edit) */
+    .mode-indicator {
+        border: 1.5px solid var(--lux-gold);
+        border-radius: 16px;
+        padding: 16px;
+        background: #FDFBF7;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .mode-indicator i {
+        color: var(--lux-gold);
+        width: 20px;
+    }
+
+    .mode-indicator span {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-slate);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* FORMS */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .lux-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--lux-text-primary);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .lux-input,
+    .lux-select,
+    .lux-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        font-size: 14px;
+        background: white;
+        transition: all 0.2s;
+    }
+
+    .lux-input:focus {
+        outline: none;
+        border-color: var(--lux-gold);
+        box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+    }
+
+    /* ITEM SELECTOR */
+    .item-row {
+        background: #F8FAFC;
+        border: 1px solid var(--lux-border);
+        border-radius: 14px;
+        padding: 15px;
+        margin-bottom: 12px;
+    }
+
+    .item-row header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    /* BUTTONS */
+    .btn-lux {
+        background: linear-gradient(135deg, var(--lux-gold) 0%, var(--lux-gold-dark) 100%);
+        color: white;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        width: 100%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+    }
+
+    .btn-secondary {
+        background: white;
+        border: 1px solid var(--lux-border);
+        color: var(--lux-text-primary);
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    /* CURRENT AUDIT */
+    .audit-pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-bottom: 1px solid var(--lux-bg);
+    }
+
+    .audit-pill img {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="breadcrumb">
+        <i data-lucide="home"></i>
+        <a href="/admin/dashboard">Dashboard</a>
+        <span>›</span>
+        <a href="/admin/dynamic-section">Dynamic Sections</a>
+        <span>›</span>
+        <span>Modify Showcase</span>
+    </div>
+
+    <form action="/admin/edit-dynamic-section/{{ section.id }}" method="POST">
+        <div class="management-grid">
+            <!-- EDIT FORM -->
+            <div class="lux-card">
+                <h1 class="card-title">Modify Showcase Section</h1>
+                <p class="card-subtitle">Update branding and content for this live component.</p>
+
+                <div class="mode-indicator">
+                    <i data-lucide="{{ 'zap' if section.is_automatic else 'hand' }}"></i>
+                    <span>{{ 'automatic' if section.is_automatic else 'manual' }} curation enabled</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="lux-label" for="title">Display Title <span style="color:red">*</span></label>
+                    <input type="text" id="title" name="title" class="lux-input" value="{{ section.title }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="lux-label" for="subtitle">Complementary Text</label>
+                    <input type="text" id="subtitle" name="subtitle" class="lux-input"
+                        value="{{ section.subtitle or '' }}">
+                </div>
+
+                {% if not section.is_automatic %}
+                <div id="itemSelector" style="margin-top: 25px;">
+                    <label class="lux-label">Selection Hierarchy ({{ section.display_type }}s)</label>
+                    <div id="itemRows">
+                        <div style="font-size: 11px; color: var(--lux-text-secondary); margin-bottom: 10px;">
+                            Currently editing items is limited as product data is stored as raw IDs. Use the Create
+                            function to build new lists.
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div id="autoOptions"
+                    style="background: #F8FAFC; padding: 20px; border-radius: 16px; border: 1px solid var(--lux-border); margin-bottom: 25px;">
+                    <div class="form-group">
+                        <label class="lux-label">Refresh Limit (Not Editable)</label>
+                        <input type="number" class="lux-input" disabled value="10">
+                    </div>
+                </div>
+                {% endif %}
+
+                <input type="hidden" name="section_mode"
+                    value="{{ 'automatic' if section.is_automatic else 'manual' }}">
+                <input type="hidden" name="display_type" value="{{ section.display_type }}">
+                <input type="hidden" name="automatic_type" value="{{ section.automatic_type }}">
+
+                <button type="submit" class="btn-lux">
+                    <i data-lucide="save"></i> Persist Showcase Updates
+                </button>
+                <a href="/admin/dynamic-section" class="btn-secondary">Discard & Return</a>
+            </div>
+
+            <!-- AUDIT PANEL -->
+            <div class="lux-card">
+                <h2 class="card-title">Live Preview Audit</h2>
+                <p class="card-subtitle">Verification of current items assigned to this section.</p>
+
+                <div style="background: var(--lux-bg); border-radius: 16px; padding: 15px;" id="dynamicPreviewGrid">
+                    <p style="text-align:center; padding: 20px; font-size: 12px; color: var(--lux-text-secondary);">
+                        Loading live preview...</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        loadSectionPreview();
+    });
+
+    function loadSectionPreview() {
+        const container = document.getElementById('dynamicPreviewGrid');
+        const sectionId = "{{ section.id }}";
+
+        fetch('/api/dynamic-section-items/' + sectionId)
+            .then(r => r.json())
+            .then(data => {
+                container.innerHTML = '';
+                if (!data.items || data.items.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; padding: 20px; font-size: 12px; color: var(--lux-text-secondary);">No items linked yet.</p>';
+                    return;
+                }
+
+                const grid = document.createElement('div');
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(70px, 1fr))';
+                grid.style.gap = '10px';
+
+                data.items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.style.textAlign = 'center';
+
+                    const img = document.createElement('img');
+                    img.src = item.image_path || item.primary_image || '/images/placeholder.png';
+                    img.style.width = '100%';
+                    img.style.aspectRatio = '1';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '12px';
+                    img.style.border = '1px solid var(--lux-border)';
+                    img.title = item.name;
+
+                    const name = document.createElement('div');
+                    name.style.fontSize = '10px';
+                    name.style.color = 'var(--lux-text-secondary)';
+                    name.style.marginTop = '4px';
+                    name.style.whiteSpace = 'nowrap';
+                    name.style.overflow = 'hidden';
+                    name.style.textOverflow = 'ellipsis';
+                    name.textContent = item.name;
+
+                    div.appendChild(img);
+                    div.appendChild(name);
+                    grid.appendChild(div);
+                });
+                container.appendChild(grid);
+            })
+            .catch(err => {
+                console.error('Error loading preview:', err);
+                container.innerHTML = '<p style="text-align:center; padding: 20px; font-size: 12px; color: var(--lux-danger);">Failed to load preview.</p>';
+            });
+    }
+</script>
+{% endblock %}

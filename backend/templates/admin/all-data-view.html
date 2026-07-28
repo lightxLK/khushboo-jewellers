@@ -1,0 +1,282 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Inventory Audit - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Inventory Governance{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* FILTERS */
+    .governance-filter-bar {
+        background: white;
+        padding: 20px 24px;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .master-search-group {
+        flex: 1;
+        min-width: 300px;
+        position: relative;
+    }
+
+    .master-search-group i {
+        position: absolute;
+        left: 14px;
+        top: 13px;
+        width: 18px;
+        color: var(--lux-text-secondary);
+    }
+
+    .master-search-group input {
+        padding-left: 45px;
+        background: #F8FAFC;
+    }
+
+    /* TABLE */
+    .audit-table-container {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--lux-border);
+        background: white;
+    }
+
+    .lux-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lux-table th {
+        background: #F8FAFC;
+        padding: 16px 24px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lux-text-secondary);
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .lux-table td {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        font-size: 14px;
+        color: var(--lux-navy);
+        vertical-align: middle;
+    }
+
+    .product-thumb-audit {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #F1F5F9;
+        border: 1px solid var(--lux-border);
+    }
+
+    .badge-taxonomy {
+        font-size: 10px;
+        font-weight: 900;
+        padding: 4px 8px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    .action-link-gold {
+        color: var(--lux-gold);
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 13px;
+        margin-left: 15px;
+        transition: opacity 0.2s;
+    }
+
+    .action-link-gold:hover {
+        opacity: 0.7;
+    }
+
+    .action-link-gold.danger {
+        color: var(--lux-danger);
+    }
+
+    .flash-message {
+        padding: 14px 20px;
+        border-radius: 10px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .flash-success {
+        background: #D1FAE5;
+        color: #059669;
+        border: 1px solid #A7F3D0;
+    }
+
+    .flash-error {
+        background: #FEE2E2;
+        color: #B91C1C;
+        border: 1px solid #FECACA;
+    }
+</style>
+
+<div class="page-container">
+    <div class="breadcrumb">
+        <i data-lucide="home" style="width: 14px; color: var(--lux-gold);"></i>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Inventory Audit</span>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-message flash-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="governance-filter-bar">
+        <div class="master-search-group">
+            <i data-lucide="search"></i>
+            <input type="text" id="masterSearch" class="lux-input"
+                placeholder="Search by SKU, Name, or Category Reference...">
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+            <select id="typeFilter" class="lux-select" style="width: 180px;">
+                <option value="all">Every Data Type</option>
+                <option value="Products">Products</option>
+                <option value="Categories">Categories</option>
+                <option value="Subcategories">Sub-Categories</option>
+            </select>
+            <button class="btn-lux"
+                style="background: var(--lux-gold); padding: 8px 16px; margin: 0; display: inline-flex; align-items: center; gap: 8px;">
+                <i data-lucide="download" style="width: 16px;"></i> Export Stock
+            </button>
+        </div>
+    </div>
+
+    <div class="lux-card" style="padding: 0; overflow: hidden; background: white;">
+        <div style="padding: 24px; border-bottom: 1px solid var(--lux-border);">
+            <h2
+                style="font-size: 16px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <i data-lucide="database" style="color: var(--lux-gold);"></i>
+                Universal Governance Table
+            </h2>
+            <p style="font-size: 13px; color: var(--lux-text-secondary);">Complete audit list of every digital asset
+                registered in your jewelry store catalog.</p>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="lux-table" id="auditTable">
+                <thead>
+                    <tr>
+                        <th style="padding-left: 24px;">Resource Preview</th>
+                        <th>Identification</th>
+                        <th>Taxonomy</th>
+                        <th>Reference Origin</th>
+                        <th style="text-align: right; padding-right: 24px;">Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if combined_data %}
+                    {% for item in combined_data %}
+                    <tr class="audit-row" data-name="{{ item.name }}" data-type="{{ item.type }}">
+                        <td style="padding-left: 24px;">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}"
+                                class="product-thumb-audit"
+                                onerror="this.src='/images/placeholder.png'">
+                            {% else %}
+                            <div class="product-thumb-audit"
+                                style="display: flex; align-items: center; justify-content: center; background: #F8FAFC;">
+                                <i data-lucide="image" style="width: 16px; opacity: 0.3;"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div style="font-weight: 800; color: var(--lux-navy);">{{ item.name }}</div>
+                            <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">Resource ID: {{ item.id }}</div>
+                        </td>
+                        <td>
+                            <span class="badge-taxonomy">
+                                {{ item.type }}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px; color: var(--lux-text-secondary); font-weight: 600;">
+                                {{ item.parent_name if item.parent_name else 'Global Catalog' }}
+                            </div>
+                        </td>
+                        <td style="text-align: right; padding-right: 24px;">
+                            <a href="{{ item.edit_url }}" class="action-link-gold">Edit Record</a>
+                            <a href="#" class="action-link-gold danger"
+                                onclick="return confirm('Secure delete this catalog resource?')">Archive</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 80px; color: var(--lux-text-secondary);">
+                            <i data-lucide="database-zap"
+                                style="width: 48px; height: 48px; opacity: 0.2; margin-bottom: 16px;"></i>
+                            <p style="font-weight: 700;">Zero Data Entries Observed.</p>
+                            <p style="font-size: 12px; margin-top: 4px;">Start by adding segments and categories to
+                                populate this table.</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+
+        // Search Logic
+        const searchInput = document.getElementById('masterSearch');
+        const filterSelect = document.getElementById('typeFilter');
+        const dataRows = document.querySelectorAll('.audit-row');
+
+        function runAuditFilter() {
+            const query = searchInput.value.toLowerCase();
+            const taxonomy = filterSelect.value;
+
+            dataRows.forEach(row => {
+                const textMatch = row.dataset.name.toLowerCase().includes(query);
+                const typeMatch = (taxonomy === 'all' || row.dataset.type === taxonomy);
+                row.style.display = (textMatch && typeMatch) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', runAuditFilter);
+        filterSelect.addEventListener('change', runAuditFilter);
+    });
+</script>
+{% endblock %}

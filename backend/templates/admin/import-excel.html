@@ -1,0 +1,517 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Import Engine - Khushboo Jewellers{% endblock %}
+{% block topbar_title %}High-Performance Data Import{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* LAYOUT */
+    .import-engine-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    /* UPLOAD ZONE */
+    .excel-upload-container {
+        background: #F8FAFC;
+        border: 2px dashed var(--lux-border);
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .excel-upload-container:hover {
+        border-color: var(--lux-gold);
+        background: white;
+        transform: translateY(-2px);
+    }
+
+    .excel-upload-container i {
+        width: 48px;
+        height: 48px;
+        color: var(--lux-gold);
+        margin-bottom: 15px;
+    }
+
+    /* STEPS GUIDE */
+    .guide-step-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .step-number-circle {
+        width: 32px;
+        height: 32px;
+        background: var(--lux-navy);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 800;
+        flex-shrink: 0;
+        border: 2px solid var(--lux-gold);
+    }
+
+    .step-text-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        margin-bottom: 4px;
+    }
+
+    .step-text-desc {
+        font-size: 12px;
+        color: var(--lux-text-secondary);
+        line-height: 1.6;
+    }
+
+    /* SHEET ARCHITECTURE */
+    .architecture-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 12px;
+    }
+
+    .architecture-table th {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 2px solid var(--lux-border);
+        color: var(--lux-text-secondary);
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .architecture-table td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #F1F5F9;
+        color: var(--lux-navy);
+        font-weight: 500;
+    }
+
+    .sheet-id-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 800;
+        font-size: 10px;
+        margin-right: 8px;
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    /* PROGRESS */
+    .import-prog-box {
+        margin-top: 25px;
+        display: none;
+        padding: 20px;
+        background: #FDFBF7;
+        border-radius: 12px;
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    .prog-metrics {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--lux-gold-dark);
+        margin-top: 10px;
+        text-transform: uppercase;
+    }
+
+    .prog-bar-root {
+        height: 12px;
+        background: #F1F5F9;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .prog-bar-fill {
+        height: 100%;
+        background: var(--lux-gold);
+        width: 0%;
+        transition: width 0.4s;
+    }
+
+    @keyframes spin-inf {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .lucide-loader.spinning {
+        animation: spin-inf 1s linear infinite;
+    }
+
+    /* CUSTOM TABS FOR SYNC OPTIONS */
+    .sync-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #F1F5F9;
+        padding-bottom: 15px;
+    }
+
+    .sync-tab-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        background: transparent;
+        color: var(--lux-text-secondary);
+        border: 1px solid var(--lux-border);
+        transition: all 0.2s;
+    }
+
+    .sync-tab-btn:hover {
+        background: #F8FAFC;
+    }
+
+    .sync-tab-btn.active {
+        background: var(--lux-navy);
+        color: white;
+        border-color: var(--lux-navy);
+    }
+
+    .sync-panel {
+        display: none;
+    }
+
+    .sync-panel.active {
+        display: block;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="page-container">
+    <div class="breadcrumb">
+        <i data-lucide="home" style="width: 14px; color: var(--lux-gold);"></i>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Infrastructure</span>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Catalog Ingestion Engine</span>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div
+        style="padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; font-size: 13px; font-weight:700; background: {{ '#D1FAE5' if category == 'success' else '#FEE2E2' }}; color: {{ '#059669' if category == 'success' else '#B91C1C' }}; border: 1px solid {{ '#A7F3D0' if category == 'success' else '#FECACA' }}; display: flex; align-items: center; gap: 10px;">
+        <i data-lucide="{{ 'check-circle' if category == 'success' else 'alert-circle' }}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="import-engine-grid">
+        <!-- UPLOAD PANEL -->
+        <div class="lux-card" style="padding: 32px; background: white;">
+            <h2
+                style="font-size: 18px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <i data-lucide="file-spreadsheet" style="color: var(--lux-gold);"></i>
+                Data Command Center
+            </h2>
+            <p style="font-size: 13px; color: var(--lux-text-secondary); margin-bottom: 30px;">Direct ingestion of
+                validated Microsoft Excel (.xlsx) inventory sheets.</p>
+
+            <form method="POST" enctype="multipart/form-data" id="importForm"
+                onsubmit="return handleIngestionStart(this)">
+                
+                <!-- TABS -->
+                <div class="sync-tabs">
+                    <button type="button" class="sync-tab-btn active" onclick="switchSyncTab('file')">
+                        <i data-lucide="file-spreadsheet" style="width:16px;"></i> File Upload
+                    </button>
+                    <button type="button" class="sync-tab-btn" onclick="switchSyncTab('link')">
+                        <i data-lucide="link" style="width:16px;"></i> Google Sheets Link
+                    </button>
+                </div>
+
+                <!-- FILE UPLOAD SECION -->
+                <div id="panelFile" class="sync-panel active">
+                    <div class="excel-upload-container" onclick="document.getElementById('excelInput').click()">
+                        <i data-lucide="upload-cloud"></i>
+                        <h3 style="font-size: 16px; font-weight: 800; color: var(--lux-navy); margin-bottom: 4px;">Select
+                            Inventory Source</h3>
+                        <p style="font-size: 12px; color: var(--lux-text-secondary);">Supported Format: .xlsx (Max 50MB)</p>
+                        <input type="file" id="excelInput" name="excel_file" style="display:none" accept=".xlsx"
+                            onchange="onFileSelected(this)">
+                    </div>
+                </div>
+
+                <!-- LINK UPLOAD SECTION -->
+                <div id="panelLink" class="sync-panel">
+                    <div style="background: #F8FAFC; border: 1px dashed var(--lux-border); border-radius: 12px; padding: 25px; margin-bottom: 25px;">
+                        <label style="font-size: 13px; font-weight: 800; color: var(--lux-navy); margin-bottom: 10px; display: block;">
+                            <i data-lucide="link-2" style="width:14px; margin-right:5px; color:var(--lux-gold)"></i> Paste Google Sheets URL
+                        </label>
+                        <input type="url" name="sheet_url" id="sheetUrlInput" class="lux-input" placeholder="https://docs.google.com/spreadsheets/d/..." style="width: 100%; padding: 14px; border-radius: 8px; border: 1px solid var(--lux-border); font-size: 13px; background: white;">
+                        <p style="font-size: 11px; color: var(--lux-gold-dark); margin-top: 12px; display: flex; align-items: flex-start; gap: 8px; font-weight: 600; line-height: 1.5; padding: 10px; background: #FDFBF7; border-radius: 6px; border: 1px solid rgba(201, 169, 97, 0.2);">
+                            <i data-lucide="info" style="width: 14px; flex-shrink: 0; margin-top:1px;"></i>
+                            Ensure your sheet is accessible! In Google Sheets, click "Share" and set General Access to "Anyone with the link".
+                        </p>
+                    </div>
+                </div>
+
+                <div id="fileDetailBox"
+                    style="display:none; padding:15px; background:#F8FAFC; border-radius:12px; margin-bottom:20px; border:1px solid var(--lux-border);">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <i data-lucide="file-text" style="color:var(--lux-gold)"></i>
+                        <span id="targetFileName"
+                            style="font-size: 13px; font-weight: 700; color: var(--lux-navy);"></span>
+                    </div>
+                </div>
+
+                <div class="import-prog-box" id="ingestionProg">
+                    <div class="prog-bar-root">
+                        <div class="prog-bar-fill" id="ingestionFill"></div>
+                    </div>
+                    <div class="prog-metrics">
+                        <span id="ingestionStatus">Syncing Infrastructure...</span>
+                        <span id="ingestionPerc">0%</span>
+                    </div>
+                </div>
+
+                <div id="resultCard"
+                    style="display:none; margin-top: 20px; padding: 16px; background: #ECFDF5; border: 1px solid #10B981; border-radius: 12px;">
+                    <div
+                        style="font-size: 10px; font-weight: 900; color: #059669; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+                        Success Report</div>
+                    <div id="resultSummary"
+                        style="font-size: 13px; font-weight: 700; color: #064E3B; display: flex; flex-wrap: wrap; gap: 12px;">
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; align-items: center; gap: 10px; background: #F8FAFC; padding: 15px; border-radius: 10px; border: 1px solid var(--lux-border);">
+                    <input type="checkbox" id="overwriteImages" name="overwrite_images" value="yes" style="width: 18px; height: 18px; accent-color: var(--lux-navy); cursor: pointer;">
+                    <label for="overwriteImages" style="font-size: 13px; font-weight: 600; color: var(--lux-navy); cursor: pointer;">Overwrite existing images for duplicate records</label>
+                </div>
+
+                <button type="submit" class="btn-lux" id="ingestBtn"
+                    style="background: var(--lux-gold); width: 100%; border-radius: 12px; height: 50px; margin-top: 20px;">
+                    <i data-lucide="database" style="width: 18px;"></i> EXECUTE INGESTION PROTOCOL
+                </button>
+            </form>
+
+            <div style="margin-top: 40px; border-top: 1px solid #F1F5F9; padding-top: 30px;">
+                <h4
+                    style="font-size: 11px; font-weight: 800; color: var(--lux-text-secondary); text-transform: uppercase; margin-bottom: 20px;">
+                    Operational Policies</h4>
+                <div style="display:flex; gap:15px; align-items:flex-start; margin-bottom:20px;">
+                    <i data-lucide="shield-check" style="width:18px; color:#10B981; flex-shrink:0;"></i>
+                    <p style="font-size: 12px; color: var(--lux-text-secondary); line-height: 1.6;"><strong>Atomic
+                            Updates:</strong> Only new records are added. Existing catalog entries are preserved with
+                        100% data integrity.</p>
+                </div>
+                <div style="display:flex; gap:15px; align-items:flex-start;">
+                    <i data-lucide="zap" style="width:18px; color:var(--lux-gold); flex-shrink:0;"></i>
+                    <p style="font-size: 12px; color: var(--lux-text-secondary); line-height: 1.6;"><strong>Smart Image
+                            Mapping:</strong> High-resolution assets are automatically linked via cloud identifiers and
+                        WebP converted.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE PANEL -->
+        <div class="lux-card" style="padding: 32px; background: white;">
+            <h2
+                style="font-size: 18px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <i data-lucide="bookmark" style="color: var(--lux-gold);"></i>
+                Integration Framework
+            </h2>
+            <p style="font-size: 13px; color: var(--lux-text-secondary); margin-bottom: 30px;">Follow these technical
+                guidelines for consistent data mapping.</p>
+
+            <div class="guide-step-row">
+                <div class="step-number-circle">1</div>
+                <div>
+                    <div class="step-text-title">Schema Validation</div>
+                    <div class="step-text-desc">Download and use the official spreadsheet template to align with our
+                        backend relational requirements.</div>
+                </div>
+            </div>
+
+            <div class="guide-step-row">
+                <div class="step-number-circle">2</div>
+                <div>
+                    <div class="step-text-title">Resource Linking</div>
+                    <div class="step-text-desc">Child records (Products) MUST point to valid parent codes
+                        (Sub-Categories) identified in preceding sheets.</div>
+                </div>
+            </div>
+
+            <div class="guide-step-row" style="margin-bottom: 0;">
+                <div class="step-number-circle">3</div>
+                <div>
+                    <div class="step-text-title">Media Handshake</div>
+                    <div class="step-text-desc">Asset filenames must exactly match the SKU codes provided in the
+                        spreadsheet for automatic synchronization.</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 45px;">
+                <h3
+                    style="font-size: 11px; font-weight: 800; color: var(--lux-text-secondary); text-transform: uppercase;">
+                    Spreadsheet Architecture Map</h3>
+                <table class="architecture-table">
+                    <thead>
+                        <tr>
+                            <th>Namespace</th>
+                            <th>Mandatory Fields</th>
+                            <th>Relational Root</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="sheet-id-badge">01 — SEGMENTS</span></td>
+                            <td>segment_code, name</td>
+                            <td>— Taxonomy Primary</td>
+                        </tr>
+                        <tr>
+                            <td><span class="sheet-id-badge">02 — CATEGORIES</span></td>
+                            <td>segment_code, cat_code</td>
+                            <td>→ Link to Segments</td>
+                        </tr>
+                        <tr>
+                            <td><span class="sheet-id-badge">03 — SUBCATS</span></td>
+                            <td>cat_code, sub_code</td>
+                            <td>→ Link to Categories</td>
+                        </tr>
+                        <tr>
+                            <td><span class="sheet-id-badge">04 — PRODUCTS</span></td>
+                            <td>sub_code, code, details</td>
+                            <td>→ Link to Sub-Categories</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        {% if task_id %} initiatePolling("{{ task_id }}"); {% endif %}
+    });
+
+    function onFileSelected(input) {
+        if (input.files && input.files[0]) {
+            const f = input.files[0];
+            document.getElementById('targetFileName').textContent = `${f.name} (Source Ready)`;
+            document.getElementById('fileDetailBox').style.display = 'block';
+            lucide.createIcons();
+        }
+    }
+
+    function switchSyncTab(tab) {
+        document.querySelectorAll('.sync-tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.sync-panel').forEach(p => p.classList.remove('active'));
+        
+        if (tab === 'file') {
+            document.querySelector('.sync-tab-btn:nth-child(1)').classList.add('active');
+            document.getElementById('panelFile').classList.add('active');
+            document.getElementById('sheetUrlInput').value = ""; // clear URL
+        } else {
+            document.querySelector('.sync-tab-btn:nth-child(2)').classList.add('active');
+            document.getElementById('panelLink').classList.add('active');
+            document.getElementById('excelInput').value = ""; // clear file
+            document.getElementById('fileDetailBox').style.display = 'none';
+        }
+    }
+
+    function handleIngestionStart(form) {
+        const fileInput = document.getElementById('excelInput');
+        const linkInput = document.getElementById('sheetUrlInput');
+
+        if (!fileInput.value && (!linkInput.value || linkInput.value.trim() === '')) {
+            alert('Please select an Excel file or paste a Google Sheets URL.');
+            return false;
+        }
+
+        const btn = document.getElementById('ingestBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader" class="spinning" style="width:18px;"></i> INITIALIZING...';
+        lucide.createIcons();
+        return true;
+    }
+
+    function initiatePolling(id) {
+        const box = document.getElementById('ingestionProg');
+        const fill = document.getElementById('ingestionFill');
+        const stat = document.getElementById('ingestionStatus');
+        const perc = document.getElementById('ingestionPerc');
+        const rCard = document.getElementById('resultCard');
+        const rSum = document.getElementById('resultSummary');
+
+        box.style.display = 'block';
+        document.getElementById('ingestBtn').disabled = true;
+
+        const poll = setInterval(() => {
+            fetch(`/admin/import-status/${id}`)
+                .then(r => r.json())
+                .then(data => {
+                    fill.style.width = data.progress + '%';
+                    perc.textContent = data.progress + '%';
+                    stat.textContent = data.status;
+
+                    if (data.state === 'SUCCESS') {
+                        clearInterval(poll);
+                        const res = data.result;
+                        rSum.innerHTML = `
+                            <span>📦 Segments: ${res.segments}</span>
+                            <span>📂 Categories: ${res.categories}</span>
+                            <span>🏷️ Sub-Categories: ${res.subcategories}</span>
+                            <span>💎 Products: ${res.products}</span>
+                        `;
+                        rCard.style.display = 'block';
+                        document.getElementById('ingestBtn').disabled = false;
+                        document.getElementById('ingestBtn').innerHTML = '<i data-lucide="check-circle" style="width:18px;"></i> INGESTION COMPLETE';
+                        lucide.createIcons();
+                    } else if (data.state === 'FAILURE') {
+                        clearInterval(poll);
+                        stat.textContent = '❌ CRITICAL ERROR: ' + data.status;
+                        document.getElementById('ingestBtn').disabled = false;
+                    }
+                });
+        }, 2500);
+    }
+</script>
+{% endblock %}

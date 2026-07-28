@@ -1,0 +1,336 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Contact Inquiries - Khushboo Jewellers{% endblock %}
+{% block topbar_title %}Client Inquiries{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* FILTERS */
+    .inquiry-filter-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .search-wrapper-inq {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-wrapper-inq i {
+        position: absolute;
+        left: 16px;
+        color: var(--lux-gold);
+        width: 18px;
+    }
+
+    .search-wrapper-inq input {
+        padding-left: 46px;
+        background: #F8FAFC;
+    }
+
+    /* TABLE */
+    .inquiry-table-container {
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+    }
+
+    .lux-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lux-table th {
+        background: #F8FAFC;
+        padding: 16px 24px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lux-text-secondary);
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .lux-table td {
+        padding: 16px 24px;
+        border-bottom: 1px solid #F1F5F9;
+        font-size: 14px;
+        color: var(--lux-navy);
+        vertical-align: middle;
+    }
+
+    .avatar-icon-gold {
+        width: 36px;
+        height: 36px;
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    .msg-preview-cell {
+        max-width: 300px;
+        color: var(--lux-text-secondary);
+        font-size: 13px;
+        cursor: pointer;
+        transition: color 0.15s;
+    }
+
+    .msg-preview-cell:hover {
+        color: var(--lux-gold);
+    }
+
+    /* DROPDOWN */
+    .dropdown-container {
+        position: relative;
+    }
+
+    .dropdown-menu-lux {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        min-width: 180px;
+        z-index: 100;
+        display: none;
+        padding: 8px;
+        margin-top: 8px;
+    }
+
+    .dropdown-item-lux {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        color: var(--lux-navy);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+        font-weight: 600;
+    }
+
+    .dropdown-item-lux:hover {
+        background: #FDFBF7;
+        color: var(--lux-gold);
+    }
+
+    .unread-row {
+        background: #FDFBF7 !important;
+    }
+
+    .unread-indicator {
+        width: 8px;
+        height: 8px;
+        background: var(--lux-gold);
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+</style>
+
+<div class="page-container">
+    <div class="breadcrumb">
+        <i data-lucide="home" style="width: 14px; color: var(--lux-gold);"></i>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Contact Inquiries</span>
+    </div>
+
+    <div class="lux-card" style="padding: 24px; background: white; margin-bottom: 30px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+            <h2
+                style="font-size: 18px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="mail" style="color: var(--lux-gold);"></i>
+                Customer Communications
+            </h2>
+            <div
+                style="background: #FDFBF7; color: var(--lux-gold-dark); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid rgba(201, 169, 97, 0.2);">
+                {{ inquiries|length }} Total Messages
+            </div>
+        </div>
+
+        <div class="inquiry-filter-row">
+            <div class="search-wrapper-inq">
+                <i data-lucide="search"></i>
+                <input type="text" id="inqSearch" class="lux-input"
+                    placeholder="Search by name, email or message content..." onkeyup="filterInquiries()">
+            </div>
+
+            <select id="timeFilter" class="lux-select" onchange="filterInquiries()">
+                <option value="">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">Past Week</option>
+            </select>
+
+            <select id="originFilter" class="lux-select" onchange="filterInquiries()">
+                <option value="">All Regions</option>
+            </select>
+        </div>
+
+        <div class="inquiry-table-container">
+            {% if inquiries %}
+            <table class="lux-table" id="inquiryTable">
+                <thead>
+                    <tr>
+                        <th style="padding-left: 24px;">Sender</th>
+                        <th>Contact Details</th>
+                        <th>Message Snapshot</th>
+                        <th>Timestamp</th>
+                        <th style="text-align: right; padding-right: 24px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inquiry in inquiries %}
+                    <tr class="{{ 'unread-row' if not inquiry.is_read else '' }}">
+                        <td style="padding-left: 24px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                {% if not inquiry.is_read %}
+                                <div class="unread-indicator" title="Unread Message"></div>
+                                {% endif %}
+                                <div class="avatar-icon-gold">{{ inquiry.name[0]|upper }}</div>
+                                <div>
+                                    <div style="font-weight: 800;">{{ inquiry.name }}</div>
+                                    <div style="font-size: 11px; color: var(--lux-text-secondary);">{{ inquiry.business
+                                        or 'Legacy Client' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600;">{{ inquiry.email }}</div>
+                            <div style="font-size: 12px; color: var(--lux-text-secondary);">{{ inquiry.phone }}</div>
+                        </td>
+                        <td>
+                            <div class="msg-preview-cell"
+                                onclick="openMsgModal('{{ inquiry.name }}', '{{ inquiry.message|replace('\n', ' ')|replace('\'', '\\\'') }}')">
+                                {{ inquiry.message[:80] }}{% if inquiry.message|length > 80 %}...{% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 700; font-size: 13px;">{{ inquiry.created_at.strftime('%d %b %Y')
+                                }}</div>
+                            <div style="font-size: 11px; color: var(--lux-text-secondary);">{{
+                                inquiry.created_at.strftime('%I:%M %p') }}</div>
+                        </td>
+                        <td style="text-align: right; padding-right: 24px;">
+                            <div class="dropdown-container">
+                                <button onclick="toggleInqMenu(event, 'm-{{ inquiry.id }}')"
+                                    style="background:none; border:none; cursor:pointer; color:#94A3B8;">
+                                    <i data-lucide="more-horizontal" style="width: 18px;"></i>
+                                </button>
+                                <div class="dropdown-menu-lux" id="m-{{ inquiry.id }}">
+                                    {% if not inquiry.is_read %}
+                                    <a href="/admin/contact-inquiries/mark-read/{{ inquiry.id }}" class="dropdown-item-lux"
+                                        style="color: var(--lux-gold);">
+                                        <i data-lucide="check-circle" style="width: 14px;"></i> Mark as Read
+                                    </a>
+                                    {% endif %}
+                                    <a href="mailto:{{ inquiry.email }}" class="dropdown-item-lux">
+                                        <i data-lucide="reply" style="width: 14px;"></i> Reply via Email
+                                    </a>
+                                    <a href="tel:{{ inquiry.phone }}" class="dropdown-item-lux">
+                                        <i data-lucide="phone" style="width: 14px;"></i> Call Direct
+                                    </a>
+                                    <div style="height: 1px; background: #F1F5F9; margin: 4px 0;"></div>
+                                    <form action="/admin/contact-inquiries/delete/{{ inquiry.id }}" method="POST"
+                                        onsubmit="return confirm('Securely archive this communication?');">
+                                        <button type="submit" class="dropdown-item-lux"
+                                            style="width: 100%; border: none; background: none; color: var(--lux-danger); text-align: left; cursor: pointer;">
+                                            <i data-lucide="trash-2" style="width: 14px;"></i> Archive Record
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="text-align: center; padding: 100px 0;">
+                <i data-lucide="inbox"
+                    style="width: 48px; height: 48px; color: var(--lux-border); margin-bottom: 20px;"></i>
+                <h3 style="color: var(--lux-text-secondary); font-weight: 800;">Secure Inbox Empty</h3>
+                <p style="color: #94A3B8; font-size: 14px;">Client inquiries will materialize here in real-time.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- MESSAGE MODAL -->
+<div id="inqModal"
+    style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div
+        style="background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 32px; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+        <button onclick="closeInqModal()"
+            style="position: absolute; top: 20px; right: 20px; border: none; background: none; cursor: pointer; color: var(--lux-text-secondary);">
+            <i data-lucide="x" style="width: 24px;"></i>
+        </button>
+        <div style="margin-bottom: 20px;">
+            <h3 id="modalSender" style="font-size: 20px; font-weight: 800; color: var(--lux-navy); margin-bottom: 4px;">
+                Message Details</h3>
+            <p style="font-size: 13px; color: var(--lux-gold);">Client Communication Snapshot</p>
+        </div>
+        <div id="modalBody"
+            style="font-size: 15px; line-height: 1.6; color: var(--lux-text-primary); max-height: 300px; overflow-y: auto; padding: 20px; background: #F8FAFC; border-radius: 12px; border: 1px solid var(--lux-border);">
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu-lux').forEach(m => m.style.display = 'none');
+        });
+    });
+
+    function toggleInqMenu(event, id) {
+        event.stopPropagation();
+        const menu = document.getElementById(id);
+        const isVisible = menu.style.display === 'block';
+        document.querySelectorAll('.dropdown-menu-lux').forEach(m => m.style.display = 'none');
+        if (!isVisible) menu.style.display = 'block';
+    }
+
+    function openMsgModal(sender, msg) {
+        document.getElementById('modalSender').innerText = "From: " + sender;
+        document.getElementById('modalBody').innerText = msg;
+        document.getElementById('inqModal').style.display = 'flex';
+    }
+
+    function closeInqModal() {
+        document.getElementById('inqModal').style.display = 'none';
+    }
+
+    function filterInquiries() {
+        const query = document.getElementById("inqSearch").value.toLowerCase();
+        const rows = document.querySelectorAll("#inquiryTable tbody tr");
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(query) ? "" : "none";
+        });
+    }
+</script>
+{% endblock %}

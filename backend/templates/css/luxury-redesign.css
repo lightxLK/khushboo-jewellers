@@ -1,0 +1,434 @@
+/* ============================================================
+   LUXURY REDESIGN — HIGH-CONVERTING JEWELRY BRAND STYLES
+   ============================================================ */
+
+:root {
+    --brand-primary: #C9A961;
+    --brand-secondary: #9B7E46;
+    --brand-dark: #0B0B0B;
+    --brand-light: #FFFFFF;
+    --brand-gray: #F8F5EE;
+    --brand-text: #1A1A1A;
+    --brand-muted: #666666;
+    
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* HERO SECTION Redesign */
+.hero-luxury {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--brand-dark);
+}
+
+.hero-luxury-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-luxury-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: heroZoom 20s infinite alternate;
+}
+
+@keyframes heroZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+.hero-luxury-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+    z-index: 2;
+}
+
+.hero-luxury-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #fff;
+    max-width: 900px;
+    padding: 120px 20px 0; /* Pushing content down significantly */
+}
+
+.hero-luxury-content h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards 0.5s;
+}
+
+.hero-luxury-content p {
+    font-size: 1.2rem;
+    font-family: 'Jost', sans-serif;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards 0.8s;
+}
+
+.hero-luxury-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards 1.1s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TRUST BAR - Elegant Refinement */
+.trust-bar {
+    background: #FFFFFF;
+    padding: 60px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    z-index: 10;
+}
+
+.trust-bar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
+    gap: 30px;
+}
+
+.trust-item-mini {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #222;
+    transition: var(--transition-smooth);
+    flex: 1;
+}
+
+.trust-item-mini i {
+    font-size: 32px;
+    color: #222;
+}
+
+.trust-item-mini:hover {
+    color: var(--brand-primary);
+}
+.trust-item-mini:hover i {
+    color: var(--brand-primary);
+}
+
+/* CATEGORY GRID Redesign */
+.category-luxury {
+    padding: 80px 0;
+    background: #fff;
+}
+
+.category-luxury-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1400px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+}
+
+.category-box {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.category-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.category-box-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 40px;
+    transition: var(--transition-smooth);
+}
+
+.category-box:hover img {
+    transform: scale(1.1);
+}
+
+.category-box:hover .category-box-overlay {
+    background: rgba(0,0,0,0.5);
+}
+
+.category-box h3 {
+    color: #fff;
+    font-size: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 10px;
+}
+
+.category-box span {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition-smooth);
+    border-bottom: 1px solid #fff;
+    padding-bottom: 5px;
+}
+
+.category-box:hover span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* BRAND STORY Redesign */
+.story-luxury {
+    padding: 100px 0;
+    background: var(--brand-gray);
+}
+
+.story-luxury-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    padding: 0 20px;
+}
+
+.story-img-side {
+    flex: 1;
+    position: relative;
+}
+
+.story-img-side img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 20px 20px 0 var(--brand-primary);
+}
+
+.story-content-side {
+    flex: 1;
+}
+
+.story-content-side h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.story-content-side p {
+    font-size: 1.1rem;
+    color: var(--brand-muted);
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* NEW ARRIVALS Slider */
+.new-arrivals-slider {
+    padding: 80px 0;
+    background: #fff;
+    position: relative;
+}
+
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+.slider-card {
+    min-width: 300px;
+    position: relative;
+}
+
+.slider-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--brand-primary);
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 20px;
+    z-index: 5;
+}
+
+/* INSTAGRAM SECTON */
+/* INSTAGRAM SECTION — FULL WIDTH END TO END SLIDER */
+.instagram-luxury {
+    padding: 80px 0 0 0;
+    overflow: hidden;
+    background: #0B0B0B; /* Match dark theme */
+}
+
+.instagram-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0;
+    margin-top: 40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.instagram-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.instagram-item {
+    flex: 0 0 20%; /* 5 items visible */
+    aspect-ratio: 1/1;
+    scroll-snap-align: start;
+    overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+    .instagram-item { flex: 0 0 25%; }
+}
+
+@media (max-width: 991px) {
+    .instagram-item { flex: 0 0 33.333%; }
+}
+
+@media (max-width: 768px) {
+    .instagram-item { flex: 0 0 50%; }
+}
+
+@media (max-width: 480px) {
+    .instagram-item { flex: 0 0 100%; }
+}
+
+.instagram-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.instagram-item:hover img {
+    filter: brightness(0.7);
+    transform: scale(1.08);
+}
+
+/* FINAL CTA Section */
+.cta-luxury {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/final-cta-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 150px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.cta-luxury h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 20px;
+    color: #fff !important;
+}
+
+.instagram-luxury h2.section-title {
+    color: #fff !important;
+}
+
+.brand-name,
+.header.scrolled .brand-name {
+    color: #fff !important;
+}
+
+.footer-column h4 {
+    color: #fff !important;
+}
+
+.action-btn i {
+    color: #000 !important;
+}
+
+.header.scrolled .action-btn i {
+    color: #000 !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .category-luxury-grid { grid-template-columns: repeat(2, 1fr); }
+    .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+    .story-luxury-container { flex-direction: column; }
+}
+
+@media (max-width: 768px) {
+    .trust-bar-container { flex-direction: column; gap: 15px; }
+    .hero-luxury-btns { flex-direction: column; width: 100%; }
+    .hero-luxury-btns .btn { width: 100%; }
+}
+
+/* FORCE WHITE TEXT ON OVERLAYS */
+.category-box h3,
+.category-box span,
+.category-box-overlay h3,
+.category-box-overlay span,
+.category-info h3,
+.subcategory-info h3,
+.category-overlay h3,
+.category-name,
+.marquee-name,
+.product-grid-name,
+.product-grid-info div,
+.banner-product-name,
+.exclusive-scroll-name,
+.product-card h4,
+.product-card h3,
+.product-card-small h4,
+.slider-card h4 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.6) !important;
+}

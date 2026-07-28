@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ segment.name if segment else 'Categories' }} - Khushboo Jewellers</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/premium.css">
+    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="icon" type="image/png" href="/images/logo-blue.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C9A961;
+            --gold-light: #D4AF37;
+            --gold-dark: #9B7E46;
+            --text-heading: #000000;
+            --text-subheading: #111111;
+            --text-body: #000000;
+            --cream: #FAF9F6;
+            --cream-light: #FFFBF5;
+            --white: #FFFFFF;
+            --border: #E8E4DC;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--white);
+            color: var(--text-body);
+            line-height: 1.7;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-heading);
+        }
+
+        /* HEADER */
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(232, 228, 220, 0.5);
+        }
+
+        .navbar {
+            padding: 12px 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 1.5px;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--text-subheading);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 36px;
+        }
+
+        .nav-link {
+            color: var(--text-heading);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold);
+        }
+
+        .cta-btn-header {
+            background: var(--gold);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border: 2px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-header:hover {
+            background: var(--gold-dark);
+            border-color: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 169, 97, 0.3);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2.5px;
+            background: var(--text-heading);
+            transition: all 0.3s;
+        }
+
+        /* HERO */
+        .page-hero {
+            margin-top: 89px;
+            padding: 40px 24px 30px;
+            background: var(--cream-light);
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-hero h1 {
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-heading);
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: var(--text-subheading);
+        }
+
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+        }
+
+        /* SIDEBAR FILTERS */
+        .filters-sidebar {
+            position: sticky;
+            top: 129px;
+            height: fit-content;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .filter-group {
+            margin-bottom: 32px;
+        }
+
+        .filter-group h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-family: 'Jost', sans-serif;
+        }
+
+        /* SORT & RESULTS */
+        .results-section {
+            min-height: 400px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-count {
+            font-size: 15px;
+            color: var(--text-subheading);
+            font-weight: 500;
+        }
+
+        .sort-select {
+            padding: 10px 36px 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Jost', sans-serif;
+            cursor: pointer;
+            background: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%233A2A1F' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:hover {
+            border-color: var(--gold);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+        }
+
+        /* CATEGORIES GRID */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* CATEGORY CARDS - WITH TEXT OVERLAY */
+        .category-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            /* Rounded corners */
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            /* CRITICAL - needed for overlay */
+            aspect-ratio: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+        }
+
+        .category-image {
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: #000;
+            border-radius: 12px;
+            position: relative;
+            /* ADDED */
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+            border-radius: 12px;
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.05);
+        }
+
+        /* ✅ TEXT OVERLAY - THIS WAS MISSING */
+        .category-info {
+            position: absolute;
+            /* CHANGED from relative */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 16px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+            text-align: center;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-info {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 70%, transparent 100%);
+            padding-bottom: 24px;
+        }
+
+        .category-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff !important;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-family: 'Jost', sans-serif;
+        }
+
+        .category-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #999;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-subheading);
+            font-size: 16px;
+        }
+
+        .mobile-filter-toggle {
+            display: none;
+            width: 100%;
+            padding: 14px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+
+        /* ===== FOOTER - EXPANDED 6-COLUMN LAYOUT ===== */
+        .footer {
+            background: linear-gradient(135deg, #2D3748 0%, #1a202c 100%);
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background-image: url('/images/texture_ornate.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .footer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, transparent, rgba(201, 169, 97, 0.4), transparent);
+        }
+
+        .footer-content {
+            position: relative;
+            padding: 60px 24px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-main-expanded {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.2fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+
+        .footer-brand-col {
+            padding-right: 20px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .footer-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 13px;
+        }
+
+        .trust-badge svg {
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .footer-column h4 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-family: 'Jost', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-column a:hover {
+            color: var(--gold);
+            transform: translateX(4px);
+        }
+
+        .contact-info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .contact-info-list svg {
+            color: var(--gold);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .contact-info-list span,
+        .contact-info-list a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-newsletter-col {
+            padding-left: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-form button {
+            padding: 12px 16px;
+            background: var(--gold);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .social-links-compact {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover:not(.social-disabled) {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        .social-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .whatsapp-icon:hover {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+        }
+
+        /* Responsive Footer */
+        @media (max-width: 1200px) {
+            .footer-main-expanded {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 32px;
+            }
+
+            .footer-brand-col {
+                grid-column: 1 / -1;
+                padding-right: 0;
+            }
+
+            .footer-newsletter-col {
+                grid-column: 1 / -1;
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-main-expanded {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px;
+            }
+
+            .footer-content {
+                padding: 48px 24px 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-main-expanded {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .footer-column h4 {
+                font-size: 15px;
+                margin-bottom: 16px;
+            }
+
+            .trust-badges {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form button {
+                width: 100%;
+            }
+        }
+
+        /* ===== MOBILE RESPONSIVE - CATEGORY PAGE ===== */
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px 16px;
+            }
+
+            .filters-sidebar {
+                display: none;
+            }
+
+            .mobile-filter-toggle {
+                display: block;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-hero {
+                padding: 24px 16px 20px;
+                margin-top: 73px;
+            }
+
+            .page-hero h1 {
+                font-size: 26px;
+            }
+
+            .main-content {
+                padding: 16px 12px;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .category-info h3 {
+                font-size: 14px;
+            }
+
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header scrolled">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo-container">
+                    <img src="../images/logo-blue.png" alt="Khusboo Jewellers" class="logo-img">
+                    <div class="logo-text">
+                        <span class="brand-name">KHUSBOO</span>
+                        <span class="brand-subtitle">Since 2002 • Cuttack, Odisha</span>
+                    </div>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/#why-choose" class="nav-link">Why Choose Us</a></li>
+                    <li class="has-mega-menu">
+
+                        <a href="/#collections" class="nav-link">Collections</a>
+                        <div class="mega-menu" id="megaMenu">
+                            <div class="mega-menu-content" id="megaMenuContent">
+                                <div style="text-align: center; color: #999; padding: 20px;">Loading collections...
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="/about" class="nav-link">About</a></li>
+                    <li><a href="/contact" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="/contact" class="cta-btn-header">Partner With Us</a>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <h1>{{ segment.name if segment else 'Categories' }}</h1>
+        <div class="breadcrumb">
+            <a href="/">Home</a> / <a href="/#collections">Collections</a> / <span>{{ segment.name if segment else
+                'Segment' }}</span>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- SIDEBAR FILTERS -->
+        <aside class="filters-sidebar" id="filtersSidebar">
+            <div class="filter-header">
+                <h3>SORT BY</h3>
+            </div>
+
+            <div class="filter-group">
+                <h4>Sort Options</h4>
+                <p style="font-size: 14px; color: var(--text-subheading); line-height: 1.6;">Use the dropdown on the
+                    right to sort categories by your preference.</p>
+            </div>
+        </aside>
+
+        <!-- RESULTS SECTION -->
+        <div class="results-section">
+            <button class="mobile-filter-toggle" onclick="toggleFilters()">Sort Options</button>
+
+            <div class="results-header">
+                <span class="results-count">{{ categories|length if categories else 0 }} categories</span>
+                <select class="sort-select" id="sortSelect" onchange="sortCategories(this.value)">
+                    <option value="featured">Featured</option>
+                    <option value="az">Alphabetically, A-Z</option>
+                    <option value="za">Alphabetically, Z-A</option>
+                    <option value="newest">Date, new to old</option>
+                    <option value="oldest">Date, old to new</option>
+                </select>
+            </div>
+
+            <div class="categories-grid" id="categoriesGrid">
+                {% if categories|length == 0 %}
+                <div class="empty">No categories available yet for this segment.</div>
+                {% else %}
+                {% for cat in categories %}
+                <a href="/subcategories/{{ cat.id }}" class="category-card" data-name="{{ cat.name }}"
+                    data-date="{{ cat.created_at }}" data-gallery="{{ (cat.gallery_images or [])|tojson|e }}">
+                    <div class="category-image">
+                        {% if cat.image_path %}
+                        <img src="{{ cat.image_path }}" alt="{{ cat.name }}">
+                        {% else %}
+                        <div class="category-placeholder">💎</div>
+                        {% endif %}
+
+                        <div class="category-info">
+                            <h3>{{ cat.name }}</h3>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main-expanded">
+                <div class="footer-column footer-brand-col">
+                    <div class="footer-logo">
+                        <img src="../images/logo-white.png" alt="Khushboo Jewellers">
+                    </div>
+                    <p class="footer-desc">Your Trusted Traditional Silver Jewellery Wholesale Partner in Cuttack,
+                        Odisha</p>
+
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <span>BIS Certified</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <span>925 Sterling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Categories</h4>
+                    <ul id="footerCategories">
+                        <li><a href="/index.html#collections">All Collections</a></li>
+                        <li><a href="/index.html#collections">Traditional Silver</a></li>
+                        <li><a href="/index.html#collections">Modern Designs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/index.html#why-choose">Why Choose Us</a></li>
+                        <li><a href="/about.html">About</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/terms-conditions">Terms & Conditions</a></li>
+                        <li><a href="/contact.html">Shipping Policy</a></li>
+                        <li><a href="/contact.html">Return Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-info-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span>Nayasadak, Cuttack</span>
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                            <a href="tel:+917873590001">+91 78735 90001</a>
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            <a href="mailto:khushboojewellers416@gmail.com">Email Us</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-column footer-newsletter-col">
+                    <h4>Stay Updated</h4>
+                    <p class="newsletter-desc">Get latest collections & offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <h4 style="margin-top: 24px;">Connect</h4>
+                    <div class="social-links-compact">
+                        <span class="social-icon social-disabled" title="Coming Soon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                            </svg>
+                        </span>
+                        <span class="social-icon social-disabled" title="Coming Soon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                            </svg>
+                        </span>
+                        <a href="https://wa.me/917873590001" target="_blank" class="social-icon whatsapp-icon"
+                            title="WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Khushboo Jewellers, Nayasadak Cuttack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
+            });
+        }
+
+        // Mobile filter toggle
+        function toggleFilters() {
+            document.getElementById('filtersSidebar').classList.toggle('active');
+        }
+
+        // Hover slideshow for category cards
+        function attachCategoryHoverSlideshow() {
+            document.querySelectorAll('.category-card').forEach(card => {
+                const imgEl = card.querySelector('.category-image img');
+                if (!imgEl) return;
+
+                const galleryAttr = card.dataset.gallery;
+                if (!galleryAttr) return;
+
+                let galleryImgs = [];
+                try { galleryImgs = JSON.parse(galleryAttr).filter(Boolean); } catch (e) { return; }
+                if (galleryImgs.length === 0) return;
+
+                // ✅ FIX: Store the src AFTER image loads, not immediately
+                // imgEl.src at parse time may be relative; wait for load
+                let primaryImg = '';
+
+                function initSlideshow() {
+                    primaryImg = imgEl.currentSrc || imgEl.src;
+                    if (!primaryImg) return;
+
+                    const allImages = [primaryImg, ...galleryImgs];
+                    let hoverInterval = null;
+                    let currentIndex = 0;
+
+                    // ✅ FIX: Listen on the CARD not image (overlay blocks img hover)
+                    card.addEventListener('mouseenter', () => {
+                        currentIndex = 1;
+                        imgEl.src = allImages[currentIndex];
+                        hoverInterval = setInterval(() => {
+                            currentIndex = (currentIndex + 1) % allImages.length;
+                            imgEl.src = allImages[currentIndex];
+                        }, 700);
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        clearInterval(hoverInterval);
+                        hoverInterval = null;
+                        imgEl.src = primaryImg;
+                    });
+                }
+
+                // ✅ FIX: Wait for image to actually load before reading src
+                if (imgEl.complete && imgEl.naturalWidth > 0) {
+                    initSlideshow();
+                } else {
+                    imgEl.addEventListener('load', initSlideshow, { once: true });
+                }
+            });
+        }
+
+        // ✅ Run after DOM + images ready
+        if (document.readyState === 'complete') {
+            attachCategoryHoverSlideshow();
+        } else {
+            window.addEventListener('load', attachCategoryHoverSlideshow);
+        }
+
+        // Sort categories
+        function sortCategories(sortValue) {
+            const grid = document.getElementById('categoriesGrid');
+            const cards = Array.from(grid.querySelectorAll('.category-card'));
+
+            cards.sort((a, b) => {
+                switch (sortValue) {
+                    case 'az':
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    case 'za':
+                        return b.dataset.name.localeCompare(a.dataset.name);
+                    case 'newest':
+                        return new Date(b.dataset.date || 0) - new Date(a.dataset.date || 0);
+                    case 'oldest':
+                        return new Date(a.dataset.date || 0) - new Date(b.dataset.date || 0);
+                    case 'featured':
+                    default:
+                        // Keep original order - do nothing
+                        return 0;
+                }
+            });
+
+            // Re-append sorted cards
+            cards.forEach(card => grid.appendChild(card));
+        }
+    </script>
+
+    <script src="js/script.js"></script>
+    <script src="js/contact.js"></script>
+
+    <script src="/js/mega-menu-data.js"></script>
+</body>
+
+</html>

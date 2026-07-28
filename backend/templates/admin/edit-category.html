@@ -1,0 +1,334 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Category - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Modify Inventory Category{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item i {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* CARD HEADERS */
+    .section-card {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .section-header-top {
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .section-header-top i {
+        width: 20px;
+        color: var(--lux-gold);
+    }
+
+    .section-header-top h3 {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group-header {
+        background: #F8FAFC;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-navy);
+    }
+
+    .form-group-header i {
+        width: 16px;
+        color: var(--lux-gold);
+    }
+
+    .form-content {
+        padding: 24px;
+    }
+
+    /* UPLOAD ZONE */
+    .primary-upload-zone {
+        border: 2px dashed var(--lux-border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        background: #FDFBF7;
+        transition: all 0.2s;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .primary-upload-zone:hover {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .primary-upload-zone i {
+        width: 32px;
+        height: 32px;
+        color: var(--lux-gold);
+        margin-bottom: 10px;
+    }
+
+    .current-img-preview {
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 16/9;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+        margin: 20px auto;
+        display: block;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .secondary-imagery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .sec-img-item {
+        aspect-ratio: 1;
+        border: 1px dashed var(--lux-border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #F8FAFC;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .sec-img-item:hover {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .sec-img-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .upload-input-hid {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .badge-status {
+        font-size: 10px;
+        font-weight: 900;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        border: 1px solid rgba(201, 169, 97, 0.2);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .badge-status .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10B981;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="home"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <a href="/admin/add-category" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="folder"></i>
+            Categories
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item" style="color: var(--lux-text-secondary);">
+            Modify Record
+        </div>
+    </div>
+
+    <!-- MAIN FORM CARD -->
+    <form action="/admin/edit-category/{{ category.id }}" method="POST" enctype="multipart/form-data">
+        <div class="section-card">
+            <div class="section-header-top">
+                <i data-lucide="edit-3" style="stroke-width: 2.5; color: var(--lux-gold);"></i>
+                <h3>Modify Category Record</h3>
+                <div style="flex: 1; text-align: right;">
+                    <div class="badge-status"><span class="dot"></span> LIVE IN CATALOG</div>
+                </div>
+            </div>
+
+            <!-- Part 1: Identification -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="book-open"></i>
+                    Categorization Metadata
+                </div>
+                <div class="form-content">
+                    <div style="margin-bottom: 20px;">
+                        <label class="lux-label" style="font-size: 12px;">Category Title <span
+                                style="color: red;">*</span></label>
+                        <input type="text" name="name" value="{{ category.name }}" class="lux-input" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Assigned Segment <span
+                                    style="color: red;">*</span></label>
+                            <select name="segment_id" class="lux-select" required>
+                                {% for segment in segments %}
+                                <option value="{{ segment.id }}" {% if segment.id==category.segment_id %}selected{%
+                                    endif %}>
+                                    {{ segment.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Strategic Category Code <span
+                                    style="color: red;">*</span></label>
+                            <input type="text" name="category_code" value="{{ category.category_code }}"
+                                class="lux-input" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Visual Assets -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="image"></i>
+                    Creative Assets
+                </div>
+                <div class="form-content">
+                    <label class="lux-label" style="font-size: 12px;">Primary Perspective</label>
+                    <img src="{{ category.image_path }}" class="current-img-preview" id="main_preview_v">
+
+                    <div class="primary-upload-zone">
+                        <i data-lucide="camera"></i>
+                        <div style="font-weight: 700; color: var(--lux-navy); font-size: 14px; margin-bottom: 2px;">
+                            Overwrite Illustration</div>
+                        <div style="font-size: 11px; color: #94A3B8;">WebP optimized, 1080x1080 recommended</div>
+                        <input type="file" name="image" class="upload-input-hid" accept="image/*"
+                            onchange="previewMain(this)">
+                    </div>
+
+                    <label class="lux-label" style="font-size: 12px; margin-top: 30px; display: block;">Gallery
+                        Showcase</label>
+                    <div class="secondary-imagery-grid">
+                        {% set secondary = category.gallery_images|from_json if category.gallery_images else [] %}
+                        {% for i in range(1, 5) %}
+                        <div class="sec-img-item" id="sec_container_{{i}}">
+                            {% if i <= secondary|length and secondary[i-1] %} <img src="{{ secondary[i-1] }}"
+                                id="sec_img_{{i}}">
+                                {% else %}
+                                <i data-lucide="plus" style="width: 20px; color: var(--lux-gold);"></i>
+                                {% endif %}
+                                <input type="file" name="gallery_image_{{i}}" class="upload-input-hid" accept="image/*"
+                                    onchange="previewSec(this, {{i}})">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="padding: 24px; border-top: 1px solid var(--lux-border); background: #F8FAFC; display: flex; gap: 15px;">
+                <button type="submit" class="btn-lux"
+                    style="background: var(--lux-navy); color: white; border: none; flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <i data-lucide="save" style="width: 18px;"></i> PERSIST ARCHIVE CHANGES
+                </button>
+                <a href="/admin/add-category"
+                    style="flex: 0.3; background: white; border: 1px solid var(--lux-border); color: var(--lux-text-secondary); text-decoration: none; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                    EXIT WITHOUT SAVING
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+
+    function previewMain(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('main_preview_v').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewSec(input, index) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const container = document.getElementById('sec_container_' + index);
+                let img = container.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.name = 'gallery_image_' + index;
+                    fileInput.className = 'upload-input-hid';
+                    fileInput.accept = 'image/*';
+                    fileInput.onchange = function () { previewSec(this, index); };
+                    container.appendChild(fileInput);
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}

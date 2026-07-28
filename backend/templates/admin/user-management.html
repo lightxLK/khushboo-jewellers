@@ -1,0 +1,310 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Team Access - Khushboo Jewellers{% endblock %}
+{% block topbar_title %}Administrative Access Control{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* LAYOUT */
+    .management-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1.8fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    /* ACCESS NOTE */
+    .governance-note-box {
+        background: #FDFBF7;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 25px;
+        border: 1px solid rgba(201, 169, 97, 0.1);
+    }
+
+    .governance-note-box h4 {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--lux-gold-dark);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .governance-note-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .governance-note-box li {
+        font-size: 12px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 10px;
+        line-height: 1.5;
+        display: flex;
+        gap: 10px;
+    }
+
+    .governance-note-box li i {
+        color: var(--lux-gold);
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    /* TABLE */
+    .user-list-container {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--lux-border);
+        background: white;
+    }
+
+    .lux-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lux-table th {
+        background: #F8FAFC;
+        padding: 16px 20px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lux-text-secondary);
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .lux-table td {
+        padding: 16px 20px;
+        border-bottom: 1px solid #F1F5F9;
+        font-size: 13px;
+        color: var(--lux-navy);
+        vertical-align: middle;
+    }
+
+    /* BADGES */
+    .role-tag {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        border: 1px solid transparent;
+    }
+
+    .role-admin {
+        background: #EEF2FF;
+        color: var(--lux-navy);
+        border-color: #E0E7FF;
+    }
+
+    .role-manager {
+        background: #ECFDF5;
+        color: #065F46;
+        border-color: #D1FAE5;
+    }
+
+    /* STATUS */
+    .status-dot-indicator {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .indicator-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    /* PRIVACY TOGGLE */
+    .input-with-privacy {
+        position: relative;
+    }
+
+    .privacy-toggle-btn {
+        position: absolute;
+        right: 14px;
+        top: 13px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--lux-text-secondary);
+        padding: 0;
+    }
+</style>
+
+<div class="page-container">
+    <div class="breadcrumb">
+        <i data-lucide="home" style="width: 14px; color: var(--lux-gold);"></i>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Settings</span>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Staff Access Control</span>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div
+        style="padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; font-size: 13px; font-weight:700; background: {{ '#D1FAE5' if category == 'success' else '#FEE2E2' }}; color: {{ '#059669' if category == 'success' else '#B91C1C' }}; border: 1px solid {{ '#A7F3D0' if category == 'success' else '#FECACA' }};">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="management-two-col">
+        <!-- ADD USER -->
+        <div class="lux-card" style="padding: 24px; background: white;">
+            <h2
+                style="font-size: 16px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <i data-lucide="user-plus" style="color: var(--lux-gold);"></i>
+                Provision New Access
+            </h2>
+
+            <form action="/admin/user-management/add" method="POST">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="lux-label" style="font-size: 12px;">Staff Email Address</label>
+                    <input type="email" name="email" class="lux-input" placeholder="e.g., manager@khushboojewellers.com"
+                        style="background:#F8FAFC;" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="lux-label" style="font-size: 12px;">Initial Security Key</label>
+                    <div class="input-with-privacy">
+                        <input type="password" id="passInput" name="password" class="lux-input"
+                            placeholder="Set a strong password..." style="background:#F8FAFC;" required>
+                        <button type="button" class="privacy-toggle-btn" onclick="togglePass()">
+                            <i data-lucide="eye" id="passToggleIcon" style="width: 18px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 25px;">
+                    <label class="lux-label" style="font-size: 12px;">Administrative Authority</label>
+                    <select name="role" class="lux-select" style="background:#F8FAFC;" required>
+                        <option value="">Select Permission Level</option>
+                        <option value="admin">Executive Admin (Unrestricted)</option>
+                        <option value="manager">Stock Manager (Inventory Only)</option>
+                    </select>
+                </div>
+
+                <div class="governance-note-box">
+                    <h4><i data-lucide="shield-check" style="width: 14px;"></i> Security Compliance</h4>
+                    <ul>
+                        <li><i data-lucide="chevron-right" style="width: 12px;"></i> <span><strong>Executive
+                                    Admin:</strong> Complete governance over the store architecture and team.</span>
+                        </li>
+                        <li><i data-lucide="chevron-right" style="width: 12px;"></i> <span><strong>Stock
+                                    Manager:</strong> Restricted access to product and taxonomy management only.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="btn-lux"
+                    style="background: var(--lux-gold); width: 100%; border-radius: 10px; padding: 14px; margin-top: 25px;">
+                    <i data-lucide="key" style="width: 18px;"></i> PROVISION ACCOUNT
+                </button>
+            </form>
+        </div>
+
+        <!-- USER LIST -->
+        <div class="lux-card" style="padding: 24px; background: white;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <h2
+                    style="font-size: 16px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="users" style="color: var(--lux-gold);"></i>
+                    Authorized Personnel
+                </h2>
+                <div style="font-size: 12px; font-weight: 700; color: var(--lux-text-secondary);">{{ users|length }}
+                    Active Accounts</div>
+            </div>
+
+            <div class="user-list-container">
+                <table class="lux-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th style="text-align: right; padding-right: 20px;">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 36px; height: 36px; background: #FDFBF7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--lux-gold-dark); border: 1px solid rgba(201, 169, 97, 0.2);">
+                                        {{ user.email[0]|upper }}
+                                    </div>
+                                    <div style="font-weight: 700; color: var(--lux-navy);">{{ user.email }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="role-tag role-{{ user.role }}">{{ user.role }}</span>
+                            </td>
+                            <td>
+                                <div class="status-dot-indicator">
+                                    <div class="indicator-dot"
+                                        style="background: {{ '#10B981' if user.is_active else '#CBD5E1' }};"></div>
+                                    <span style="color: {{ 'var(--lux-navy)' if user.is_active else '#94A3B8' }};">
+                                        {{ 'Online' if user.is_active else 'Suspended' }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="text-align: right; padding-right: 20px;">
+                                <form method="POST" action="/admin/user-management/delete/{{ user.id }}"
+                                    onsubmit="return confirm('Revoke executive access for {{ user.email }}?');">
+                                    <button type="submit"
+                                        style="background:none; border:none; color:#94A3B8; cursor:pointer;"
+                                        class="hover-danger">
+                                        <i data-lucide="user-minus" style="width: 18px;"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+
+    function togglePass() {
+        const field = document.getElementById('passInput');
+        const icon = document.getElementById('passToggleIcon');
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.setAttribute('data-lucide', 'eye-off');
+        } else {
+            field.type = 'password';
+            icon.setAttribute('data-lucide', 'eye');
+        }
+        lucide.createIcons();
+    }
+</script>
+{% endblock %}

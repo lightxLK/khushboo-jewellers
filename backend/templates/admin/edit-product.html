@@ -1,0 +1,402 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Product - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Modify Product Record{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* LAYOUT */
+    .form-container-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    .section-card {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .section-header-top {
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .section-header-top i {
+        width: 20px;
+        color: var(--lux-gold);
+    }
+
+    .section-header-top h3 {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group-header {
+        background: #F8FAFC;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-navy);
+    }
+
+    .form-group-header i {
+        width: 16px;
+        color: var(--lux-gold);
+    }
+
+    .form-content-pad {
+        padding: 24px;
+    }
+
+    /* PLACEMENT TOGGLE */
+    .path-selection-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .path-option-btn {
+        border: 1px solid var(--lux-border);
+        border-radius: 10px;
+        padding: 14px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--lux-text-secondary);
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .path-option-btn.active-path {
+        background: var(--lux-navy);
+        color: white;
+        border-color: var(--lux-navy);
+        box-shadow: 0 4px 12px rgba(11, 23, 57, 0.15);
+    }
+
+    /* UPLOAD ZONE */
+    .product-upload-box {
+        border: 2px dashed var(--lux-border);
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        background: #FDFBF7;
+        transition: all 0.2s;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .product-upload-box:hover {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .product-upload-box i {
+        width: 28px;
+        height: 28px;
+        color: var(--lux-gold);
+        margin-bottom: 10px;
+    }
+
+    .record-img-preview {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+        margin-top: 15px;
+        display: block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    }
+
+    .gallery-preview-set {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .gallery-item-preview {
+        aspect-ratio: 1;
+        border-radius: 10px;
+        border: 1px solid var(--lux-border);
+        overflow: hidden;
+        background: #F8FAFC;
+        position: relative;
+    }
+
+    .gallery-item-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .upload-input-hid {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="home" style="width: 14px;"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <a href="/admin/all-data-view" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="package" style="width: 14px;"></i>
+            Inventory
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item" style="color: var(--lux-text-secondary);">
+            Modify Record
+        </div>
+    </div>
+
+    <!-- MAIN FORM -->
+    <form action="/admin/edit-product/{{ product.id }}" method="POST" enctype="multipart/form-data">
+        <div class="form-container-grid">
+            <!-- Left Panel -->
+            <div>
+                <div class="section-card">
+                    <div class="section-header-top">
+                        <i data-lucide="edit-3" style="stroke-width: 2.5;"></i>
+                        <h3>Modify Product Record</h3>
+                        <div
+                            style="flex: 1; text-align: right; font-size: 11px; font-weight: 800; color: var(--lux-text-secondary);">
+                            SKU: {{ product.product_code }}
+                        </div>
+                    </div>
+
+                    <!-- Part 1: Identity -->
+                    <div class="form-group-section">
+                        <div class="form-group-header"><i data-lucide="info"></i> Basic Identification</div>
+                        <div class="form-content-pad">
+                            <div style="margin-bottom: 24px;">
+                                <label class="lux-label" style="font-size: 12px;">Product Title <span
+                                        style="color: red;">*</span></label>
+                                <input type="text" name="name" value="{{ product.name }}" class="lux-input" required>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+                                <div class="form-group">
+                                    <label class="lux-label" style="font-size: 12px;">SKU / Internal Code <span
+                                            style="color: red;">*</span></label>
+                                    <input type="text" name="product_code" value="{{ product.product_code }}"
+                                        class="lux-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="lux-label" style="font-size: 12px;">Catalog Status</label>
+                                    <select name="is_active" class="lux-select">
+                                        <option value="1" {% if product.is_active %}selected{% endif %}>Live (Public)
+                                        </option>
+                                        <option value="0" {% if not product.is_active %}selected{% endif %}>Archived
+                                            (Private)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Taxonomy -->
+                    <div class="form-group-section">
+                        <div class="form-group-header"><i data-lucide="layers"></i> Placement Taxonomy</div>
+                        <div class="form-content-pad">
+                            <label class="lux-label"
+                                style="font-size: 11px; margin-bottom: 12px; display: block;">SELECT INVENTORY
+                                PATH</label>
+                            <div class="path-selection-grid">
+                                <label class="path-option-btn {% if not product.category_id %}active-path{% endif %}"
+                                    id="pathBtnSub">
+                                    <input type="radio" name="parent_type" value="subcategory" style="display:none" {%
+                                        if not product.category_id %}checked{% endif %} onclick="togglePath('sub')">
+                                    Segment › Category › Sub-Category
+                                </label>
+                                <label class="path-option-btn {% if product.category_id %}active-path{% endif %}"
+                                    id="pathBtnCat">
+                                    <input type="radio" name="parent_type" value="category" style="display:none" {% if
+                                        product.category_id %}checked{% endif %} onclick="togglePath('cat')">
+                                    Segment › Category (Direct)
+                                </label>
+                            </div>
+
+                            <div id="subPathSet" style="{% if product.category_id %}display:none{% endif %}">
+                                <label class="lux-label" style="font-size: 12px;">Target Sub-Category Node</label>
+                                <select name="subcategory_id" class="lux-select" id="targetSub">
+                                    {% for sub in subcategories %}
+                                    <option value="{{ sub.id }}" {% if sub.id==product.subcategory_id %}selected{% endif
+                                        %}>
+                                        {{ sub.category.segment.name }} › {{ sub.category.name }} › {{ sub.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div id="catPathSet" style="{% if not product.category_id %}display:none{% endif %}">
+                                <label class="lux-label" style="font-size: 12px;">Global Category Folder</label>
+                                <select name="category_id" class="lux-select" id="targetCat">
+                                    {% for cat in categories %}
+                                    <option value="{{ cat.id }}" {% if cat.id==product.category_id %}selected{% endif
+                                        %}>
+                                        {{ cat.segment.name }} › {{ cat.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 3: Attributes -->
+                    <div class="form-group-section">
+                        <div class="form-group-header"><i data-lucide="align-left"></i> Product Narrative</div>
+                        <div class="form-content-pad">
+                            <label class="lux-label" style="font-size: 12px;">Detailed Specifications</label>
+                            <textarea name="details" class="lux-textarea" rows="8">{{ product.details }}</textarea>
+                        </div>
+                    </div>
+
+                    <div
+                        style="padding: 24px; border-top: 1px solid #F1F5F9; background: #F8FAFC; display: flex; gap: 15px;">
+                        <button type="submit" class="btn-lux"
+                            style="background: var(--lux-navy); color: white; border: none; flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i data-lucide="save" style="width: 18px;"></i> COMMIT PRODUCT CHANGES
+                        </button>
+                        <a href="/admin/all-data-view"
+                            style="flex: 0.3; background: white; border: 1px solid var(--lux-border); color: var(--lux-text-secondary); text-decoration: none; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                            DISCARD
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div style="position: sticky; top: 30px;">
+                <div class="section-card">
+                    <div class="form-group-header" style="background: white;"><i data-lucide="share-2"></i> Showcase
+                        Media</div>
+                    <div class="form-content-pad">
+                        <label class="lux-label" style="font-size: 11px; margin-bottom: 12px; display: block;">PRIMARY
+                            VIEW</label>
+                        <img src="{{ product.primary_image }}" class="record-img-preview" id="mainProdView"
+                            onerror="this.src='/images/placeholder.png'">
+
+                        <div class="product-upload-box" style="margin-top: 20px;">
+                            <i data-lucide="camera"></i>
+                            <div style="font-weight: 800; color: var(--lux-navy); font-size: 13px;">Replace Perspective
+                            </div>
+                            <input type="file" name="primary_image" class="upload-input-hid"
+                                onchange="previewMainProd(this)">
+                        </div>
+
+                        <label class="lux-label"
+                            style="font-size: 11px; margin-top: 30px; margin-bottom: 12px; display: block;">AUXILIARY
+                            GALLERY</label>
+                        <div class="gallery-preview-set">
+                            {% set secondary = product.secondary_images|from_json if product.secondary_images else [] %}
+                            {% for i in range(1, 4) %}
+                            <div class="gallery-item-preview" id="galProdCont_{{i}}">
+                                {% if i <= secondary|length and secondary[i-1] %} <img src="{{ secondary[i-1] }}">
+                                    {% else %}
+                                    <div
+                                        style="height:100%; display:flex; align-items:center; justify-content:center; color: var(--lux-gold);">
+                                        <i data-lucide="plus" style="width:16px;"></i></div>
+                                    {% endif %}
+                                    <input type="file" name="secondary_image_{{i}}" class="upload-input-hid"
+                                        onchange="previewGalProd(this, {{i}})">
+                            </div>
+                            {% endfor %}
+                            <div
+                                style="background: var(--lux-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--lux-text-secondary); font-size: 10px; font-weight: 800; text-align: center; border: 1px dashed var(--lux-border);">
+                                AUTO ROTATE<br>ENABLED
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+
+    function togglePath(type) {
+        document.getElementById('subPathSet').style.display = type === 'sub' ? 'block' : 'none';
+        document.getElementById('catPathSet').style.display = type === 'cat' ? 'block' : 'none';
+
+        document.getElementById('pathBtnSub').classList.toggle('active-path', type === 'sub');
+        document.getElementById('pathBtnCat').classList.toggle('active-path', type === 'cat');
+
+        document.getElementById('targetSub').required = (type === 'sub');
+        document.getElementById('targetCat').required = (type === 'cat');
+    }
+
+    function previewMainProd(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) { document.getElementById('mainProdView').src = e.target.result; }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewGalProd(input, index) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const cont = document.getElementById('galProdCont_' + index);
+                let img = cont.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    cont.innerHTML = '';
+                    cont.appendChild(img);
+                    const hid = document.createElement('input');
+                    hid.type = 'file'; hid.name = 'secondary_image_' + index; hid.className = 'upload-input-hid';
+                    hid.onchange = function () { previewGalProd(this, index); };
+                    cont.appendChild(hid);
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}

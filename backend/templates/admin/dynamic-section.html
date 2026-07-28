@@ -1,0 +1,554 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dynamic Sections - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Dynamic Content Management{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* SECTION MODE & DISPLAY TYPE CARDS */
+    .mode-selector-grid,
+    .display-type-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .display-type-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .big-toggle-card {
+        border: 1.5px solid var(--lux-border);
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: white;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .big-toggle-card:hover {
+        border-color: var(--lux-gold);
+        background: #F8FAFC;
+    }
+
+    .big-toggle-card.active {
+        border-color: var(--lux-gold);
+        background: #FDFBF7;
+        box-shadow: 0 4px 15px rgba(201, 169, 97, 0.08);
+    }
+
+    .big-toggle-card i {
+        width: 24px;
+        height: 24px;
+        color: var(--lux-gold);
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .card-txt {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-txt .title {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        margin-bottom: 4px;
+    }
+
+    .card-txt .desc {
+        font-size: 11px;
+        color: var(--lux-text-secondary);
+        line-height: 1.4;
+    }
+
+    /* TYPE MINI CARDS */
+    .type-mini-card {
+        border: 1.5px solid var(--lux-border);
+        border-radius: 12px;
+        padding: 20px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .type-mini-card:hover {
+        border-color: var(--lux-gold);
+    }
+
+    .type-mini-card.active {
+        background: var(--lux-gold);
+        border-color: var(--lux-gold);
+        color: white;
+        box-shadow: 0 4px 12px rgba(201, 169, 97, 0.25);
+    }
+
+    .type-mini-card.active i,
+    .type-mini-card.active span {
+        color: white;
+    }
+
+    .type-mini-card i {
+        width: 20px;
+        color: var(--lux-gold);
+        margin-bottom: 8px;
+    }
+
+    .type-mini-card span {
+        display: block;
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--lux-navy);
+    }
+
+    /* SELECTION ZONES */
+    .resource-zone {
+        padding: 20px;
+        background: #F8FAFC;
+        border-radius: 12px;
+        border: 1px solid var(--lux-border);
+        margin-bottom: 20px;
+    }
+
+    .zone-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+    }
+
+    .btn-add-resource {
+        padding: 8px 16px;
+        background: var(--lux-gold);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* LIST ITEMS */
+    .existing-section-item {
+        padding: 20px;
+        border-bottom: 1px solid var(--lux-border);
+        transition: background 0.2s;
+    }
+
+    .existing-section-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .item-identity {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .item-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: capitalize;
+    }
+
+    .item-type-badge {
+        font-size: 9px;
+        font-weight: 900;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: rgba(201, 169, 97, 0.1);
+        color: var(--lux-gold-dark);
+        letter-spacing: 0.5px;
+    }
+
+    .item-subtitle {
+        font-size: 12px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 15px;
+    }
+
+    .item-preview-grid {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .preview-thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+        background: #F8FAFC;
+    }
+
+    .flash-message {
+        padding: 14px 20px;
+        border-radius: 10px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .flash-success {
+        background: #D1FAE5;
+        color: #059669;
+        border: 1px solid #A7F3D0;
+    }
+
+    .flash-error {
+        background: #FEE2E2;
+        color: #B91C1C;
+        border: 1px solid #FECACA;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard"
+            style="color: var(--lux-gold); text-decoration:none; display:flex; align-items:center; gap:5px;">
+            <i data-lucide="home" style="width: 14px;"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Dynamic Sections</span>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-message flash-{{ category }}">
+        <i data-lucide="{{ 'check-circle' if category == 'success' else 'alert-circle' }}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div style="display: grid; grid-template-columns: 100%; gap: 30px;">
+        <!-- CREATE SECTION -->
+        <div class="lux-card" style="padding: 32px; background: white;">
+            <h2
+                style="font-size: 18px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 12px; margin-bottom: 30px;">
+                <i data-lucide="plus-circle" style="color: var(--lux-gold); stroke-width: 2.5;"></i>
+                Create New Dynamic Section
+            </h2>
+
+            <form action="/admin/dynamic-section/add" method="POST" id="createSectionForm">
+                <!-- Mode Selector -->
+                <label class="lux-label" style="font-size: 12px; margin-bottom: 12px; display: block;">SECTION
+                    MODE</label>
+                <div class="mode-selector-grid">
+                    <div class="big-toggle-card active" onclick="setMode('manual')" id="cardStatic">
+                        <i data-lucide="mouse-pointer-2"></i>
+                        <div class="card-txt">
+                            <span class="title">Manual Selection</span>
+                            <span class="desc">I'll pick specific items to display in this section</span>
+                        </div>
+                        <input type="radio" name="section_mode" value="manual" checked style="display:none">
+                    </div>
+                    <div class="big-toggle-card" onclick="setMode('automatic')" id="cardAuto">
+                        <i data-lucide="zap"></i>
+                        <div class="card-txt">
+                            <span class="title">Automatic Selection</span>
+                            <span class="desc">Show items based on global criteria or latest entries</span>
+                        </div>
+                        <input type="radio" name="section_mode" value="automatic" style="display:none">
+                    </div>
+                </div>
+
+                <div
+                    style="padding: 24px; border: 1px solid var(--lux-border); border-radius: 16px; margin-bottom: 30px;">
+                    <label class="lux-label"
+                        style="font-size: 11px; margin-bottom: 20px; display: block; color: var(--lux-gold);">SECTION
+                        DETAILS</label>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label class="lux-label">Section Title <span style="color:red">*</span></label>
+                        <input type="text" name="title" class="lux-input" placeholder="e.g., Summer Collection"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label class="lux-label">Subtitle (optional)</label>
+                        <textarea name="subtitle" class="lux-textarea" rows="2"
+                            placeholder="Trending items this season..."></textarea>
+                        <div
+                            style="margin-top: 8px; font-size: 10px; color: var(--lux-text-secondary); display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="info" style="width: 12px;"></i> Short description shown below the title
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display Type -->
+                <label class="lux-label" style="font-size: 12px; margin-bottom: 12px; display: block;">DISPLAY
+                    TYPE</label>
+                <div class="display-type-grid">
+                    <div class="type-mini-card" id="cardTypeCat" onclick="setType('category')">
+                        <i data-lucide="folder"></i>
+                        <span>Categories</span>
+                    </div>
+                    <div class="type-mini-card" id="cardTypeSub" onclick="setType('subcategory')">
+                        <i data-lucide="folder-open"></i>
+                        <span>Subcategories</span>
+                    </div>
+                    <div class="type-mini-card active" id="cardTypeProd" onclick="setType('product')">
+                        <i data-lucide="package"></i>
+                        <span>Products</span>
+                    </div>
+                    <input type="hidden" name="display_type" id="hiddenType" value="product">
+                    <!-- Hidden field to send JSON array of IDs -->
+                    <input type="hidden" name="product_ids" id="hiddenProductIds">
+                </div>
+
+                <!-- Static Item Selection Zone -->
+                <div id="itemSelectionZone">
+                    <div class="resource-zone" id="zoneProd">
+                        <div class="zone-header">
+                            <i data-lucide="package" style="width: 14px;"></i> Select Products (Max 9)
+                        </div>
+                        <div id="prodInputs" style="margin-bottom: 15px;"></div>
+                        <button type="button" class="btn-add-resource" onclick="addSelection('prod')">
+                            <i data-lucide="plus"></i> Add Product
+                        </button>
+                    </div>
+
+                    <div class="resource-zone" id="zoneCat" style="display:none">
+                        <div class="zone-header">
+                            <i data-lucide="folder" style="width: 14px;"></i> Select Categories (Max 5)
+                        </div>
+                        <div id="catInputs" style="margin-bottom: 15px;"></div>
+                        <button type="button" class="btn-add-resource" onclick="addSelection('cat')">
+                            <i data-lucide="plus"></i> Add Category
+                        </button>
+                    </div>
+
+                    <div class="resource-zone" id="zoneSub" style="display:none">
+                        <div class="zone-header">
+                            <i data-lucide="folder-open" style="width: 14px;"></i> Select Subcategories (Max 5)
+                        </div>
+                        <div id="subInputs" style="margin-bottom: 15px;"></div>
+                        <button type="button" class="btn-add-resource" onclick="addSelection('sub')">
+                            <i data-lucide="plus"></i> Add Subcategory
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visibility -->
+                <div style="margin: 30px 0; display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" name="is_visible" id="homeV" checked
+                        style="width:18px; height:18px; accent-color: var(--lux-gold);">
+                    <label for="homeV" style="font-size: 13px; font-weight: 700; color: var(--lux-navy);">Visible on
+                        homepage</label>
+                </div>
+
+                <button type="submit" class="btn-lux"
+                    style="background: var(--lux-gold); width: 100%; border-radius: 12px; height: 50px;">
+                    <i data-lucide="layout" style="width: 20px;"></i> CREATE SECTION
+                </button>
+            </form>
+        </div>
+
+        <!-- LIST SECTIONS -->
+        <div class="lux-card" style="padding: 32px; background: white;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 30px;">
+                <h2
+                    style="font-size: 18px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 12px;">
+                    <i data-lucide="layers" style="color: var(--lux-gold);"></i>
+                    Existing Sections
+                </h2>
+                <span style="font-size: 12px; color: var(--lux-text-secondary); font-weight: 600;">{{
+                    sections|length }} sections</span>
+            </div>
+
+            <div style="position: relative; margin-bottom: 30px;">
+                <i data-lucide="search"
+                    style="position: absolute; left: 15px; top: 13px; width: 16px; color: var(--lux-text-secondary);"></i>
+                <input type="text" placeholder="Search sections by title..." class="lux-input"
+                    style="padding-left: 45px;">
+            </div>
+
+            <div id="sectionsListRoot">
+                {% for section in sections %}
+                <div class="existing-section-item">
+                    <div class="item-top">
+                        <div class="item-identity">
+                            <span class="item-title">{{ section.title }}</span>
+                            <span class="item-type-badge">{{ section.display_type }}</span>
+                        </div>
+                        <button
+                            style="background:transparent; border:none; cursor:pointer; color: var(--lux-text-secondary);"><i
+                                data-lucide="more-vertical" style="width:18px;"></i></button>
+                    </div>
+                    <div class="item-subtitle">{{ section.subtitle or 'No description provided.' }}</div>
+
+                    <div class="item-preview-grid" id="preview-{{ section.id }}">
+                        <div style="font-size: 10px; color: var(--lux-text-secondary); font-style: italic;">Loading previews...</div>
+                    </div>
+
+                    <form action="/admin/dynamic-section/delete/{{ section.id }}" method="POST"
+                        style="margin-top: 15px;">
+                        <button type="submit" onclick="return confirm('Remove section?');"
+                            style="background:transparent; border:none; color: #EF4444; font-size: 11px; font-weight: 700; cursor:pointer; display:flex; align-items:center; gap:5px;">
+                            <i data-lucide="trash-2" style="width: 14px;"></i> Archive Section
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+
+                {% if not sections %}
+                <div style="text-align: center; padding: 60px;">
+                    <i data-lucide="inbox"
+                        style="width: 48px; height: 48px; color: var(--lux-border); margin-bottom: 15px;"></i>
+                    <p style="color: var(--lux-text-secondary); font-size: 14px;">No active sections found.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let resourceCache = { 'product': [], 'category': [], 'subcategory': [] };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        fetchResources('product');
+        fetchResources('category');
+        fetchResources('subcategory');
+        loadAllPreviews();
+    });
+
+    function setMode(mode) {
+        document.getElementById('cardStatic').classList.toggle('active', mode === 'manual');
+        document.getElementById('cardAuto').classList.toggle('active', mode === 'automatic');
+        document.querySelector('input[name="section_mode"][value="' + mode + '"]').checked = true;
+        document.getElementById('itemSelectionZone').style.display = mode === 'manual' ? 'block' : 'none';
+    }
+
+    function setType(type) {
+        const types = ['product', 'category', 'subcategory'];
+        const pMap = { 'product': 'Prod', 'category': 'Cat', 'subcategory': 'Sub' };
+
+        types.forEach(t => {
+            document.getElementById('cardType' + pMap[t]).classList.toggle('active', t === type);
+            document.getElementById('zone' + pMap[t]).style.display = t === type ? 'block' : 'none';
+        });
+
+        document.getElementById('hiddenType').value = type;
+    }
+
+    function fetchResources(type) {
+        const typeMap = { 'product': 'Products', 'category': 'Categories', 'subcategory': 'Subcategories' };
+        fetch(`/admin/get-resources?type=${typeMap[type]}`)
+            .then(r => r.json())
+            .then(data => { resourceCache[type] = data; })
+            .catch(err => console.error('Error fetching ' + type, err));
+    }
+
+    function loadAllPreviews() {
+        const gridContainers = document.querySelectorAll('.item-preview-grid');
+        gridContainers.forEach(container => {
+            const sectionId = container.id.split('-')[1];
+            fetch('/api/dynamic-section-items/' + sectionId)
+                .then(r => r.json())
+                .then(data => {
+                    container.innerHTML = '';
+                    if(!data.items || data.items.length === 0) {
+                        container.innerHTML = '<div style="font-size: 10px; color: var(--lux-text-secondary); font-style: italic;">No items.</div>';
+                        return;
+                    }
+                    data.items.slice(0, 10).forEach(item => {
+                        const img = document.createElement('img');
+                        img.className = 'preview-thumb';
+                        img.src = item.image_path || item.primary_image || '/images/placeholder.png';
+                        img.title = item.name;
+                        container.appendChild(img);
+                    });
+                })
+                .catch(err => console.error('Error loading preview for ' + sectionId, err));
+        });
+    }
+
+    function addSelection(prefix) {
+        const container = document.getElementById(prefix + 'Inputs');
+        const type = document.getElementById('hiddenType').value;
+        const count = container.querySelectorAll('select').length;
+
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.gap = '10px';
+        div.style.marginBottom = '10px';
+
+        const sel = document.createElement('select');
+        sel.name = 'items[]';
+        sel.className = 'lux-select';
+        sel.innerHTML = '<option value="">Select Item...</option>';
+        resourceCache[type].forEach(item => {
+            sel.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+        });
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.innerHTML = '<i data-lucide="trash-2" style="width:14px;"></i>';
+        del.style.background = '#FEE2E2';
+        del.style.color = '#B91C1C';
+        del.style.border = 'none';
+        del.style.borderRadius = '8px';
+        del.style.width = '40px';
+        del.style.cursor = 'pointer';
+        del.onclick = () => div.remove();
+
+        div.appendChild(sel);
+        div.appendChild(del);
+        container.appendChild(div);
+        lucide.createIcons();
+    }
+
+    document.getElementById('createSectionForm').addEventListener('submit', function(e) {
+        const mode = document.querySelector('input[name="section_mode"]:checked').value;
+        if(mode === 'manual') {
+            const selects = document.querySelectorAll('select[name="items[]"]');
+            let ids = [];
+            selects.forEach(s => { if(s.value) ids.push(s.value); });
+            document.getElementById('hiddenProductIds').value = JSON.stringify(ids);
+        }
+    });
+</script>
+{% endblock %}

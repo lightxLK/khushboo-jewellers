@@ -1,0 +1,343 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    /* SEARCH BAR */
+    .search-box-premium {
+        background: #F8FAFC;
+        border: 1px solid var(--lux-border);
+        padding: 12px 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 30px;
+        transition: border-color 0.2s;
+    }
+
+    .search-box-premium:focus-within {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .search-box-premium input {
+        background: transparent;
+        border: none;
+        outline: none;
+        width: 100%;
+        color: var(--lux-text-primary);
+        font-size: 14px;
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card-gold {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .stat-card-gold:hover {
+        border-color: var(--lux-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .stat-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        background: #FDFBF7;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--lux-gold);
+        margin-bottom: 16px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--lux-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-trend {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #10B981;
+    }
+
+    /* QUICK ACTIONS */
+    .actions-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .action-group-title {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--lux-text-secondary);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .action-item-button {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-decoration: none;
+        color: var(--lux-text-primary);
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 12px;
+        transition: all 0.2s;
+    }
+
+    .action-item-button:hover {
+        border-color: var(--lux-gold);
+        color: var(--lux-gold);
+        background: #FDFBF7;
+    }
+
+    .action-item-button.active-gold {
+        border-color: var(--lux-gold);
+        background: #FDFBF7;
+        box-shadow: 0 0 0 1px var(--lux-gold);
+    }
+
+    .action-item-button i {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* INQUIRIES */
+    .inquiry-strip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        background: white;
+        transition: all 0.2s;
+    }
+
+    .inquiry-strip:hover {
+        border-color: var(--lux-gold);
+    }
+</style>
+
+<div class="dashboard-page">
+    <div class="breadcrumb">
+        <i data-lucide="home" style="width: 14px; color: var(--lux-gold);"></i>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <span>Dashboard</span>
+    </div>
+
+    <div class="page-header" style="margin-bottom: 30px;">
+        <h1 style="font-size: 24px; font-weight: 800; color: var(--lux-navy);">Store Overview</h1>
+        <p style="font-size: 14px; color: var(--lux-text-secondary);">Manage your segments, categories and products from
+            one central hub.</p>
+    </div>
+
+    <div class="search-box-premium">
+        <i data-lucide="search" style="width: 18px;"></i>
+        <input type="text" placeholder="Quickly search for anything...">
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card-gold">
+            <div class="stat-icon-wrapper">
+                <i data-lucide="layers"></i>
+            </div>
+            <div class="stat-value">{{ segment_count }}</div>
+            <div class="stat-label">Product Segments</div>
+            <div class="stat-trend">
+                <i data-lucide="trending-up" style="width: 14px;"></i>
+                <span>Storefront Active</span>
+            </div>
+        </div>
+
+        <div class="stat-card-gold">
+            <div class="stat-icon-wrapper">
+                <i data-lucide="folder"></i>
+            </div>
+            <div class="stat-value">{{ category_count }}</div>
+            <div class="stat-label">Main Categories</div>
+            <div class="stat-trend">
+                <i data-lucide="trending-up" style="width: 14px;"></i>
+                <span>Organized Inventory</span>
+            </div>
+        </div>
+
+        <div class="stat-card-gold">
+            <div class="stat-icon-wrapper">
+                <i data-lucide="folder-open"></i>
+            </div>
+            <div class="stat-value">{{ subcategory_count }}</div>
+            <div class="stat-label">Sub-Categories</div>
+            <div class="stat-trend">
+                <i data-lucide="trending-up" style="width: 14px;"></i>
+                <span>Niche Grouping</span>
+            </div>
+        </div>
+
+        <div class="stat-card-gold">
+            <div class="stat-icon-wrapper">
+                <i data-lucide="package"></i>
+            </div>
+            <div class="stat-value">{{ product_count }}</div>
+            <div class="stat-label">Stock Items</div>
+            <div class="stat-trend">
+                <i data-lucide="trending-up" style="width: 14px;"></i>
+                <span>Inventory Level</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions-container">
+        <!-- Add Data Section -->
+        <div>
+            <div class="action-group-title">
+                <i data-lucide="plus-circle" style="width: 14px; color: var(--lux-gold);"></i>
+                <span>Add Data</span>
+            </div>
+            <a href="/admin/add-segment" class="action-item-button">
+                <i data-lucide="layers"></i>
+                <span>Add Segment</span>
+            </a>
+            <a href="/admin/add-category" class="action-item-button active-gold">
+                <i data-lucide="folder"></i>
+                <span>Add Category</span>
+            </a>
+            <a href="/admin/add-subcategory" class="action-item-button">
+                <i data-lucide="folder-open"></i>
+                <span>Add Sub-Category</span>
+            </a>
+            <a href="/admin/add-product" class="action-item-button">
+                <i data-lucide="package"></i>
+                <span>Add Product Item</span>
+            </a>
+        </div>
+
+        <!-- Manage Section -->
+        <div>
+            <div class="action-group-title">
+                <i data-lucide="settings" style="width: 14px; color: var(--lux-gold);"></i>
+                <span>Management Hub</span>
+            </div>
+            <a href="/admin/dynamic-section" class="action-item-button">
+                <i data-lucide="layout-grid"></i>
+                <span>Manage Sections</span>
+            </a>
+            <a href="/admin/all-data-view" class="action-item-button">
+                <i data-lucide="database"></i>
+                <span>Global Data View</span>
+            </a>
+            <a href="/admin/import-excel" class="action-item-button">
+                <i data-lucide="file-spreadsheet"></i>
+                <span>Import Excel Stock</span>
+            </a>
+            <a href="/admin/users" class="action-item-button">
+                <i data-lucide="users"></i>
+                <span>Admin Settings</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="lux-card" style="padding: 24px; background: white;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+            <h2
+                style="font-size: 16px; font-weight: 800; color: var(--lux-navy); display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="mail" style="color: var(--lux-gold); width: 20px;"></i>
+                Recent Customer Inquiries
+            </h2>
+            <a href="/admin/contact-inquiries"
+                style="color: var(--lux-gold); font-size: 13px; font-weight: 700; text-decoration: none;">View All</a>
+        </div>
+
+        <div class="inquiry-list">
+            {% for inquiry in recent_inquiries %}
+            <div class="inquiry-strip">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div
+                        style="width: 40px; height: 40px; background: #FDFBF7; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--lux-gold);">
+                        <i data-lucide="user" style="width: 18px;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--lux-navy); font-size: 14px;">{{ inquiry.name }}</div>
+                        <div style="font-size: 11px; color: var(--lux-text-secondary);">Recieved: {{
+                            inquiry.created_at.strftime('%d %b %Y') }}</div>
+                    </div>
+                </div>
+                <div
+                    style="font-size: 13px; color: var(--lux-text-secondary); max-width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    {{ inquiry.message[:100] }}...
+                </div>
+                <a href="/admin/contact-inquiries" class="btn-lux" style="padding: 6px 16px; font-size: 11px;">View
+                    Case</a>
+            </div>
+            {% endfor %}
+            {% if not recent_inquiries %}
+            <div style="text-align: center; padding: 40px; color: var(--lux-text-secondary);">
+                <i data-lucide="inbox" style="width: 32px; height: 32px; opacity: 0.3; margin-bottom: 12px;"></i>
+                <p>No recent inquiries found.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

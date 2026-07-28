@@ -1,0 +1,364 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Sub-Categories - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Manage Sub-Categories{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB ICONS */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item i {
+        width: 14px;
+        height: 14px;
+    }
+
+    .breadcrumb-active {
+        color: var(--lux-text-secondary);
+    }
+
+    /* CARD HEADERS */
+    .section-card {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .section-header-top {
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .section-header-top i {
+        width: 20px;
+        color: var(--lux-gold);
+    }
+
+    .section-header-top h3 {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group-header {
+        background: #F8FAFC;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-navy);
+    }
+
+    .form-group-header i {
+        width: 16px;
+        color: var(--lux-gold);
+    }
+
+    .form-content {
+        padding: 24px;
+    }
+
+    /* UPLOAD ZONE */
+    .upload-container {
+        border: 2px dashed var(--lux-border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        background: white;
+        transition: all 0.2s;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .upload-container i {
+        width: 32px;
+        height: 32px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 10px;
+    }
+
+    .upload-input-hid {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* TABLE */
+    .table-toolbar {
+        padding: 15px 24px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .search-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #F8FAFC;
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--lux-border);
+        flex: 1;
+    }
+
+    .search-group input {
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .lux-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lux-table th {
+        background: white;
+        padding: 15px 24px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lux-text-secondary);
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .lux-table td {
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        font-size: 13px;
+        color: var(--lux-navy);
+        vertical-align: middle;
+    }
+
+    .img-cell {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+    }
+
+    .badge-gold {
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #10B981;
+        font-weight: 800;
+        font-size: 11px;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="home"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item">
+            <i data-lucide="folder-open"></i>
+            Sub-Categories
+        </div>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item breadcrumb-active">Add</div>
+    </div>
+
+    <!-- ADD FORM CARD -->
+    <div class="section-card">
+        <div class="section-header-top">
+            <i data-lucide="plus-circle" style="stroke-width: 2.5; color: var(--lux-gold);"></i>
+            <h3>Add New Sub-Category</h3>
+        </div>
+
+        <form action="/admin/add-subcategory" method="POST" enctype="multipart/form-data">
+            <!-- Classification -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="layers"></i>
+                    Classification Details
+                </div>
+                <div class="form-content">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Sub-Category Label <span
+                                    style="color: #EF4444;">*</span></label>
+                            <input type="text" name="name" class="lux-input" placeholder="e.g., Diamond Bangles"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Global Segment <span
+                                    style="color: #EF4444;">*</span></label>
+                            <select name="segment_id" class="lux-select" required>
+                                <option value="">Select a segment</option>
+                                {% for segment in segments %}
+                                <option value="{{ segment.id }}">{{ segment.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Imagery -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="image"></i>
+                    Showcase Imagery
+                </div>
+                <div class="form-content">
+                    <label class="lux-label" style="font-size: 12px;">Representative Image <span
+                            style="color: #EF4444;">*</span></label>
+                    <div class="upload-container">
+                        <i data-lucide="upload-cloud"></i>
+                        <div style="font-weight: 700; color: var(--lux-navy); font-size: 14px; margin-bottom: 2px;">
+                            Click to upload</div>
+                        <div style="font-size: 11px; color: #94A3B8;">Any image format (auto-converts to WebP)</div>
+                        <input type="file" name="subcategory_image" class="upload-input-hid" accept="image/*" required>
+                    </div>
+
+                    <div
+                        style="background: #FDFBF7; border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--lux-gold-dark); font-weight: 600; border: 1px solid rgba(201, 169, 97, 0.1);">
+                        <i data-lucide="info" style="width: 18px; color: var(--lux-gold); flex-shrink: 0;"></i>
+                        <span>Required: Optimised 1:1 aspect ratio image recommended for sub-category grids.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 24px; border-top: 1px solid var(--lux-border); background: white;">
+                <button type="submit" class="btn-lux" style="background: var(--lux-gold); margin-top: 0;">
+                    <i data-lucide="plus" style="width: 16px;"></i> Publish Sub-Category
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="section-card">
+        <div class="section-header-top">
+            <i data-lucide="list" style="color: var(--lux-gold);"></i>
+            <h3>Existing Sub-Categories ({{ subcategories|length }})</h3>
+        </div>
+
+        <div class="table-toolbar">
+            <div class="search-group">
+                <i data-lucide="search" style="width: 16px; color: #94A3B8;"></i>
+                <input type="text" placeholder="Search subcategories...">
+            </div>
+            <select class="lux-select" style="width: 150px; font-size: 13px;">
+                <option value="">All Segments</option>
+            </select>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="lux-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox"></th>
+                        <th>Preview</th>
+                        <th>Sub-Category</th>
+                        <th>Taxonomy</th>
+                        <th>Status</th>
+                        <th>Added On</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sub in subcategories %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <img src="{{ sub.image_path }}" class="img-cell"
+                                onerror="this.src='/images/placeholder.png'">
+                        </td>
+                        <td style="font-weight: 800; color: #1E293B;">{{ sub.name }}</td>
+                        <td><span class="badge-gold">{{ sub.segment_name }}</span></td>
+                        <td>
+                            <div class="status-pill">
+                                <span class="dot"></span>
+                                ACTIVE
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; color: #64748B;">{% if sub.created_at %}{{
+                            sub.created_at.strftime('%d %b %Y') }}{% else %}09 Mar 2026{% endif %}</td>
+                        <td style="text-align: right;">
+                            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                                <a href="/admin/edit-subcategory/{{ sub.id }}"
+                                    style="color: var(--lux-gold); transition: transform 0.2s; display: inline-flex;">
+                                    <i data-lucide="edit-3" style="width: 18px;"></i>
+                                </a>
+                                <form action="/admin/delete-subcategory/{{ sub.id }}" method="POST"
+                                    style="display: inline;">
+                                    <button type="submit"
+                                        onclick="return confirm('Delete this sub-category? This will affect products linked to it.');"
+                                        style="background: transparent; border: none; cursor: pointer; color: #EF4444; transition: transform 0.2s; display: inline-flex;">
+                                        <i data-lucide="trash-2" style="width: 18px;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Khushboo Jewellers</title>
+    <!-- ✨ Luxury Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --lux-gold: #C9A961;
+            --lux-gold-dark: #9B7E46;
+            --lux-slate: #1E293B;
+            --lux-bg: #F8FAFC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--lux-bg);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(201, 169, 97, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.05) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--lux-gold) 0%, var(--lux-gold-dark) 100%);
+        }
+
+        .logo-box {
+            width: 64px;
+            height: 64px;
+            background: var(--lux-gold);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 16px rgba(201, 169, 97, 0.3);
+            color: white;
+        }
+
+        .login-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--lux-slate);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-container p {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--lux-slate);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: var(--lux-gold);
+            width: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px 13px 44px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #F8FAFC;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--lux-gold);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--lux-gold) 0%, var(--lux-gold-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.2);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 169, 97, 0.4);
+        }
+
+        .error {
+            background: #FFF1F2;
+            color: #BE123C;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(190, 18, 60, 0.1);
+            border-radius: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-home {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .back-home a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .back-home a:hover {
+            color: var(--lux-gold-dark);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="logo-box">
+            <i data-lucide="shield-check" style="width: 32px; height: 32px;"></i>
+        </div>
+        <h1>Secured Access</h1>
+        <p>Premium Administrative Suite for Khushboo Jewellers</p>
+
+        {% if error %}
+        <div class="error">
+            <i data-lucide="alert-circle" style="width: 16px;"></i>
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">Credentials</label>
+                <div class="input-wrapper">
+                    <i data-lucide="user"></i>
+                    <input type="email" id="email" name="email" required autofocus placeholder="admin@khushboo.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Security Key</label>
+                <div class="input-wrapper">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">Authenticate & Continue</button>
+        </form>
+
+        <div class="back-home">
+            <a href="/">
+                <i data-lucide="arrow-left" style="width: 14px;"></i>
+                Return to Storefront
+            </a>
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Segment - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Update Collection Segment{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* LAYOUT */
+    .edit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    .section-card {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .section-header-top {
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .section-header-top i {
+        width: 20px;
+        color: var(--lux-gold);
+    }
+
+    .section-header-top h3 {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* UPLOAD ZONE */
+    .segment-upload-zone {
+        border: 2px dashed var(--lux-border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        background: #FDFBF7;
+        transition: all 0.2s;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .segment-upload-zone:hover {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .segment-upload-zone i {
+        width: 32px;
+        height: 32px;
+        color: var(--lux-gold);
+        margin-bottom: 10px;
+    }
+
+    .current-seg-img {
+        width: 100%;
+        max-width: 200px;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+        margin: 20px auto;
+        display: block;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .upload-input-hid {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .protocol-card {
+        background: var(--lux-navy);
+        color: white;
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .protocol-badge {
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--lux-gold);
+        margin-bottom: 12px;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="home" style="width: 14px;"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <a href="/admin/add-segment" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="layers" style="width: 14px;"></i>
+            Segments
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item" style="color: var(--lux-text-secondary);">
+            Modify Collection
+        </div>
+    </div>
+
+    <div class="edit-grid">
+        <!-- FORM COLUMN -->
+        <form action="/admin/edit-segment/{{ segment.id }}" method="POST" enctype="multipart/form-data">
+            <div class="section-card">
+                <div class="section-header-top">
+                    <i data-lucide="edit-3" style="stroke-width: 2.5;"></i>
+                    <h3>Update Segment Record</h3>
+                </div>
+
+                <div style="padding: 24px;">
+                    <div style="margin-bottom: 24px;">
+                        <label class="lux-label" style="font-size: 12px;">Segment Name <span
+                                style="color: red;">*</span></label>
+                        <input type="text" name="name" value="{{ segment.name }}" class="lux-input" required>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label class="lux-label" style="font-size: 12px;">Segment Identifier <span
+                                style="color: red;">*</span></label>
+                        <input type="text" name="segment_code" value="{{ segment.segment_code }}" class="lux-input"
+                            required>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label class="lux-label" style="font-size: 12px;">Representative Icon</label>
+                        {% if segment.image_path %}
+                        <img src="{{ segment.image_path }}" class="current-seg-img" id="seg_img_v">
+                        {% endif %}
+
+                        <div class="segment-upload-zone">
+                            <i data-lucide="camera"></i>
+                            <div style="font-weight: 700; color: var(--lux-navy); font-size: 14px; margin-bottom: 2px;">
+                                Overwrite Representation</div>
+                            <div style="font-size: 11px; color: #94A3B8;">WebP optimized, Square aspect ratio</div>
+                            <input type="file" name="image" class="upload-input-hid" accept="image/*"
+                                onchange="previewSeg(this)">
+                        </div>
+                    </div>
+
+                    <div
+                        style="display: flex; gap: 15px; margin-top: 40px; border-top: 1px solid #F1F5F9; padding-top: 25px;">
+                        <button type="submit" class="btn-lux"
+                            style="background: var(--lux-navy); color: white; border: none; flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i data-lucide="save" style="width: 18px;"></i> PERSIST CHANGES
+                        </button>
+                        <a href="/admin/add-segment"
+                            style="flex: 0.5; background: white; border: 1px solid var(--lux-border); color: var(--lux-text-secondary); text-decoration: none; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                            EXIT
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- INFO COLUMN -->
+        <div>
+            <div class="protocol-card">
+                <div class="protocol-badge">Management Protocol</div>
+                <h4 style="font-size: 18px; font-weight: 800; color: var(--lux-gold); margin-bottom: 15px;">Collection
+                    Branch Management</h4>
+                <p style="font-size: 13px; opacity: 0.8; line-height: 1.8; margin-bottom: 25px;">
+                    Modifying this fundamental segment will propagate changes to all nested categories and product
+                    items.
+                    Maintaining consistent segment codes is critical for inventory reconciliation and SEO path
+                    stability.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div
+                        style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size: 10px; font-weight: 800; opacity: 0.6; text-transform: uppercase;">Linked
+                            Categories</div>
+                        <div style="font-size: 28px; font-weight: 800; margin-top: 5px;">{{ segment.categories|length }}
+                        </div>
+                    </div>
+                    <div
+                        style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size: 10px; font-weight: 800; opacity: 0.6; text-transform: uppercase;">Active
+                            Records</div>
+                        <div style="font-size: 28px; font-weight: 800; margin-top: 5px;">LIVE</div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 30px; padding: 25px; border-radius: 12px; border: 1px solid var(--lux-border); background: #FDFBF7;">
+                <h5
+                    style="font-size: 12px; font-weight: 800; color: var(--lux-navy); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="help-circle" style="width: 16px; color: var(--lux-gold);"></i>
+                    Integration Support
+                </h5>
+                <p style="font-size: 12px; color: var(--lux-text-secondary); line-height: 1.6;">
+                    If you are migrating codes, ensure existing Excel stock sheets are updated to reflect the new
+                    identifier before the next ingestion cycle.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+
+    function previewSeg(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.getElementById('seg_img_v');
+                if (img) img.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}

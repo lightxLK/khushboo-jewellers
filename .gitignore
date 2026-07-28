@@ -1,0 +1,41 @@
+# -----------------------------
+# Python
+# -----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+backend/venv/
+
+# Environment variables
+.env
+backend/.env
+backend/templates/admin/.env
+
+# Logs
+*.log
+nohup.out
+backend/nohup.out
+
+# Temporary files
+backend/temp_drive_downloads/
+
+# Python caches
+.pytest_cache/
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Production runtime data
+backend/database/
+backend/uploads/
+backend/instance/
+backend/your_database.db

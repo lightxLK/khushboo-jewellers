@@ -1,0 +1,495 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Products - Khushboo Jewellers Admin{% endblock %}
+{% block topbar_title %}Manage Products{% endblock %}
+
+{% block content %}
+<style>
+    /* BREADCRUMB ICONS */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        font-size: 13px;
+        color: var(--lux-text-secondary);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item i {
+        width: 14px;
+        height: 14px;
+    }
+
+    .breadcrumb-active {
+        color: var(--lux-text-secondary);
+    }
+
+    /* CARD HEADERS */
+    .section-card {
+        background: white;
+        border: 1px solid var(--lux-border);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .section-header-top {
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .section-header-top i {
+        width: 20px;
+        color: var(--lux-gold);
+    }
+
+    .section-header-top h3 {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--lux-navy);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group-header {
+        background: #F8FAFC;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-navy);
+    }
+
+    .form-group-header i {
+        width: 16px;
+        color: var(--lux-gold);
+    }
+
+    .form-content {
+        padding: 24px;
+    }
+
+    /* UPLOAD ZONES */
+    .primary-upload-zone {
+        border: 2px dashed var(--lux-border);
+        border-radius: 12px;
+        padding: 60px;
+        text-align: center;
+        cursor: pointer;
+        background: white;
+        transition: all 0.2s;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .primary-upload-zone:hover {
+        border-color: var(--lux-gold);
+    }
+
+    .primary-upload-zone i {
+        width: 48px;
+        height: 48px;
+        color: var(--lux-text-secondary);
+        margin-bottom: 15px;
+    }
+
+    .secondary-imagery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .sec-img-item {
+        aspect-ratio: 1;
+        border: 1px dashed var(--lux-border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #F8FAFC;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+
+    .sec-img-item:hover {
+        border-color: var(--lux-gold);
+        background: white;
+    }
+
+    .sec-img-item i {
+        width: 24px;
+        color: var(--lux-gold);
+    }
+
+    .upload-input-hid {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* TAGS */
+    .tag-selector-row {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .tag-pill-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+        border: 1px solid var(--lux-border);
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--lux-navy);
+    }
+
+    .tag-pill-option input {
+        accent-color: var(--lux-gold);
+        width: 16px;
+        height: 16px;
+    }
+
+    /* TABLE */
+    .table-toolbar {
+        padding: 15px 24px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .search-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #F8FAFC;
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--lux-border);
+        flex: 1;
+    }
+
+    .lux-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lux-table th {
+        background: white;
+        padding: 15px 24px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lux-text-secondary);
+        border-bottom: 1px solid var(--lux-border);
+    }
+
+    .lux-table td {
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--lux-border);
+        font-size: 13px;
+        color: var(--lux-navy);
+        vertical-align: middle;
+    }
+
+    .product-thumb-img {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid var(--lux-border);
+    }
+
+    .badge-code {
+        background: #FDFBF7;
+        color: var(--lux-gold-dark);
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid rgba(201, 169, 97, 0.2);
+    }
+
+    .badge-accent-tag {
+        font-size: 9px;
+        font-weight: 900;
+        padding: 3px 6px;
+        border-radius: 4px;
+        margin-right: 4px;
+        text-transform: uppercase;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #10B981;
+        font-weight: 800;
+        font-size: 11px;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/admin/dashboard" class="breadcrumb-item" style="color: var(--lux-gold);">
+            <i data-lucide="home"></i>
+            Dashboard
+        </a>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item">
+            <i data-lucide="package"></i>
+            Products
+        </div>
+        <i data-lucide="chevron-right" style="width: 12px; opacity: 0.5;"></i>
+        <div class="breadcrumb-item breadcrumb-active">Add</div>
+    </div>
+
+    <!-- ADD FORM CARD -->
+    <div class="section-card">
+        <div class="section-header-top">
+            <i data-lucide="plus-circle" style="stroke-width: 2.5; color: var(--lux-gold);"></i>
+            <h3>Add New Product</h3>
+        </div>
+
+        <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+            <!-- Part 1: Basic Information -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="info"></i>
+                    Product Identification
+                </div>
+                <div class="form-content">
+                    <div style="margin-bottom: 20px;">
+                        <label class="lux-label" style="font-size: 12px;">Product Title / Name <span
+                                style="color: #EF4444;">*</span></label>
+                        <input type="text" name="name" class="lux-input" placeholder="e.g., 22K Gold Antique Necklace"
+                            required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Product SKU / Code <span
+                                    style="color: #EF4444;">*</span></label>
+                            <input type="text" name="product_code" class="lux-input" placeholder="e.g., PRD-GOL-001"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="lux-label" style="font-size: 12px;">Categorization <span
+                                    style="color: #EF4444;">*</span></label>
+                            <select name="subcategory_id" class="lux-select" required>
+                                <option value="">Select Sub-Category</option>
+                                {% for sub in subcategories %}
+                                <option value="{{ sub.id }}">{{ sub.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Descriptions -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="align-left"></i>
+                    Product Narrative
+                </div>
+                <div class="form-content">
+                    <label class="lux-label" style="font-size: 12px;">Detailed Specifications</label>
+                    <textarea name="description" class="lux-textarea" rows="4"
+                        placeholder="Mention weight, purity, craftsmanship details..."></textarea>
+                </div>
+            </div>
+
+            <!-- Part 3: Imagery -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="image"></i>
+                    Product Showcase
+                </div>
+                <div class="form-content">
+                    <label class="lux-label" style="font-size: 12px;">Primary Product View <span
+                            style="color: #EF4444;">*</span></label>
+                    <div class="primary-upload-zone">
+                        <i data-lucide="upload-cloud"></i>
+                        <div style="font-weight: 700; color: var(--lux-navy); font-size: 15px; margin-bottom: 4px;">
+                            Click to upload</div>
+                        <div style="font-size: 11px; color: #94A3B8;">WebP optimised, 1:1 Recommended</div>
+                        <input type="file" name="primary_image" class="upload-input-hid" accept="image/*" required>
+                    </div>
+
+                    <div
+                        style="background: #FDFBF7; border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--lux-gold-dark); font-weight: 600; border: 1px solid rgba(201, 169, 97, 0.1);">
+                        <i data-lucide="info" style="width: 18px; color: var(--lux-gold);"></i>
+                        <span>High resolution images recommended for the product display zoom feature.</span>
+                    </div>
+
+                    <label class="lux-label" style="font-size: 12px; margin-top: 30px; display: block;">Additional
+                        Gallery Images</label>
+                    <div class="secondary-imagery-grid">
+                        {% for i in range(1, 5) %}
+                        <div class="sec-img-item">
+                            <i data-lucide="gallery-vertical"></i>
+                            <input type="file" name="secondary_image_{{i}}" class="upload-input-hid" accept="image/*">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 4: Attributes -->
+            <div class="form-group-section">
+                <div class="form-group-header">
+                    <i data-lucide="badge-check"></i>
+                    Premium Attributes
+                </div>
+                <div class="form-content">
+                    <label class="lux-label" style="font-size: 12px;">Special Designations</label>
+                    <div class="tag-selector-row">
+                        <label class="tag-pill-option">
+                            <input type="checkbox" name="best_selling"> BEST SELLING
+                        </label>
+                        <label class="tag-pill-option">
+                            <input type="checkbox" name="assured"> KJ ASSURED
+                        </label>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <label class="lux-label" style="font-size: 12px;">Display Rating (0.0 to 5.0)</label>
+                        <input type="number" name="rating" class="lux-input" value="4.5" step="0.1" min="0" max="5"
+                            style="width: 120px;">
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 24px; border-top: 1px solid var(--lux-border); background: white;">
+                <button type="submit" class="btn-lux"
+                    style="background: var(--lux-gold); width: 100%; border-radius: 12px; padding: 14px;">
+                    <i data-lucide="plus" style="width: 18px;"></i> PUBLISH PRODUCT TO STOREFRONT
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="section-card">
+        <div class="section-header-top">
+            <i data-lucide="list" style="color: var(--lux-gold);"></i>
+            <h3>Inventory Catalog ({{ products|length }} Items)</h3>
+        </div>
+
+        <div class="table-toolbar">
+            <div class="search-group">
+                <i data-lucide="search" style="width: 16px; color: #94A3B8;"></i>
+                <input type="text" placeholder="Search by name, code or category...">
+            </div>
+            <select class="lux-select" style="width: 180px; font-size: 13px;">
+                <option value="">All Categories</option>
+            </select>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="lux-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox"></th>
+                        <th>View</th>
+                        <th>Product Details</th>
+                        <th>SKU Code</th>
+                        <th>Status</th>
+                        <th>Rating</th>
+                        <th>Added On</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <img src="{{ product.primary_image }}" class="product-thumb-img"
+                                onerror="this.src='/images/placeholder.png'">
+                        </td>
+                        <td>
+                            <div style="font-weight: 800; color: var(--lux-navy);">{{ product.name }}</div>
+                            <div style="font-size: 11px; color: var(--lux-text-secondary); margin-top: 2px;">
+                                {{ product.subcategory_name }}
+                                {% if product.best_selling %}<span class="badge-accent-tag"
+                                    style="background: #FFFBEB; color: #B45309; margin-left:8px;">BEST</span>{% endif %}
+                            </div>
+                        </td>
+                        <td><span class="badge-code">{{ product.product_code }}</span></td>
+                        <td>
+                            <div class="status-pill">
+                                <span class="dot"></span>
+                                ACTIVE
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:4px; font-weight: 800; font-size:12px;">
+                                {{ product.rating }} <i data-lucide="star" style="width: 12px; color: #F59E0B;"
+                                    fill="currentColor"></i>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; color: var(--lux-text-secondary);">{% if product.created_at %}{{
+                            product.created_at.strftime('%d %b %Y') }}{% else %}09 Mar 2026{% endif %}</td>
+                        <td style="text-align: right;">
+                            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                                <a href="/admin/edit-product/{{ product.id }}"
+                                    style="color: var(--lux-gold); transition: transform 0.2s; display: inline-flex;">
+                                    <i data-lucide="edit-3" style="width: 18px;"></i>
+                                </a>
+                                <form action="/admin/delete-product/{{ product.id }}" method="POST"
+                                    style="display: inline;">
+                                    <button type="submit" onclick="return confirm('Archive record?');"
+                                        style="background: transparent; border: none; cursor: pointer; color: #EF4444; transition: transform 0.2s; display: inline-flex;">
+                                        <i data-lucide="trash-2" style="width: 18px;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

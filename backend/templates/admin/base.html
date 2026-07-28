@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== 🎨 DASHBOARD THEME (GOLD & NAVY) ==================== */
+        :root {
+            --lux-gold: #C9A961;
+            --lux-gold-dark: #A68A45;
+            --lux-navy: #0B1739;
+            --lux-bg: #F8FAFC;
+            --lux-border: #E2E8F0;
+            --lux-text-primary: #1E293B;
+            --lux-text-secondary: #64748B;
+            --lux-success: #10B981;
+            --lux-danger: #EF4444;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--lux-bg);
+            color: var(--lux-text-primary);
+        }
+
+        /* ==================== LAYOUT ==================== */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ==================== SIDEBAR ==================== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--lux-navy);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            background: var(--lux-gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 0;
+            overflow-y: auto;
+            scrollbar-width: none;
+            /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;
+            /* Hide scrollbar for IE/Edge */
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for Chrome/Safari */
+        }
+
+        .nav-section-title {
+            padding: 20px 24px 8px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #4B5563;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 24px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            background: var(--lux-gold);
+            color: white;
+            border-radius: 8px;
+            margin: 0 16px 4px;
+            padding: 10px 20px;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .view-website-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            background: var(--lux-gold);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ==================== CONTENT ==================== */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--lux-border);
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            color: var(--lux-text-primary);
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: #F1F5F9;
+        }
+
+        .top-bar-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--lux-text-primary);
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            background: var(--lux-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--lux-danger);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: opacity 0.2s;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .content-area {
+            padding: 24px 30px;
+        }
+
+        /* ==================== GLOBAL UI ==================== */
+        .lux-card {
+            background: white;
+            border: 1px solid var(--lux-border);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .lux-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--lux-text-primary);
+            margin-bottom: 8px;
+        }
+
+        .lux-input,
+        .lux-select,
+        .lux-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--lux-border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .lux-input:focus,
+        .lux-select:focus,
+        .lux-textarea:focus {
+            border-color: var(--lux-gold);
+        }
+
+        .btn-lux {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--lux-gold);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-lux:hover {
+            background: var(--lux-gold-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-box">
+                    <i data-lucide="gem" style="color: white; width: 16px;"></i>
+                </div>
+                <h2>Admin Panel</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Overview</div>
+                <a href="/admin/dashboard" class="nav-item">
+                    <i data-lucide="layout-dashboard" style="width:18px"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-title">Data Management</div>
+                <a href="/admin/add-segment" class="nav-item">
+                    <i data-lucide="layers" style="width:18px"></i>
+                    <span>Segments</span>
+                </a>
+                <a href="/admin/add-category" class="nav-item">
+                    <i data-lucide="folder" style="width:18px"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="/admin/add-subcategory" class="nav-item">
+                    <i data-lucide="folder-open" style="width:18px"></i>
+                    <span>Subcategories</span>
+                </a>
+                <a href="/admin/add-product" class="nav-item">
+                    <i data-lucide="package" style="width:18px"></i>
+                    <span>Products</span>
+                </a>
+
+                <div class="nav-section-title">Content</div>
+                <a href="/admin/dynamic-section" class="nav-item">
+                    <i data-lucide="layout-grid" style="width:18px"></i>
+                    <span>Dynamic Sections</span>
+                </a>
+                <a href="/admin/all-data-view" class="nav-item">
+                    <i data-lucide="database" style="width:18px"></i>
+                    <span>All Data View</span>
+                </a>
+                <a href="/admin/contact-inquiries" class="nav-item">
+                    <i data-lucide="mail" style="width:18px"></i>
+                    <span>Contact Inquiries</span>
+                    {% if unread_inquiries_count > 0 %}
+                    <span
+                        style="background: var(--lux-gold); color: white; border-radius: 12px; padding: 2px 8px; font-size: 10px; font-weight: 800; margin-left: auto;">
+                        {{ unread_inquiries_count }} New
+                    </span>
+                    {% endif %}
+                </a>
+                <a href="/admin/users" class="nav-item">
+                    <i data-lucide="users" style="width:18px"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="/admin/manual" class="nav-item">
+                    <i data-lucide="book-open" style="width:18px"></i>
+                    <span>User Manual</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/" target="_blank" class="view-website-btn">
+                    <i data-lucide="globe" style="width:16px"></i>
+                    <span>View Website</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="menu-toggle" id="sidebarToggle">
+                        <i data-lucide="menu" style="width: 20px;"></i>
+                    </div>
+                    <div class="top-bar-title">{% block topbar_title %}Dashboard - Admin{% endblock %}</div>
+                </div>
+
+                <div class="user-controls">
+                    <div class="user-avatar">
+                        {% if session.get('email') %}{{ session.get('email')[0]|upper }}{% else %}A{% endif %}
+                    </div>
+                    <a href="/admin/logout" class="logout-btn">
+                        <i data-lucide="log-out" style="width: 14px;"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-area">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        // Sidebar Toggle
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const toggleBtn = document.getElementById('sidebarToggle');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Active Link
+        document.querySelectorAll('.nav-item').forEach(link => {
+            if (link.getAttribute('href') === window.location.pathname) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+
+</html>

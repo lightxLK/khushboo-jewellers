@@ -1,0 +1,4397 @@
+/* ============================================================
+   KHUSHBOO JEWELLERS — ULTRA-PREMIUM DESIGN OVERRIDE
+   Transforms the site into a world-class luxury jewelry website
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600;700&family=Oranienbaum&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   DESIGN TOKENS — DEEP LUXURY PALETTE
+   ============================================================ */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/texture_paper.png');
+    background-size: 300px;
+    opacity: 0.06;
+    /* INCREASED OPACITY FOR BETTER VISIBILITY */
+    pointer-events: none;
+    z-index: 9999;
+}
+
+:root {
+    /* Luxury Palette */
+    --gold: #C9A961;
+    --gold-light: #D4B87D;
+    --gold-dark: #9B7E46;
+    --white: #FFFFFF;
+    --cream: #F5F1E8;
+    --black: #0B0B0B;
+
+    /* Functional Tokens */
+    --ink: var(--black);
+    --ink-soft: #141210;
+    --ink-mid: #1E1A15;
+    --ink-card: #252018;
+    --ink-border: rgba(201, 169, 110, 0.18);
+
+    /* Text hierarchy */
+    --text-heading: #FFFFFF;
+    --text-body: #E5E0D8;
+    --text-muted: #B8B2A7;
+    --text-gold: #E2C27D;
+
+    /* Cream for light sections */
+    --cream: #FAF6EF;
+    --cream-mid: #F2EBE0;
+    --off-white: #EDE5D8;
+    --border: rgba(201, 169, 110, 0.15);
+
+    /* Shadows */
+    --shadow-gold: 0 8px 40px rgba(201, 169, 110, 0.20);
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.55);
+    --shadow-deep: 0 20px 80px rgba(0, 0, 0, 0.7);
+
+    /* Spacing */
+    --section-padding: 80px;
+    --gold-glow: rgba(201, 165, 92, 0.2);
+}
+
+/* ============================================================
+   GLOBAL RESETS & BODY
+   ============================================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+body {
+    font-family: 'Jost', sans-serif;
+    background-color: var(--black);
+    color: var(--text-body);
+    line-height: 1.8;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-heading);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+.scroll-progress-bar {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold));
+    height: 3px;
+    box-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* ============================================================
+   HEADER & NAVIGATION
+   ============================================================ */
+.header {
+    background: transparent;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+    backdrop-filter: blur(0px);
+}
+
+.header.scrolled {
+    background: #000000 !important;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--ink-border);
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
+}
+
+.brand-name {
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+}
+
+.header.scrolled .brand-name {
+    color: var(--white);
+}
+
+.brand-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.header.scrolled .brand-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.logo-img {
+    filter: brightness(0) invert(1);
+    height: 58px;
+}
+
+.header.scrolled .logo-img {
+    filter: brightness(0) invert(1) !important;
+}
+
+.header.scrolled .action-btn i {
+    color: var(--white) !important;
+}
+.action-btn i {
+    color: var(--white);
+}
+
+/* Nav links */
+.nav-link {
+    color: white !important;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.header.scrolled .nav-link {
+    color: white !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--gold-light) !important;
+}
+
+.header.scrolled .nav-link:hover,
+.header.scrolled .nav-link.active {
+    color: var(--gold) !important;
+}
+
+.nav-link::after {
+    background: var(--gold);
+}
+
+/* CTA button header */
+.cta-btn-header {
+    border: 1px solid rgba(201, 169, 110, 0.6);
+    color: var(--gold-light);
+    background: rgba(201, 169, 110, 0.08);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.cta-btn-header:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+.header.scrolled .cta-btn-header {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+}
+
+/* Hamburger */
+.hamburger span {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.header.scrolled .hamburger span {
+    background: var(--white);
+}
+
+/* Mega menu overriden to match style.css (light theme) */
+
+/* ============================================================
+   SECTION HEADINGS (GLOBAL)
+   ============================================================ */
+.section-title {
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--text-heading);
+    letter-spacing: 0.5px;
+    animation: none;
+    text-shadow: none;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* For dark-background sections, headings already use --text-heading */
+/* ============================================================
+   LIGHT SECTION OVERRIDES
+   Ensures dark text on light backgrounds
+   ============================================================ */
+.marquee-categories,
+.why-choose,
+.company-story,
+.mvv-section,
+.partner-trust,
+.contact-methods,
+.contact-form-section,
+.faq-section,
+.heritage-snippet-light,
+.product-details,
+.breadcrumb-nav,
+.page-hero,
+.product-info-section,
+.category-luxury,
+.trust-bar,
+.story-luxury,
+.curved-banners,
+.dynamic-section {
+    --text-heading: #000000;
+    --text-body: #111111;
+    --text-muted: #333333;
+    --text-subheading: #000000;
+    --ink: #000000;
+}
+
+/* Force black text on light containers */
+.marquee-categories *,
+.why-choose *,
+.company-story *,
+.mvv-section *,
+.partner-trust *,
+.contact-methods *,
+.contact-form-section *,
+.faq-section *,
+.heritage-snippet-light *,
+.product-details *,
+.breadcrumb-nav *,
+.page-hero *,
+.product-info-section *,
+.category-luxury *,
+.trust-bar *,
+.story-luxury *,
+.curved-banners *,
+.dynamic-section *,
+.subcategory-info *,
+.product-info * {
+    color: inherit; /* Help children follow the parent's black color */
+}
+
+.page-hero h1,
+.page-hero .breadcrumb a,
+.page-hero .breadcrumb span,
+.breadcrumb-nav a,
+.breadcrumb-nav span,
+.detail-label,
+.detail-value,
+.results-count,
+.filter-header h3,
+.filter-group h4,
+.filter-options label,
+.section-title,
+.section-subtitle,
+.story-title,
+.story-text p,
+.highlight-text h4,
+.highlight-text p,
+.mvv-card h3,
+.mvv-card p,
+.trust-feature-card h4,
+.trust-feature-card p,
+.testimonial-content strong,
+.testimonial-content p,
+.contact-header h2,
+.contact-header p,
+.method-card h5,
+.method-card p {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+.marquee-categories .section-title,
+.marquee-categories .section-subtitle,
+.category-luxury h2,
+.category-luxury .section-title,
+.category-luxury .section-subtitle {
+    color: #000000 !important;
+}
+
+/* OVERRIDE: Titles inside image overlays MUST be white */
+.category-info h3,
+.subcategory-info h3,
+.category-box h3,
+.category-box span,
+.category-box-overlay h3,
+.category-box-overlay span,
+.category-overlay h3,
+.category-name,
+.marquee-name,
+.product-grid-name,
+.banner-product-name,
+.exclusive-scroll-name,
+.product-card-small h4,
+.product-content h3 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+}
+
+.marquee-categories .section-title,
+.why-choose .section-title,
+.heritage-snippet .section-title,
+.trust-icons .section-title,
+.company-story .section-title,
+.mvv-section .section-title,
+.contact-methods .section-title,
+.contact-form-section .section-title,
+.faq-section .section-title {
+    color: var(--ink);
+}
+
+/* Dark Sections remain white by global heading rule */
+
+/* Dark Section Headeing Overrides */
+.wholesale-section .section-title,
+.exclusive-deals-section .section-title,
+.section-dark .section-title {
+    color: var(--white);
+}
+
+.title-underline {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 20px;
+    border-radius: 0;
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   HERO CAROUSEL
+   ============================================================ */
+.hero-carousel {
+    background: var(--ink);
+}
+
+.carousel-overlay.overlay-dark {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0.2) 100%) !important;
+}
+
+.carousel-overlay.overlay-gold {
+    background: linear-gradient(135deg, rgba(15, 10, 5, 0.72) 0%, rgba(30, 25, 15, 0.45) 55%, rgba(201, 169, 110, 0.15) 100%) !important;
+}
+
+.carousel-overlay.overlay-purple {
+    background: linear-gradient(135deg, rgba(10, 5, 15, 0.75) 0%, rgba(25, 15, 35, 0.45) 55%, rgba(155, 126, 70, 0.1) 100%) !important;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: white !important;
+    padding: 10px 24px !important;
+    border-radius: 40px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    margin-bottom: 24px !important;
+    font-family: 'Jost', sans-serif !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    display: inline-block !important;
+}
+
+.carousel-content h1 {
+    font-size: 64px !important;
+    font-weight: 400 !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    line-height: 1.1 !important;
+    color: white !important;
+    letter-spacing: normal !important;
+    margin-bottom: 20px !important;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    display: block !important;
+}
+
+.carousel-content p {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-family: 'Jost', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 300 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 40px !important;
+    max-width: 750px !important;
+    display: block !important;
+}
+
+/* Dots */
+.dot {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dot:hover {
+    background: rgba(201, 169, 110, 0.5);
+}
+
+.dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* Buttons */
+.btn-primary {
+    background: #C9A961 !important;
+    color: white !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    font-size: 15px;
+    text-transform: none;
+    border-radius: 8px !important;
+    padding: 16px 36px !important;
+    box-shadow: 0 4px 12px rgba(201, 169, 110, 0.3) !important;
+    border: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+    background: #9B7E46 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(201, 169, 110, 0.4) !important;
+    color: white !important;
+}
+
+.btn-secondary {
+    background: transparent !important;
+    color: white !important;
+    border: 1.6px solid rgba(255, 255, 255, 0.8) !important;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    border-radius: 8px !important;
+    padding: 16px 36px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+    background: white !important;
+    color: #C9A961 !important;
+    border-color: white !important;
+    transform: translateY(-3px);
+}
+
+/* ============================================================
+   MARQUEE CATEGORIES SECTION
+   ============================================================ */
+.marquee-categories {
+    background: var(--cream);
+    padding: 50px 0 40px;
+    position: relative;
+}
+
+.marquee-categories::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='%23C9A96E' fill-opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.marquee-categories::after {
+    background: linear-gradient(to right, var(--cream) 0%, transparent 8%, transparent 92%, var(--cream) 100%);
+}
+
+.marquee-item {
+    background: #fff;
+    border: 1px solid rgba(201, 169, 110, 0.20);
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.marquee-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 40px rgba(201, 169, 110, 0.22);
+    border-color: var(--gold);
+}
+
+.marquee-name {
+    color: var(--white) !important;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.marquee-item:hover .marquee-name {
+    color: var(--gold);
+}
+
+/* ============================================================
+   WHOLESALE / COLLECTION SECTION
+   ============================================================ */
+.wholesale-section {
+    background: var(--ink-soft);
+    padding: 70px 0;
+    position: relative;
+}
+
+.wholesale-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%23C9A96E' fill-opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.wholesale-section .section-header {
+    margin-bottom: 60px;
+}
+
+.wholesale-section .section-title {
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+.wholesale-section .title-underline {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 20px;
+}
+
+.wholesale-section .section-subtitle {
+    color: var(--text-muted);
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* Collection card */
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 0 24px;
+    margin-top: 40px;
+}
+
+.collection-card {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    background: var(--ink-card);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.collection-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(11, 11, 11, 0.9) 100%);
+    z-index: 2;
+    transition: opacity 0.5s ease;
+}
+
+.collection-card::after {
+    content: 'Explore Now →';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(20px);
+    background: var(--gold);
+    color: var(--black);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 5;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.collection-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    filter: brightness(0.9);
+}
+
+.collection-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 20px rgba(201, 165, 92, 0.2);
+}
+
+.collection-card:hover img {
+    transform: scale(1.1);
+    filter: brightness(0.7);
+}
+
+.collection-card:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+}
+
+.collection-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 15px 20px;
+    color: #FFFFFF;
+    /* Changed from black to white for visibility on dark gradient */
+    font-family: 'Jost', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    z-index: 3;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+.collection-card:hover .collection-title {
+    transform: translateY(-20px);
+    color: var(--gold-light);
+}
+
+/* Wholesale card (dynamically loaded) */
+.wholesale-card {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    border-radius: 8px;
+    transition: all 0.4s ease;
+}
+
+.wholesale-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+}
+
+.wholesale-info {
+    background: var(--ink-card);
+}
+
+.wholesale-card h3 {
+    color: var(--text-heading);
+}
+
+.wholesale-card:hover h3 {
+    color: var(--text-gold);
+}
+
+.wholesale-image {
+    background: var(--ink);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.wholesale-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.wholesale-card:hover .wholesale-image img {
+    transform: scale(1.08);
+}
+
+.wholesale-info {
+    padding: 20px 16px;
+    background: var(--ink-card);
+    text-align: center;
+}
+
+.wholesale-info h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-heading);
+}
+
+.explore-link {
+    display: block;
+    padding: 12px;
+    background: var(--ink-soft);
+    color: var(--gold);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-top: 1px solid var(--ink-border);
+}
+
+.wholesale-card:hover .explore-link {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+/* ============================================================
+   WHY CHOOSE US
+   ============================================================ */
+.why-choose {
+    background: #fff;
+    position: relative;
+    padding: 80px 0;
+}
+
+.why-choose::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L55 25L55 45L30 55L5 45L5 25Z' fill='none' stroke='%23C9A96E' stroke-width='0.5' stroke-opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.why-choose .section-title {
+    color: #1a1410;
+}
+
+.why-choose .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+}
+
+.feature-card {
+    background: #fff;
+    border: 1px solid rgba(201, 169, 110, 0.18);
+    border-radius: 12px;
+    padding: 44px 28px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-card:hover {
+    transform: translateY(-14px);
+    box-shadow: 0 24px 56px rgba(201, 169, 110, 0.18);
+    border-color: rgba(201, 169, 110, 0.45);
+}
+
+.feature-icon {
+    background: linear-gradient(135deg, var(--gold-pale), #fff);
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    color: var(--gold-dark);
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    transition: all 0.4s;
+}
+
+.feature-card:hover .feature-icon {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-color: transparent;
+    color: #fff;
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.4);
+}
+
+.feature-card h3 {
+    color: #1a1410;
+    font-size: 22px;
+}
+
+.feature-card p {
+    color: #5a5040;
+    font-size: 16px;
+}
+
+/* ============================================================
+   BANNER + PRODUCTS SPLIT (CURVED BANNERS)
+   ============================================================ */
+.curved-banners,
+.banner-products-split {
+    background: #f8f5ee;
+}
+
+/* 5 — Shared Banner Carousel Engine */
+.banners-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: transparent !important;
+}
+
+.banners-carousel {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    /* Base height for curved banners */
+    overflow: hidden;
+    background: #f8f5ee;
+}
+
+/* Ensure images within banners don't overflow or crop important content */
+.banner-slide img,
+.full-banner-section img,
+.signature-banners img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    /* Prevents cropping of baked-in text */
+    object-position: center !important;
+    background: #f8f5ee;
+    /* Blends with cream jewelry backgrounds to avoid black bars */
+}
+
+.signature-banners .banners-carousel {
+    height: 550px;
+    /* Taller for signature banners */
+}
+
+.banner-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+    display: block;
+}
+
+.banner-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+
+
+.signature-banners .banner-slide img {
+    object-fit: contain;
+    /* Don't crop signature images */
+    background: var(--dark-bg);
+}
+
+.banner-text-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 80%;
+    padding: 60px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background:
+        linear-gradient(to right,
+            rgba(248, 245, 238, 1) 0%,
+            rgba(248, 245, 238, 0.95) 42%,
+            rgba(248, 245, 238, 0) 90%),
+        linear-gradient(to bottom,
+            rgba(248, 245, 238, 0.7) 0%,
+            transparent 25%),
+        linear-gradient(to top,
+            rgba(248, 245, 238, 0.9) 0%,
+            transparent 40%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Fix for Signature Collection header mess */
+.signature-banners .section-header {
+    background: transparent !important;
+    padding: 80px 24px 40px !important;
+}
+
+/* Specific adjustment for Slide 4 text clashing */
+.banner-slide.active .banner-text-content h2 {
+    text-shadow: none;
+}
+
+.banner-text-content h2 {
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.banner-text-content p {
+    color: var(--gold-dark);
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.banner-dots {
+    bottom: 24px;
+}
+
+.banner-dot {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.banner-dot.active {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    width: 28px;
+    box-shadow: 0 0 10px rgba(201, 169, 110, 0.4);
+}
+
+/* Banner split right — product grid */
+.banner-split-right {
+    background: #f8f5ee;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.banner-product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.banner-product-card {
+    background: #ffffff;
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 30px rgba(201, 169, 110, 0.2);
+}
+
+.banner-product-img {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+}
+
+.banner-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.banner-product-card:hover .banner-product-img img {
+    transform: scale(1.1);
+}
+
+.banner-product-name {
+    padding: 10px;
+    color: var(--ink);
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #fafafa;
+    border-top: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.banner-product-card:hover .banner-product-name {
+    color: var(--gold-dark);
+}
+
+/* ============================================================
+   PRODUCT GRID SECTIONS
+   ============================================================ */
+.product-grid-section,
+.product-carousel-section {
+    background: var(--ink-soft);
+    padding: 60px 0;
+}
+
+.product-grid-section:nth-child(even),
+.product-carousel-section:nth-child(even) {
+    background: var(--ink-mid);
+}
+
+.product-grid-section .section-title,
+.product-carousel-section .section-title {
+    color: var(--text-heading);
+}
+
+.product-grid-section .title-underline,
+.product-carousel-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Product cards */
+.product-grid-item,
+.dynamic-product-card,
+.exclusive-scroll-card {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-grid-item:hover,
+.dynamic-product-card:hover,
+.exclusive-scroll-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+    transform: translateY(-6px) scale(1.01);
+}
+
+.product-grid-image,
+.dynamic-product-image,
+.exclusive-scroll-img-wrap {
+    background: var(--ink);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.product-grid-image img,
+.dynamic-product-image img,
+.exclusive-scroll-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-grid-info,
+.dynamic-product-info {
+    background: var(--ink-card);
+}
+
+.product-grid-name,
+.dynamic-product-name,
+.exclusive-scroll-name {
+    color: var(--white) !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.product-grid-item:hover .product-grid-name,
+.dynamic-product-card:hover .dynamic-product-name,
+.exclusive-scroll-card:hover .exclusive-scroll-name {
+    color: var(--text-gold);
+}
+
+/* View all button */
+.btn-large {
+    padding: 16px 44px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* ============================================================
+   FULL-WIDTH BANNER SECTION
+   ============================================================ */
+.full-banner-section {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #f8f5ee !important;
+    /* Blends with cream jewelry backgrounds to avoid black bars */
+}
+
+.full-banner-link img {
+    filter: brightness(0.92);
+    transition: filter 0.5s, transform 0.6s;
+}
+
+.full-banner-link:hover img {
+    filter: brightness(1);
+    transform: scale(1.03);
+}
+
+/* ============================================================
+   BANNER GRID 4 (Shop By Collection)
+   ============================================================ */
+.banner-grid-section {
+    background: var(--ink-soft);
+    padding: 60px 0;
+}
+
+.banner-grid-section .section-title {
+    color: var(--text-heading);
+}
+
+.banner-grid-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.banner-grid-4 {
+    gap: 6px;
+    margin-top: 32px;
+}
+
+.banner-grid-item {
+    border-right: none;
+}
+
+.banner-overlay {
+    background: linear-gradient(to top, rgba(8, 6, 4, 0.88) 0%, rgba(8, 6, 4, 0.5) 50%, transparent 100%);
+}
+
+.banner-overlay h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.banner-overlay span {
+    color: var(--gold-light);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.banner-grid-item:hover .banner-overlay {
+    background: linear-gradient(to top, rgba(8, 6, 4, 0.96) 0%, rgba(8, 6, 4, 0.7) 60%, transparent 100%);
+}
+
+.banner-grid-item:hover {
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(-6px);
+}
+
+/* ============================================================
+   EXCLUSIVE DEALS (INFINITE SCROLL)
+   ============================================================ */
+.exclusive-deals-section {
+    background: var(--ink-mid);
+    padding: 70px 0;
+    position: relative;
+}
+
+.exclusive-deals-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1' fill='%23C9A96E' fill-opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.exclusive-deals-section .section-title {
+    color: var(--text-heading);
+}
+
+.exclusive-deals-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ============================================================
+   CATEGORY SHOWCASE (6-GRID)
+   ============================================================ */
+.category-showcase {
+    background: var(--ink-soft);
+    padding: 60px 0;
+}
+
+.category-showcase .section-title {
+    color: var(--text-heading);
+}
+
+.category-showcase .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.category-card {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    border-radius: 8px;
+}
+
+.category-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    transform: translateY(-8px);
+}
+
+.category-overlay {
+    background: linear-gradient(to top, rgba(8, 6, 4, 0.90), transparent);
+}
+
+.category-overlay h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.category-overlay-6 {
+    background: linear-gradient(to top, rgba(8, 6, 4, 0.90), transparent);
+}
+
+.category-name-6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+/* ============================================================
+   SPLIT BANNER SECTION
+   ============================================================ */
+.split-banner-section {
+    background: var(--ink-soft);
+    padding: 80px 0;
+}
+
+.split-banner-text h2 {
+    color: var(--text-heading);
+    font-size: 46px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.lead-text {
+    color: var(--text-body);
+}
+
+.benefits-list li {
+    color: var(--text-body);
+    font-size: 17px;
+}
+
+.benefits-list svg {
+    color: var(--gold);
+}
+
+.split-banner-image {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+/* ============================================================
+   SIGNATURE COLLECTION (BANNERS CAROUSEL)
+   ============================================================ */
+.signature-banners {
+    background: var(--ink);
+}
+
+.signature-banners .section-title {
+    color: var(--text-heading);
+}
+
+.signature-banners .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+section {
+    padding: 80px 0 !important;
+}
+
+.curved-banners,
+.marquee-categories {
+    padding: 40px 0 !important;
+    /* Slightly less for these specific strips */
+}
+
+/* ============================================================
+   TRUST ICONS STRIP
+   ============================================================ */
+.trust-icons {
+    background: var(--ink-mid);
+    border-top: 1px solid var(--ink-border);
+    border-bottom: 1px solid var(--ink-border);
+    padding: 56px 0;
+}
+
+/* ============================================================
+   BUTTONS & CTA
+   ============================================================ */
+.btn-primary {
+    background: #cdaa61 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    padding: 16px 40px !important;
+    border-radius: 8px !important;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(205, 170, 97, 0.3) !important;
+}
+
+.btn-primary:hover {
+    background: #b89754 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(205, 170, 97, 0.45) !important;
+    color: #ffffff !important;
+}
+
+.trust-item {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    border-radius: 10px;
+    padding: 36px 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trust-item::before {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.trust-item:hover {
+    border-color: rgba(201, 169, 110, 0.40);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 169, 110, 0.25);
+    transform: translateY(-6px);
+}
+
+.trust-icon {
+    background: rgba(201, 169, 110, 0.08);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+}
+
+.trust-item:hover .trust-icon {
+    background: rgba(201, 169, 110, 0.15);
+    border-color: rgba(201, 169, 110, 0.35);
+}
+
+.trust-icon svg {
+    color: var(--gold);
+}
+
+.trust-item h4 {
+    color: var(--text-heading);
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.trust-item p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ============================================================
+   HERITAGE SNIPPET
+   ============================================================ */
+.heritage-snippet {
+    background: var(--ink-soft);
+    padding: 80px 0;
+    position: relative;
+}
+
+.heritage-snippet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L90 50 L50 90 L10 50 Z' fill='none' stroke='%23C9A96E' stroke-width='0.6' stroke-opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.heritage-content-brief {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    padding: 56px 40px;
+}
+
+.heritage-content-brief h2 {
+    color: var(--text-heading);
+    font-size: 44px;
+    font-weight: 500;
+    font-family: 'Playfair Display', serif;
+}
+
+.heritage-content-brief p {
+    color: var(--text-body);
+    font-size: 18px;
+}
+
+/* ============================================================
+   PARTNERSHIP CTA
+   ============================================================ */
+.partnership-cta-brief {
+    background: var(--ink-mid);
+    padding: 80px 0;
+}
+
+.cta-card-brief {
+    background: linear-gradient(135deg, var(--gold-dark) 0%, #7a5e30 50%, var(--gold-dark) 100%);
+    border-radius: 12px;
+    padding: 72px 56px;
+    box-shadow: 0 24px 80px rgba(201, 169, 110, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-card-brief::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='%23fff' fill-opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.cta-card-brief h2 {
+    color: #fff;
+    font-size: 50px;
+    font-weight: 500;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-card-brief p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 19px;
+}
+
+.cta-card-brief .btn-primary {
+    background: #fff;
+    color: var(--gold-dark);
+    border: none;
+}
+
+.cta-card-brief .btn-primary:hover {
+    background: var(--gold-pale);
+    color: var(--ink);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   DYNAMIC SECTIONS
+   ============================================================ */
+.dynamic-section {
+    background: var(--ink-soft);
+    padding: 50px 0;
+}
+
+.dynamic-section:nth-child(odd) {
+    background: var(--ink-mid);
+}
+
+.dynamic-section .section-title {
+    color: var(--text-heading);
+}
+
+.dynamic-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.testimonials {
+    background: var(--ink-mid);
+    padding: 80px 0;
+    position: relative;
+}
+
+.testimonials::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1' fill='%23C9A96E' fill-opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.testimonials .section-title {
+    color: var(--text-heading);
+}
+
+.testimonials .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.testimonial-card {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    border-radius: 12px;
+    padding: 36px;
+    transition: all 0.4s ease;
+}
+
+.testimonial-card:hover {
+    border-color: rgba(201, 169, 110, 0.40);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(-8px);
+}
+
+.testimonial-avatar {
+    border: 2px solid var(--gold-dark);
+}
+
+.testimonial-content p {
+    color: var(--text-body);
+    font-size: 16px;
+    line-height: 1.8;
+    font-style: italic;
+}
+
+.testimonial-content strong {
+    color: var(--text-heading);
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+}
+
+.testimonial-content span {
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+.contact {
+    background: var(--ink);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10L90 50L50 90L10 50Z' fill='none' stroke='%23C9A96E' stroke-width='0.5' stroke-opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 1;
+    mix-blend-mode: normal;
+    z-index: 1;
+}
+
+.contact::after {
+    display: none;
+}
+
+.contact>.container {
+    position: relative;
+    z-index: 10;
+}
+
+.contact .section-title {
+    color: var(--text-heading);
+}
+
+.contact .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.contact .section-subtitle {
+    color: var(--text-body);
+}
+
+.info-card {
+    border-bottom-color: rgba(201, 169, 110, 0.15);
+}
+
+.info-icon {
+    color: var(--gold);
+}
+
+.info-content h3 {
+    color: var(--text-heading);
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.info-content p {
+    color: var(--text-body);
+    text-shadow: none;
+}
+
+.info-content a {
+    color: var(--text-body);
+    text-shadow: none;
+}
+
+.info-content a:hover {
+    color: var(--gold);
+}
+
+.contact-form {
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+}
+
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    border-radius: 6px;
+    color: var(--text-heading);
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    padding: 14px 18px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.12);
+    outline: none;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+    background: linear-gradient(180deg, #0A0906 0%, #050403 100%);
+    color: var(--text-body);
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L55 25L55 45L30 55L5 45L5 25Z' fill='none' stroke='%23C9A96E' stroke-width='0.5' stroke-opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 1;
+    mix-blend-mode: normal;
+}
+
+.footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold-dark), var(--gold), var(--gold-dark), transparent);
+}
+
+.footer-desc {
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 14px;
+}
+
+.footer-column h4 {
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.footer-column a {
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 14px;
+}
+
+.footer-column a:hover {
+    color: var(--gold-light);
+    transform: translateX(4px);
+}
+
+.contact-info-list span {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+.contact-info-list svg {
+    color: var(--gold-dark);
+}
+
+.trust-badge {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.trust-badge svg {
+    color: var(--gold-dark);
+}
+
+/* Newsletter */
+.newsletter-form input {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    color: #fff;
+    border-radius: 4px;
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.30);
+}
+
+.newsletter-form input:focus {
+    border-color: var(--gold-dark);
+}
+
+.newsletter-form button {
+    background: var(--gold-dark);
+    border-radius: 4px;
+}
+
+.newsletter-form button:hover {
+    background: var(--gold);
+}
+
+/* Social icons */
+.social-icon {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(201, 169, 110, 0.18);
+    color: rgba(255, 255, 255, 0.50);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.social-icon:hover:not(.social-disabled) {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: #fff;
+    transform: translateY(-4px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(201, 169, 110, 0.10);
+    padding-top: 28px;
+}
+
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.28);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   FIXED BOTTOM BANNER (WHATSAPP/CTA)
+   ============================================================ */
+.fixed-banner {
+    background: rgba(10, 9, 6, 0.97);
+    backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(201, 169, 110, 0.3);
+    box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.6);
+}
+
+.fixed-banner::before {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.banner-text {
+    color: rgba(255, 255, 255, 0.80);
+}
+
+.banner-text strong {
+    color: var(--gold-light);
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.btn-gold:hover {
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   POPUP
+   ============================================================ */
+.popup-overlay {
+    background: rgba(0, 0, 0, 0.88);
+}
+
+.popup-content {
+    background: var(--ink-card);
+    border-radius: 16px;
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+}
+
+.popup-content h2 {
+    color: var(--text-heading);
+}
+
+.popup-content p {
+    color: var(--text-body);
+}
+
+.popup-btn {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--ink);
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 6px;
+}
+
+.popup-btn:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.35);
+}
+
+/* ============================================================
+   MOBILE MENU OVERLAY
+   ============================================================ */
+@media (max-width: 968px) {
+    .nav-menu {
+        background: rgba(13, 11, 9, 0.99);
+    }
+}
+
+.nav-menu .nav-link {
+    color: rgba(255, 255, 255, 0.80);
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.nav-menu .nav-link:hover,
+.nav-menu .nav-link.active {
+    color: var(--gold-light) !important;
+}
+
+/* ============================================================
+   SUBTLE SCROLL ANIMATIONS (no-JS fallback)
+   ============================================================ */
+.feature-card,
+.testimonial-card,
+.trust-item,
+.marquee-item,
+.collection-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.feature-card.animate {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* ============================================================
+   LUXURY DIVIDER UTILITY
+   ============================================================ */
+.title-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 12px auto 28px;
+    border-radius: 0;
+}
+
+/* ============================================================
+   RESPONSIVE OVERRIDES
+   ============================================================ */
+@media (max-width: 968px) {
+    .carousel-content h1 {
+        font-size: 42px;
+    }
+
+    .section-title {
+        font-size: 36px;
+    }
+
+    .cta-card-brief h2 {
+        font-size: 36px;
+    }
+
+    .heritage-content-brief h2 {
+        font-size: 34px;
+    }
+
+    .collection-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .carousel-content h1 {
+        font-size: 32px;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    body {
+        background-image: none;
+        background-color: var(--ink);
+    }
+
+    .cta-card-brief {
+        padding: 48px 28px;
+    }
+
+    .cta-card-brief h2 {
+        font-size: 28px;
+    }
+
+    .contact-form {
+        padding: 28px 20px;
+    }
+
+    .trust-item {
+        padding: 24px 16px;
+    }
+}
+
+/* ================================================================
+   ✨ LUXURY UPGRADE — ALL 18 IMPROVEMENTS
+   Implementing 1st-tier jewellery website design standards
+   ================================================================ */
+
+/* ── 1. SECTION BREATHING ROOM ── */
+section {
+    padding: 100px 0;
+}
+
+.hero-carousel,
+.full-banner-section,
+.curved-banners {
+    padding: 0 !important;
+}
+
+.marquee-categories {
+    padding: 60px 0 50px;
+}
+
+.trust-icons {
+    padding: 60px 0;
+}
+
+/* ── 2. PREMIUM SECTION HEADER SYSTEM ── */
+/* Eyebrow label above section title */
+.section-eyebrow {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+}
+
+.section-header {
+    margin-bottom: 64px;
+    position: relative;
+}
+
+/* Refined underline — thinner, centered gradient */
+.title-underline,
+.title-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+    margin: 16px auto 0;
+    border-radius: 0;
+}
+
+/* ── 3. PREMIUM PRODUCT CARD SYSTEM (auto-fit grid) ── */
+/* Used by product-grid-8, dynamic-products-grid, carousel cards */
+.product-grid-8 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* Carousel cards: consistent 4-per-row */
+.product-carousel {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    overflow: visible;
+}
+
+/* ── IMAGE CONSISTENCY: force all product/category images same ratio ── */
+.product-grid-item .product-grid-image,
+.dynamic-product-card .dynamic-product-image,
+.exclusive-scroll-card .exclusive-scroll-img-wrap,
+.category-grid-item .category-img,
+.banner-product-card .banner-product-img {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    height: auto !important;
+    overflow: hidden;
+    border-radius: 6px 6px 0 0;
+    background: var(--ink-soft);
+}
+
+.product-grid-item .product-grid-image img,
+.dynamic-product-card .dynamic-product-image img,
+.exclusive-scroll-card .exclusive-scroll-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 5;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 4. LUXURY PRODUCT CARD HOVER ── */
+.product-grid-item,
+.dynamic-product-card {
+    border-radius: 10px;
+    background: var(--ink-card);
+    border: 1px solid rgba(201, 169, 110, 0.10);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.35s ease;
+}
+
+.product-grid-item:hover,
+.dynamic-product-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(201, 169, 110, 0.35);
+}
+
+.product-grid-item:hover .product-grid-image img,
+.dynamic-product-card:hover .dynamic-product-image img {
+    transform: scale(1.08);
+}
+
+/* Product info area */
+.product-grid-info,
+.dynamic-product-info {
+    padding: 16px 18px 20px;
+    background: var(--ink-card);
+    border-top: 1px solid rgba(201, 169, 110, 0.08);
+}
+
+.product-grid-name,
+.dynamic-product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-heading);
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.product-grid-item:hover .product-grid-name,
+.dynamic-product-card:hover .dynamic-product-name {
+    color: var(--gold-light);
+}
+
+/* ── 5. DYNAMIC PRODUCTS GRID — PERFECT AUTO-ARRANGE ── */
+/* This layout auto-fits when dashboard adds products */
+.dynamic-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    padding: 0 24px;
+}
+
+/* ── 6. SECTION HEADER LABEL TREATMENT ── */
+/* "TRENDING PRODUCTS" small label + big decorative title */
+.section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* ── 7. HERO SECTION — STRONGER OVERLAY + BIGGER TEXT ── */
+.overlay-dark {
+    background: linear-gradient(135deg,
+            rgba(6, 4, 2, 0.78) 0%,
+            rgba(10, 8, 5, 0.55) 50%,
+            rgba(16, 12, 6, 0.18) 100%);
+}
+
+.overlay-gold {
+    background: linear-gradient(135deg,
+            rgba(6, 4, 2, 0.75) 0%,
+            rgba(12, 10, 5, 0.48) 55%,
+            rgba(201, 169, 110, 0.06) 100%);
+}
+
+.carousel-content h1 {
+    font-size: 72px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.carousel-content p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    max-width: 650px;
+}
+
+/* Hero CTA button — rounded pill for luxury feel */
+.hero-buttons .btn-primary {
+    border-radius: 30px;
+    padding: 15px 36px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 32px rgba(201, 169, 110, 0.45);
+}
+
+.hero-buttons .btn-secondary {
+    border-radius: 30px;
+    padding: 15px 36px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/* ── 8. ALL BUTTONS — CONSISTENT LUXURY STYLE ── */
+.btn-primary {
+    border-radius: 30px;
+    padding: 14px 32px;
+    font-size: 12px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--ink);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(201, 169, 110, 0.50);
+}
+
+.btn-large {
+    padding: 16px 44px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/* View-all button — outlined pill variant */
+.btn-view-all {
+    background: transparent !important;
+    border: 1px solid rgba(201, 169, 110, 0.50) !important;
+    color: var(--gold-light) !important;
+    box-shadow: none !important;
+}
+
+.btn-view-all:hover {
+    background: var(--gold) !important;
+    color: var(--ink) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 28px rgba(201, 169, 110, 0.40) !important;
+}
+
+/* ── 9. COLLECTION CARDS — BIGGER OVERLAY TEXT ── */
+.collection-title {
+    font-size: 26px;
+    padding: 50px 24px 24px;
+}
+
+/* ── 10. BANNER GRID — HOVER ZOOM EFFECT ── */
+.banner-grid-item {
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 6px;
+}
+
+.banner-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.banner-grid-item:hover img {
+    transform: scale(1.10);
+}
+
+/* ── 11. CATEGORY CARDS HOVER ── */
+.category-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.38s ease,
+        border-color 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold-dark);
+}
+
+/* ── 12. TESTIMONIALS — PREMIUM OVERHAUL ── */
+/* Star rating row */
+.testimonial-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 14px;
+    color: var(--gold);
+    font-size: 16px;
+}
+
+/* Quote mark */
+.testimonial-card::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: rgba(201, 169, 110, 0.18);
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    pointer-events: none;
+}
+
+.testimonial-card {
+    position: relative;
+    padding: 44px 36px 36px;
+    border-left: 2px solid rgba(201, 169, 110, 0.25);
+}
+
+.testimonial-card:hover {
+    border-left-color: var(--gold);
+}
+
+/* ── 13. SECTION GOLD DIVIDER UTILITY (reusable) ── */
+.luxury-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px auto 0;
+    justify-content: center;
+    width: fit-content;
+}
+
+.luxury-divider::before,
+.luxury-divider::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark));
+}
+
+.luxury-divider::after {
+    background: linear-gradient(270deg, transparent, var(--gold-dark));
+}
+
+.luxury-divider-diamond {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+}
+
+/* ── 14. FOOTER — PREMIUM SPACING ── */
+.footer-main-expanded {
+    padding: 72px 60px 48px;
+    gap: 40px;
+}
+
+.footer-logo img {
+    height: 60px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.footer-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 220px;
+}
+
+/* ── 15. MARQUEE CATEGORY ITEM — HOVER LIFT ── */
+.marquee-item {
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.38s ease,
+        border-color 0.3s ease;
+}
+
+.marquee-item:hover {
+    transform: translateY(-12px);
+    border-color: var(--gold);
+}
+
+/* ── 16. SCROLL FADE-IN ANIMATIONS (lightweight, no extra lib) ── */
+@keyframes luxFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes luxFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.lux-fade-up {
+    opacity: 0;
+    animation: luxFadeUp 0.75s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.lux-fade-up.visible {
+    animation-play-state: running;
+}
+
+/* Staggered delay helpers */
+.lux-delay-1 {
+    animation-delay: 0.10s;
+}
+
+.lux-delay-2 {
+    animation-delay: 0.20s;
+}
+
+.lux-delay-3 {
+    animation-delay: 0.30s;
+}
+
+.lux-delay-4 {
+    animation-delay: 0.40s;
+}
+
+/* ── 17. HERITAGE / STORY SECTION ── */
+.heritage-snippet {
+    padding: 100px 0;
+}
+
+.heritage-content-brief {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 72px 60px;
+}
+
+.heritage-content-brief h2 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.heritage-content-brief p {
+    font-size: 18px;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 32px;
+}
+
+/* ── 18. SUBTLE BACKGROUND TEXTURE IMPROVEMENT ── */
+/* Luxury cream diagonal-weave for light sections */
+.why-choose::before,
+.marquee-categories::before {
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 8h4v4H8zM24 8h4v4h-4zM40 8h4v4h-4zM56 8h4v4h-4zM0 24h4v4H0zM16 24h4v4h-4zM32 24h4v4h-4zM48 24h4v4h-4zM8 40h4v4H8zM24 40h4v4h-4zM40 40h4v4h-4zM56 40h4v4h-4zM0 56h4v4H0zM16 56h4v4h-4zM32 56h4v4h-4zM48 56h4v4h-4z' fill='%23C9A96E' fill-opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 64px 64px;
+}
+
+/* ── PARTNERSHIP CTA BANNER — LUXURY GLOW ── */
+.partnership-cta-brief {
+    padding: 100px 0;
+}
+
+.cta-card-brief {
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-card-brief::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ── SPLIT BANNER SECTION ── */
+.split-banner-section {
+    padding: 100px 0;
+}
+
+.split-banner-text h2 {
+    font-size: 52px;
+    margin-bottom: 20px;
+}
+
+/* ── CONTACT SECTION ── */
+.contact {
+    padding: 100px 0;
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials {
+    padding: 100px 0;
+}
+
+/* ── WHY CHOOSE US ── */
+.why-choose {
+    padding: 100px 0;
+}
+
+/* ── PRODUCT GRID SECTION SPACING ── */
+.product-grid-section,
+.product-carousel-section {
+    padding: 80px 0;
+}
+
+/* ── EXCLUSIVE DEALS ── */
+.exclusive-deals-section {
+    padding: 80px 0;
+}
+
+/* ── CATEGORY SHOWCASE ── */
+.category-showcase {
+    padding: 80px 0;
+}
+
+/* ── BANNER GRID SECTION ── */
+.banner-grid-section {
+    padding: 80px 0;
+}
+
+/* ── WHOLESALE SECTION ── */
+.wholesale-section {
+    padding: 80px 0;
+}
+
+/* ── CAROUSEL ARROWS — LUXURY STYLE ── */
+.carousel-arrow {
+    background: rgba(201, 169, 110, 0.10);
+    border: 1px solid rgba(201, 169, 110, 0.30);
+    color: var(--gold-light);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.carousel-arrow:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.40);
+    transform: scale(1.1);
+}
+
+/* ── VIEW ALL SECTION WRAPPER ── */
+.view-all-section {
+    margin-top: 52px;
+    text-align: center;
+}
+
+/* ── RESPONSIVE: STACK ON TABLET / MOBILE ── */
+@media (max-width: 1024px) {
+    .collection-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .product-grid-8,
+    .product-carousel {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .carousel-content h1 {
+        font-size: 52px;
+    }
+
+    section {
+        padding: 70px 0;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .collection-grid,
+    .product-grid-8,
+    .product-carousel,
+    .dynamic-products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        padding: 0 15px !important;
+    }
+
+    .section-title {
+        font-size: 32px !important;
+    }
+
+    .carousel-content h1 {
+        font-size: 34px !important;
+    }
+
+    .footer-main-expanded {
+        padding: 40px 20px;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .heritage-content-brief {
+        padding: 48px 28px;
+    }
+
+    .heritage-content-brief h2 {
+        font-size: 32px;
+    }
+
+    .split-banner-text h2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .collection-grid,
+    .product-grid-8,
+    .product-carousel,
+    .dynamic-products-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 15px !important;
+    }
+
+    .section-title {
+        font-size: 26px !important;
+    }
+
+    .carousel-content h1 {
+        font-size: 28px !important;
+    }
+
+    .wholesale-image {
+        aspect-ratio: 1 / 1 !important;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* UNIVERSAL SHADOW REMOVAL ON HOVER */
+.collection-card:hover,
+.wholesale-card:hover,
+.product-grid-item:hover,
+.dynamic-product-card:hover,
+.category-card:hover,
+.subcategory-card:hover,
+.feature-card:hover,
+.trust-item:hover,
+.testimonial-card:hover,
+.marquee-item:hover,
+.exclusive-scroll-card:hover,
+.btn-primary:hover,
+.btn-gold:hover {
+    box-shadow: none !important;
+}
+
+/* ================================================================
+   🎨 ALTERNATING BEIGE ↔ BLACK SECTION RHYTHM
+   Pattern: Beige → Black → Beige → Black → … (hero & banners excluded)
+   ================================================================ */
+
+/* ── COLOUR TOKENS for the two themes ── */
+:root {
+    --beige-bg: #F8F3EC;
+    /* warm ivory cream  */
+    --beige-bg2: #F2EBE0;
+    /* slightly deeper    */
+    --dark-bg: #0D0B09;
+    /* luxury black       */
+    --dark-bg2: #141210;
+    /* card surface       */
+    --dark-bg3: #1A1610;
+    /* section variant    */
+
+    /* text on BEIGE */
+    --b-heading: #1A1208;
+    --b-body: #4A3E30;
+    --b-muted: #7A6850;
+
+    /* text on BLACK (already set as --text-heading / --text-body) */
+}
+
+/* ─────────────────────────────────────────────
+   BEIGE SECTIONS  (odd rhythm)
+   1. marquee-categories
+   3. why-choose
+   5. product-grid-section:first-of-type  (Featured Products)
+   7. banner-grid-section
+   9. category-showcase
+   11. split-banner-section
+   13. product-carousel-section:last-of-type  (Customer Favorites)
+   15. heritage-snippet
+   17. testimonials
+───────────────────────────────────────────── */
+
+/* 1 — Shop by Category (marquee) */
+.marquee-categories {
+    background: var(--beige-bg) !important;
+}
+
+.marquee-categories .section-title {
+    color: var(--b-heading) !important;
+}
+
+.marquee-categories .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+.marquee-categories::before {
+    mix-blend-mode: multiply;
+}
+
+.marquee-item {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.20) !important;
+}
+
+.marquee-name {
+    color: var(--b-heading) !important;
+}
+
+.marquee-item:hover .marquee-name {
+    color: var(--gold-dark) !important;
+}
+
+/* 3 — Why Choose Us */
+.why-choose {
+    background: var(--beige-bg) !important;
+}
+
+.why-choose .section-title {
+    color: var(--b-heading) !important;
+}
+
+.why-choose .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+.feature-card {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.18) !important;
+}
+
+.feature-card h3 {
+    color: var(--b-heading) !important;
+}
+
+.feature-card p {
+    color: var(--b-body) !important;
+}
+
+/* 5 — Featured Products (first product-grid-section) */
+.product-grid-section {
+    background: var(--beige-bg2) !important;
+}
+
+.product-grid-section .section-title {
+    color: var(--b-heading) !important;
+}
+
+.product-grid-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+/* product cards in beige sections */
+.product-grid-section .product-grid-item,
+.product-grid-section .dynamic-product-card {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.15) !important;
+}
+
+.product-grid-section .product-grid-name,
+.product-grid-section .dynamic-product-name {
+    color: var(--b-heading) !important;
+}
+
+.product-grid-section .product-grid-info,
+.product-grid-section .dynamic-product-info {
+    background: #fff !important;
+    border-top-color: rgba(155, 126, 70, 0.12) !important;
+}
+
+/* 7 — Shop By Collection (banner-grid-section) */
+.banner-grid-section {
+    background: var(--beige-bg) !important;
+}
+
+.banner-grid-section .section-title {
+    color: var(--b-heading) !important;
+}
+
+.banner-grid-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+/* 9 — Category Showcase */
+.category-showcase {
+    background: var(--beige-bg2) !important;
+}
+
+.category-showcase .section-title {
+    color: var(--b-heading) !important;
+}
+
+.category-showcase .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+.category-card {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.15) !important;
+}
+
+/* 11 — Split Banner (Become Our Wholesale Partner) */
+.split-banner-section {
+    background: var(--beige-bg) !important;
+}
+
+.split-banner-text h2 {
+    color: var(--b-heading) !important;
+}
+
+.split-banner-text .lead-text,
+.split-banner-text .benefits-list li {
+    color: var(--b-body) !important;
+}
+
+/* 13 — Heritage Snippet */
+.heritage-snippet {
+    background: var(--beige-bg) !important;
+}
+
+.heritage-content-brief {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.20) !important;
+    box-shadow: 0 20px 60px rgba(155, 126, 70, 0.12) !important;
+}
+
+.heritage-content-brief h2 {
+    color: var(--b-heading) !important;
+}
+
+.heritage-content-brief p {
+    color: var(--b-body) !important;
+}
+
+/* 15 — Testimonials */
+.testimonials {
+    background: var(--beige-bg2) !important;
+}
+
+.testimonials .section-title {
+    color: var(--b-heading) !important;
+}
+
+.testimonials .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+.testimonial-card {
+    background: #fff !important;
+    border-color: rgba(155, 126, 70, 0.18) !important;
+    border-left-color: rgba(155, 126, 70, 0.35) !important;
+}
+
+.testimonial-card:hover {
+    border-left-color: var(--gold-dark) !important;
+}
+
+.testimonial-card::before {
+    color: rgba(155, 126, 70, 0.15) !important;
+}
+
+.testimonial-content p {
+    color: var(--b-body) !important;
+}
+
+.testimonial-content strong {
+    color: var(--b-heading) !important;
+}
+
+.testimonial-content span {
+    color: var(--b-muted) !important;
+}
+
+.testimonial-stars {
+    color: var(--gold-dark) !important;
+}
+
+/* ─────────────────────────────────────────────
+   BLACK SECTIONS  (even rhythm)
+   2. wholesale-section
+   4. curved-banners (banner + 2x2 grid)
+   6. product-carousel-section (Trending)
+   8. exclusive-deals-section
+   10. product-grid-section:nth-of-type(2) — Best Selling Combos
+   12. product-carousel-section (New Arrivals)
+   14. signature-banners
+   16. trust-icons
+   18. partnership-cta
+   19. contact
+───────────────────────────────────────────── */
+
+/* 2 — Wholesale Collections */
+.wholesale-section {
+    background: var(--dark-bg) !important;
+}
+
+.wholesale-section .section-title {
+    color: var(--text-heading) !important;
+}
+
+.wholesale-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.wholesale-section .section-subtitle {
+    color: var(--text-body) !important;
+}
+
+/* 4 — Curved Banners */
+.curved-banners,
+.signature-banners,
+.banner-products-split,
+.banners-wrapper {
+    background: var(--dark-bg) !important;
+}
+
+.banner-split-right {
+    background: var(--dark-bg2) !important;
+}
+
+/* 6 — Product Carousels (Trending, New Arrivals, Customer Favorites) */
+.product-carousel-section {
+    background: var(--dark-bg) !important;
+}
+
+.product-carousel-section .section-title {
+    color: var(--text-heading) !important;
+}
+
+.product-carousel-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.product-carousel-section .product-grid-item,
+.product-carousel-section .dynamic-product-card {
+    background: var(--dark-bg2) !important;
+    border-color: rgba(201, 169, 110, 0.12) !important;
+}
+
+.product-carousel-section .product-grid-name,
+.product-carousel-section .dynamic-product-name {
+    color: var(--text-heading) !important;
+}
+
+.product-carousel-section .product-grid-info,
+.product-carousel-section .dynamic-product-info {
+    background: var(--dark-bg2) !important;
+}
+
+/* 8 — Exclusive Deals */
+.exclusive-deals-section {
+    background: var(--dark-bg) !important;
+}
+
+.exclusive-deals-section .section-title {
+    color: var(--text-heading) !important;
+}
+
+.exclusive-deals-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.exclusive-scroll-card {
+    background: var(--dark-bg2) !important;
+    border-color: rgba(201, 169, 110, 0.12) !important;
+}
+
+.exclusive-scroll-name {
+    color: var(--text-heading) !important;
+}
+
+/* 10 — Best Selling Combos (second product-grid-section) */
+/* Uses the same .product-grid-section class override above.
+   We make the second one dark by wrapping it in a parent override.
+   Since both share the same class, we'll alternate via sibling — 
+   add a utility class in the HTML instead (applied below via JS). */
+
+/* 13 — Signature Banners */
+.signature-banners {
+    background: var(--dark-bg) !important;
+    padding: 100px 0 60px !important;
+    /* Elegant spacing */
+}
+
+.signature-banners .section-title {
+    color: var(--gold) !important;
+    /* Gold text pops on dark bg */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.signature-banners .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+/* 14 — Trust Icons */
+.trust-icons {
+    background: var(--dark-bg) !important;
+    border-top-color: rgba(201, 169, 110, 0.12) !important;
+    border-bottom-color: rgba(201, 169, 110, 0.12) !important;
+}
+
+.trust-item {
+    background: var(--dark-bg2) !important;
+    border-color: rgba(201, 169, 110, 0.12) !important;
+}
+
+.trust-item h4 {
+    color: var(--text-heading) !important;
+}
+
+.trust-item p {
+    color: var(--text-muted) !important;
+}
+
+/* 16 — Partnership CTA */
+.partnership-cta-brief {
+    background: var(--dark-bg) !important;
+}
+
+/* 17 — Contact */
+.contact {
+    background: var(--dark-bg) !important;
+}
+
+.contact .section-title {
+    color: var(--text-heading) !important;
+}
+
+.contact .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.contact .section-subtitle {
+    color: var(--text-body) !important;
+}
+
+/* ── BEST SELLING COMBOS — force dark (2nd product-grid-section) ── */
+/* We give it a specific identifier via a small inline style trick.
+   We use CSS :has() / general sibling where supported, 
+   and also directly rename background via a .section-dark class 
+   that we'll add in HTML */
+.product-grid-section.section-dark {
+    background: var(--dark-bg) !important;
+}
+
+.product-grid-section.section-dark .section-title {
+    color: var(--text-heading) !important;
+}
+
+.product-grid-section.section-dark .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.product-grid-section.section-dark .product-grid-item,
+.product-grid-section.section-dark .dynamic-product-card {
+    background: var(--dark-bg2) !important;
+    border-color: rgba(201, 169, 110, 0.12) !important;
+}
+
+.product-grid-section.section-dark .product-grid-name,
+.product-grid-section.section-dark .dynamic-product-name {
+    color: var(--text-heading) !important;
+}
+
+.product-grid-section.section-dark .product-grid-info,
+.product-grid-section.section-dark .dynamic-product-info {
+    background: var(--dark-bg2) !important;
+}
+
+.product-grid-section.section-dark .btn-view-all {
+    border-color: rgba(201, 169, 110, 0.50) !important;
+    color: var(--gold-light) !important;
+}
+
+/* dynamic sections alternate automatically */
+.dynamic-section {
+    background: var(--beige-bg) !important;
+}
+
+.dynamic-section:nth-child(even) {
+    background: var(--dark-bg) !important;
+}
+
+.dynamic-section:nth-child(even) .section-title {
+    color: var(--text-heading) !important;
+}
+
+.dynamic-section:nth-child(even) .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+}
+
+.dynamic-section:nth-child(even) .dynamic-product-card {
+    background: var(--dark-bg2) !important;
+}
+
+.dynamic-section:nth-child(even) .dynamic-product-name {
+    color: var(--text-heading) !important;
+}
+
+.dynamic-section:nth-child(even) .dynamic-product-info {
+    background: var(--dark-bg2) !important;
+}
+
+.dynamic-section .section-title {
+    color: var(--b-heading) !important;
+}
+
+.dynamic-section .title-underline {
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent) !important;
+}
+
+.dynamic-section .dynamic-product-card {
+    background: #fff !important;
+}
+
+.dynamic-section .dynamic-product-name {
+    color: var(--b-heading) !important;
+}
+
+.dynamic-section .dynamic-product-info {
+    background: #fff !important;
+}
+
+
+/* ================================================================
+   ✨ FINAL COMPREHENSIVE IMPROVEMENTS — All Audit Fixes
+   Implementing all remaining design improvements
+   ================================================================ */
+
+/* ── FIX 1: Stop style.css animated gradient from fighting premium.css ── */
+body {
+    animation: none !important;
+    background-image: none !important;
+    background-color: var(--ink) !important;
+    background-size: auto !important;
+}
+
+/* ── FIX 2: Font cleanup - remove Dancing Script remnants ── */
+body,
+p,
+input,
+textarea,
+button,
+a {
+    font-family: 'Jost', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title,
+.collection-title,
+.testimonial-card strong,
+.feature-card h3,
+.brand-name {
+    font-family: 'Jost', sans-serif !important;
+}
+
+/* Remove glow/shadow mess and animations from all titles for 'Normal Text' look */
+.collection-title,
+.category-info h3,
+.subcategory-info h3,
+.feature-card h3,
+.testimonial-card strong,
+.wholesale-info h3,
+.banner-overlay h3,
+.banner-overlay span,
+.banner-text-wrapper h2,
+.banner-text-wrapper p,
+.lifestyle-text h3,
+.lifestyle-text p,
+.dynamic-product-name {
+    animation: none !important;
+    text-shadow: none !important;
+    color: #ffffff !important;
+    /* Forces white color for luxury contrast on cards */
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── FIX 3: Section title styling & size hierarchy ── */
+.section-title {
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: capitalize;
+    /* Ensures 'Traditional' etc. are proper case */
+}
+
+/* Cleaner 'Normal' font for card labels */
+.collection-title,
+.category-info h3,
+.subcategory-info h3,
+.wholesale-info h3 {
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* ── FIX 4: Logo container — link style + hover effect ── */
+a.logo-container {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
+}
+
+a.logo-container:hover {
+    opacity: 0.82;
+}
+
+/* ── FIX 5: Letter-spacing scale — consistent across site ── */
+:root {
+    --tracking-tight: 0.3px;
+    --tracking-normal: 0.8px;
+    --tracking-wide: 1.5px;
+    --tracking-widest: 3px;
+}
+
+.brand-name {
+    letter-spacing: var(--tracking-widest);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.brand-subtitle {
+    letter-spacing: var(--tracking-wide);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.nav-link {
+    letter-spacing: var(--tracking-wide);
+}
+
+.cta-btn-header {
+    letter-spacing: var(--tracking-wide);
+}
+
+/* ── FIX 6: TESTIMONIALS — Complete luxury redesign ── */
+/* Remove the old conflicting ::before from style.css */
+.testimonials {
+    position: relative;
+}
+
+.testimonials::before {
+    display: none !important;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* Override old card style completely */
+.testimonial-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(155, 126, 70, 0.18) !important;
+    border-left: 3px solid rgba(155, 126, 70, 0.40) !important;
+    border-radius: 12px !important;
+    padding: 40px 36px 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    align-items: flex-start !important;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.38s ease,
+        border-color 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px) !important;
+    border-left-color: var(--gold-dark) !important;
+}
+
+/* Hide ::before from premium.css (uses built in quote now) */
+.testimonial-card::before {
+    display: none !important;
+}
+
+/* Big decorative quote icon (from HTML .testimonial-quote-icon) */
+.testimonial-quote-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    line-height: 0.7;
+    color: rgba(155, 126, 70, 0.22);
+    margin-bottom: 10px;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Stars */
+.testimonial-stars {
+    color: var(--gold-dark) !important;
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+/* Quote text */
+.testimonial-card>p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #4A3E30 !important;
+    margin-bottom: 24px;
+    flex: 1;
+}
+
+/* Author row */
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(155, 126, 70, 0.15);
+    width: 100%;
+}
+
+.testimonial-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid rgba(155, 126, 70, 0.35) !important;
+}
+
+.testimonial-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.testimonial-author-info strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1A1208 !important;
+    display: block;
+}
+
+.testimonial-author-info span {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #7A6850 !important;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.5px;
+}
+
+.testimonial-author-info span svg {
+    color: var(--gold-dark);
+    flex-shrink: 0;
+}
+
+/* ── FIX 7: Contact form - full luxury styling ── */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100% !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(201, 169, 110, 0.22) !important;
+    border-radius: 6px !important;
+    color: var(--text-heading) !important;
+    font-family: 'Jost', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 300 !important;
+    padding: 15px 20px !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease !important;
+    outline: none !important;
+    letter-spacing: 0.3px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted) !important;
+    font-weight: 300;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--gold) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.12) !important;
+}
+
+.contact-form .btn-primary { /* LUXURY OVERRIDE */
+    width: 100% !important;
+    margin-top: 8px;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    letter-spacing: 2px !important;
+}
+
+/* ── FIX 8: Why Choose Us — Redesigned Feature Cards ── */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.feature-card {
+    padding: 44px 28px !important;
+    border-radius: 12px !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Gold top-bar that reveals on hover */
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    border-radius: 0;
+}
+
+.feature-card:hover::after {
+    transform: scaleX(1);
+}
+
+.feature-icon {
+    width: 72px !important;
+    height: 72px !important;
+    margin: 0 auto 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #FDF6EB, #FAF0DD) !important;
+    border: 1px solid rgba(155, 126, 70, 0.25) !important;
+    color: var(--gold-dark) !important;
+    transition: all 0.38s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.feature-card:hover .feature-icon {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark)) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    transform: scale(1.18) rotate(6deg) !important;
+    box-shadow: 0 10px 28px rgba(155, 126, 70, 0.40) !important;
+}
+
+.feature-card:hover .feature.btn-primary {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+    font-weight: 600 !important;
+    border: none !important;
+    padding: 16px 40px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+/* ── FIX 9: Section header spacing consistency ── */
+.section-header {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.section-subtitle {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.75;
+    margin-top: 14px;
+    letter-spacing: var(--tracking-tight);
+}
+
+/* For beige sections */
+.why-choose .section-subtitle,
+.testimonials .section-subtitle,
+.marquee-categories .section-subtitle,
+.banner-grid-section .section-subtitle,
+.heritage-snippet .section-subtitle {
+    color: #7A6850 !important;
+}
+
+/* For dark sections */
+.contact .section-subtitle,
+.wholesale-section .section-subtitle,
+.product-carousel-section .section-subtitle {
+    color: var(--text-muted) !important;
+}
+
+/* ── FIX 10: Contact info cards in dark section ── */
+.info-card {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.12) !important;
+}
+
+.info-icon {
+    color: var(--gold) !important;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.info-content h3 {
+    color: var(--text-heading) !important;
+    text-shadow: none !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.info-content p,
+.info-content a {
+    color: var(--text-body) !important;
+    text-shadow: none !important;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.info-content a:hover {
+    color: var(--gold-light) !important;
+}
+
+@media (max-width: 991px) {
+    .collection-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .wholesale-section .section-title {
+        font-size: 38px;
+    }
+}
+
+/* ── FIX 11: Responsive fixes for new testimonial layout ── */
+@media (max-width: 1024px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-title {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    a.logo-container {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .collection-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .collection-card {
+        aspect-ratio: 1/1;
+    }
+}
+
+/* ── SQUARE IMAGE OVERRIDES ── */
+/* ── SQUARE IMAGE OVERRIDES ── */
+
+/* Force containers to accommodate square images + text */
+.collection-card,
+.wholesale-card,
+.product-grid-item,
+.product-grid-card,
+.dynamic-product-card,
+.exclusive-scroll-card,
+.banner-product-card,
+.marquee-item,
+.banner-grid-item {
+    display: flex !important;
+    flex-direction: column !important;
+    aspect-ratio: auto !important;
+    height: auto !important;
+    overflow: hidden;
+}
+
+/* Specific image wraps that MUST be square */
+.marquee-image,
+.wholesale-image,
+.collection-image,
+.product-grid-image,
+.dynamic-product-image,
+.exclusive-scroll-img-wrap,
+.banner-product-img,
+.category-card,
+.image-frame,
+.heritage-single-image,
+.banner-grid-item {
+    aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    background: #fff;
+}
+
+/* Ensure ALL these images are cover-filled */
+.marquee-image img,
+.wholesale-image img,
+.collection-card img,
+.collection-image img,
+.product-grid-image img,
+.dynamic-product-image img,
+.exclusive-scroll-img-wrap img,
+.banner-product-img img,
+.category-card img,
+.dynamic-product-card img,
+.product-grid-item img,
+.exclusive-scroll-card img,
+.wholesale-card img,
+.banner-grid-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* Testimonials / Trust Icons */
+.testimonial-avatar,
+.trust-icon {
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+}
+
+/* Exceptions: Ensure banner slides and full banners stay proportional */
+.hero-carousel img,
+.logo-img {
+    aspect-ratio: auto !important;
+}
+
+/* Fixed Banner Sizing */
+.banner-slide img,
+.full-banner-section img,
+.split-banner-image img,
+.signature-banners img {
+    aspect-ratio: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100%;
+    object-fit: contain !important;
+}
+
+/* Conflicting visibility block removed in favor of top-level variable overrides */
+
+.section-tag {
+    background: rgba(201, 169, 97, 0.15) !important;
+    color: var(--gold-dark) !important;
+}
+
+/* ============================================================
+   OUR STORY SECTION
+   ============================================================ */
+.our-story-section {
+    background: #ffffff;
+    padding: 100px 0;
+}
+
+.our-story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.story-content {
+    padding-right: 20px;
+}
+
+.story-title {
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 24px;
+    line-height: 1.1;
+    font-family: 'Playfair Display', serif;
+}
+
+.story-desc {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.story-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.stat-item h3 {
+    font-size: 32px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+}
+
+.stat-item p {
+    color: var(--text-muted, #888);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.story-image-wrap {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.story-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 4/3;
+    transition: transform 0.6s ease;
+}
+
+.story-image-wrap:hover .story-image {
+    transform: scale(1.03);
+}
+
+.story-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.story-feature-card {
+    background: #FAFAFA;
+    border-radius: 12px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.story-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    border-color: rgba(201, 169, 110, 0.2);
+}
+
+.feature-icon-wrapper {
+    margin-bottom: 20px;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+}
+
+.story-feature-card h4 {
+    color: var(--ink);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-family: 'Playfair Display', serif;
+}
+
+.story-feature-card p {
+    color: #666;
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+@media (max-width: 968px) {
+    .our-story-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .story-stats {
+        gap: 20px;
+    }
+
+    .story-features {
+        grid-template-columns: 1fr;
+    }
+}
+
+.page-hero h1,
+.breadcrumb,
+.breadcrumb a,
+.breadcrumb span {
+    color: #000000 !important;
+}
+
+.filter-header h3,
+.filter-group h4,
+.filter-group p,
+.filter-options label,
+.filter-options label span,
+.results-count,
+.results-header h2,
+.empty {
+    color: #ffffff !important;
+}
+
+.breadcrumb a:hover {
+    color: var(--gold) !important;
+}
+
+.product-info h1,
+.product-info h3,
+.product-description,
+.detail-label,
+.detail-value,
+.feature-icons span,
+.recommendation-section h2,
+.product-card-small h4,
+.reviews-section h2,
+.product-price,
+.product-code {
+    color: #ffffff !important;
+}
+
+.detail-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fix product cards text */
+.product-card {
+    background: #1a1a1a !important;
+    /* Ensure card is dark and fits to white text */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.product-card .product-info h3,
+.product-card .price {
+    color: #ffffff !important;
+}
+
+.product-card .price .original-price {
+    color: #aaaaaa !important;
+}
+
+/* Category cards */
+.category-card {
+    background: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.subcategory-card {
+    background: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.category-info h3,
+.subcategory-info h3 {
+    color: #ffffff !important;
+}
+
+
+/* Force Mega Menu to look identical on all pages (match Home Page) */
+.mega-menu {
+    background: var(--ink-mid) !important;
+    border-top: 1px solid var(--ink-border) !important;
+}
+
+.mega-column-title {
+    color: var(--gold) !important;
+    border-bottom: 2px solid var(--gold-dark) !important;
+}
+
+.mega-segment-item,
+.mega-category-item {
+    color: #ffffff !important;
+}
+
+.mega-segment-item:hover,
+.mega-segment-item.active,
+.mega-category-item:hover,
+.mega-category-item.active {
+    background: rgba(201, 169, 110, 0.2) !important;
+    color: var(--gold) !important;
+}
+
+.mega-subcategory-item {
+    color: #e0e0e0 !important;
+}
+
+.mega-subcategory-item:hover {
+    color: var(--gold) !important;
+}
+
+.mega-empty {
+    color: #aaaaaa !important;
+    font-style: italic;
+}
+
+/* Global Alignment Fixes */
+body,
+html {
+    overflow-x: hidden !important;
+}
+
+.nav-menu .has-mega-menu {
+    position: static !important;
+}
+
+.mega-menu {
+    position: absolute !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 100% !important;
+    box-sizing: border-box !important;
+}
+/* THEME-SENSITIVE SECTION HEADINGS */
+.marquee-categories .section-title,
+.why-choose .section-title,
+.story-luxury .section-title,
+.dynamic-section .section-title,
+.testimonials .section-title {
+    color: #000000 !important;
+}
+
+.cta-luxury .section-title,
+.instagram-luxury .section-title,
+.wholesale-section .section-title {
+    color: #ffffff !important;
+}
+
+/* DYNAMIC SECTIONS - ALTERNATING BACKGROUNDS */
+.dynamic-section:nth-of-type(odd) {
+    background: var(--beige-bg) !important;
+}
+
+.dynamic-section:nth-of-type(even) {
+    background: var(--black) !important;
+}
+
+/* Heading & Text overrides for alternating dynamic sections */
+.dynamic-section:nth-of-type(odd) .section-title,
+.dynamic-section:nth-of-type(odd) .dynamic-product-name {
+    color: #000000 !important;
+}
+
+.dynamic-section:nth-of-type(even) .section-title,
+.dynamic-section:nth-of-type(even) .dynamic-product-name {
+    color: #ffffff !important;
+}
+
+/* Card Background and Text Color overrides for alternating dynamic sections */
+.dynamic-section:nth-of-type(odd) .dynamic-product-info {
+    background: #ffffff !important;
+}
+
+.dynamic-section:nth-of-type(even) .dynamic-product-info {
+    background: #15120f !important;
+}
+
+/* -- LUXURY CONTACT SECTION OVERRIDE -- */
+.contact .container {
+    max-width: 1400px !important;
+}
+
+.contact-form {
+    background: rgba(20, 18, 16, 0.5) !important;
+    border: 1px solid rgba(201, 169, 110, 0.15) !important;
+    padding: 60px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    padding: 18px 24px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--gold) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.contact-form .btn-primary {
+    background: var(--gold) !important;
+    color: #000 !important;
+    padding: 20px !important;
+    font-weight: 700 !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    border-radius: 8px !important;
+    margin-top: 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+.contact-form .btn-primary:hover {
+    background: var(--gold-light) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+
+.contact {
+    position: relative;
+    overflow: hidden;
+    padding: 120px 0 !important;
+}
+
+.contact::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(201, 169, 110, 0.05) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.contact .container {
+    position: relative;
+    z-index: 2;
+}
+
+.contact-wrapper {
+    display: grid !important;
+    grid-template-columns: 1fr 1.2fr !important;
+    gap: 80px !important;
+    align-items: center !important;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 30px !important;
+    border-radius: 12px !important;
+    margin-bottom: 25px !important;
+    transition: all 0.3s ease !important;
+}
+
+.info-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(201, 169, 110, 0.3) !important;
+    transform: translateX(10px);
+}
+
+.info-icon {
+    font-size: 24px !important;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.info-content h3 {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 24px !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    margin-bottom: 8px !important;
+}
+
+.info-content p {
+    font-size: 16px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    line-height: 1.6 !important;
+}
+
+
+/* ============================================================
+   UNIVERSAL MOBILE RESPONSIVITY � FOR ALL PAGES
+   ============================================================ */
+@media (max-width: 1024px) {
+    .container { padding: 0 20px; }
+    .section-title { font-size: 42px !important; }
+    .hero-luxury-content h1 { font-size: 3.5rem !important; }
+    .mega-menu { display: none !important; } /* Hide complex mega menu on tablets/mobile */
+}
+
+@media (max-width: 968px) {
+    /* Header & Navigation Fix */
+    .hamburger { display: flex !important; align-items: center; justify-content: center; z-index: 1001; }
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        height: 100vh;
+        background: #000;
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+        gap: 30px !important;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { font-size: 20px !important; }
+    .header-actions { margin-right: 40px; }
+    .logo-img { height: 50px !important; }
+    
+    /* Sections */
+    section { padding: 40px 0 !important; }
+    .trust-bar-container { flex-direction: column; gap: 20px !important; }
+    .category-luxury-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .collection-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .dynamic-products-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    
+    /* Story Section */
+    .story-luxury-container, .story-img-side, .story-content-side { flex-direction: column !important; text-align: center !important; }
+    .story-content-side h2 { text-align: center !important; font-size: 2.5rem !important; }
+    .story-img-side img { margin-bottom: 40px; box-shadow: 10px 10px 0 var(--gold) !important; }
+    
+    /* Product Detail */
+    .product-main { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .product-gallery { position: relative !important; top: 0 !important; }
+    .main-content { grid-template-columns: 1fr !important; }
+    .filters-sidebar { display: none; }
+    .mobile-filter-toggle { display: block !important; }
+}
+
+@media (max-width: 768px) {
+    .section-title { font-size: 32px !important; }
+    .hero-luxury-content h1 { font-size: 2.8rem !important; }
+    .hero-luxury-content p { font-size: 1rem !important; }
+    .hero-luxury-btns { flex-direction: column; gap: 15px; width: 100%; }
+    .hero-luxury-btns .btn-primary, .hero-luxury-btns .btn-secondary { width: 100%; }
+    
+    .trust-item-mini { font-size: 14px !important; gap: 10px !important; }
+    .trust-item-mini i { font-size: 24px !important; }
+    
+    .footer-main-expanded { grid-template-columns: 1fr !important; gap: 30px !important; }
+    .footer-newsletter-col { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
+    
+    .instagram-item { flex: 0 0 50% !important; }
+    .testimonials-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 480px) {
+    .category-luxury-grid { grid-template-columns: 1fr !important; }
+    .collection-grid { grid-template-columns: 1fr !important; }
+    .dynamic-products-grid { grid-template-columns: 1fr !important; }
+    .features-grid { grid-template-columns: 1fr !important; }
+    .instagram-item { flex: 0 0 100% !important; }
+    .hero-badge { font-size: 10px !important; padding: 8px 16px !important; }
+    .hero-luxury-content h1 { font-size: 2.2rem !important; }
+}
+
+/* Hamburger Animation */
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+/* Fix for overlapping header actions */
+@media (max-width: 968px) {
+    .header-actions { display: none !important; }
+    .nav-container { justify-content: space-between !important; }
+    .cta-btn-header { display: none !important; }
+    .logo-container { flex: 1; }
+}
+
+/* Universal Hamburger States */
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); background: var(--gold) !important; }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); background: var(--gold) !important; }
+
+/* Z-index safety */
+.header { z-index: 9999 !important; }
+.nav-menu { z-index: 9998 !important; }
+
+/* Fix for Category Grid overlap */
+@media (max-width: 968px) {
+    .category-luxury-grid, .wholesale-grid, .products-grid, .categories-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+    .section-title { font-size: 32px !important; margin-bottom: 30px !important; }
+    .title-underline { margin-bottom: 20px !important; }
+}
+
+/* Product Detail Responsive */
+@media (max-width: 768px) {
+    .feature-icons { grid-template-columns: 1fr !important; }
+    .product-info h1 { font-size: 24px !important; }
+    .cta-buttons { flex-direction: column; }
+    .product-details { padding: 20px !important; }
+    .thumbnail-gallery { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+/* ============================================================
+   CONTACT SECTION MOBILE OPTIMIZATION
+   ============================================================ */
+@media (max-width: 968px) {
+    .contact-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+    
+    .contact-info {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .contact-info .info-card {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(201, 169, 110, 0.2) !important;
+        border-radius: 15px !important;
+        padding: 30px 20px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .info-icon {
+        margin: 0 0 15px 0 !important;
+        font-size: 28px !important;
+    }
+    
+    .contact-form {
+        width: 100% !important;
+        padding: 30px 20px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    .form-group {
+        margin-bottom: 20px !important;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 16px !important;
+        font-size: 16px !important;
+        letter-spacing: 0 !important;
+        writing-mode: horizontal-tb !important; /* Ensure no vertical text */
+    }
+    
+    .contact-form .btn-primary {
+        width: 100% !important;
+        letter-spacing: 2px !important;
+        padding: 18px !important;
+        display: block !important;
+        margin-top: 10px !important;
+    }
+}
+
+/* ============================================================
+   WHATSAPP FLOATING ICON FIX
+   ============================================================ */
+.whatsapp-float {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background-color: #25d366 !important;
+    color: #FFF !important;
+    border-radius: 50px !important;
+    text-align: center !important;
+    font-size: 30px !important;
+    box-shadow: 2px 5px 15px rgba(0,0,0,0.3) !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e !important;
+    transform: scale(1.1) translateY(-5px) !important;
+    color: #fff !important;
+}
+
+@media (max-width: 768px) {
+    .whatsapp-float {
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 55px !important;
+        height: 55px !important;
+        font-size: 26px !important;
+    }
+}
