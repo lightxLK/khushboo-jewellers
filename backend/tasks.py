@@ -20,6 +20,12 @@ def get_drive_file_id(drive_link):
 
 _drive_folder_cache = {}
 
+# Guardrails on Google Drive folder pulls: admin-supplied links are a trusted-ish
+# boundary, but an oversized/huge-file-count folder can still fill disk or hang
+# the import worker. Cap what a single import will pull down.
+MAX_DRIVE_FILES = 1000
+MAX_DRIVE_TOTAL_BYTES = 1024 * 1024 * 1024  # 1 GB
+
 def process_and_store_image(file_bytes, image_code, save_folder, upload_folder):
     img = Image.open(io.BytesIO(file_bytes))
     if img.mode in ('RGBA', 'LA', 'P'):
