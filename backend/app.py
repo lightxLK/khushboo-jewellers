@@ -3,16 +3,54 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import json
+import logging
 from dotenv import load_dotenv
+from flask_wtf.csrf import CSRFProtect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # Load environment variables
 load_dotenv()
+
+FLASK_ENV = os.getenv('FLASK_ENV', 'production')
+IS_PRODUCTION = FLASK_ENV == 'production'
 
 # Initialize Flask app
 app = Flask(__name__, template_folder='templates')
 
 # Configuration
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    if IS_PRODUCTION:
+        raise RuntimeError(
+            "SECRET_KEY environment variable is not set. "
+            "Set it in backend/.env before starting the app."
+        )
+    # Only allow an ephemeral dev key outside production, never a fixed default.
+    import secrets as _secrets
+    SECRET_KEY = _secrets.token_hex(32)
+    logging.warning("SECRET_KEY not set; using a random ephemeral key for this dev run only.")
+app.config['SECRET_KEY'] = SECRET_KEY
+
+# Session cookie hardening
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION
+
+# ==================== LOGGING ====================
+logging.basicConfig(
+    level=logging.INFO if IS_PRODUCTION else logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+)
+logger = logging.getLogger('khushboo')
+
+# CSRF protection for all session-authenticated forms/POSTs.
+# Server-to-server API endpoints (e.g. /api/sheet-sync) are exempted individually in routes.py.
+csrf = CSRFProtect(app)
+
+# Login rate limiting. In-memory storage is fine for a single gunicorn worker;
+# a multi-worker deployment would need a shared backend (e.g. Redis) instead.
+limiter = Limiter(get_remote_address, app=app, storage_uri="memory://")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'database', 'jewellery.db')
@@ -70,7 +108,12 @@ def catch_all_static(filename):
     """Serve static files (HTML, CSS, JS, images) if not handled by routes"""
     # Get the templates directory (where your HTML files are)
     templates_dir = os.path.join(basedir, 'templates')
-    
+
+    # Never serve raw admin templates (unrendered Jinja source) unauthenticated.
+    # Admin pages must always go through their proper @login_required routes.
+    if filename.startswith('admin/') or filename.startswith('admin\\'):
+        return "The requested file or page was not found.", 404
+
     if filename.endswith('.html'):
         return send_from_directory(templates_dir, filename)
     elif filename.startswith('css/'):
@@ -89,12 +132,8 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     
-    print("=" * 50)
-    print("Server started successfully!")
-    print("=" * 50)
-    print("Frontend: http://localhost:5000")
-    print("Admin Panel: http://localhost:5000/admin/login")
-    print("Dashboard: http://localhost:5000/admin/dashboard")
-    print("=" * 50)
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    logger.info("Server started successfully! Frontend: http://127.0.0.1:5000  Admin: http://127.0.0.1:5000/admin/login")
+
+    # Debug mode and public bind must never be on in production.
+    # host stays on localhost; nginx/reverse proxy handles the public interface.
+    app.run(debug=not IS_PRODUCTION, host='127.0.0.1', port=int(os.getenv('PORT', 5000)))
