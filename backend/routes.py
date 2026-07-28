@@ -6,7 +6,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
 from PIL import Image
-import os, json, io, re, requests
+import os, json, io, re, requests, hmac
+from app import limiter, logger, csrf
+
+# Guard against decompression-bomb DoS on uploaded images (~40MP cap).
+Image.MAX_IMAGE_PIXELS = 40_000_000
 
 # ==================== validate_and_process_image() ====================
 
@@ -104,6 +108,8 @@ def validate_and_process_image(file, max_size_mb=1):
         final_size_kb = output_size / 1024
         return True, f"Image converted to WebP, resized to 1080x1080, compressed to {final_size_kb:.1f}KB", processed_file
 
+    except Image.DecompressionBombError:
+        return False, "Image is too large to process (exceeds pixel limit).", None
     except Exception as e:
         return False, f"Error processing image: {str(e)}", None
 
@@ -247,7 +253,7 @@ def delete_image_file(image_path):
             if os.path.exists(full_path):
                 os.remove(full_path)
     except Exception as e:
-        print(f"Error deleting file: {e}")
+        logger.warning(f"Error deleting file: {e}")
 
 # ==================== PUBLIC APIs ====================
 
@@ -257,7 +263,8 @@ def api_segments():
         segments = Segment.query.filter_by(is_active=True).order_by(Segment.display_order).all()
         return jsonify([s.to_dict() for s in segments])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_segments failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/categories')
 def api_all_categories():
@@ -266,7 +273,8 @@ def api_all_categories():
         categories = Category.query.filter_by(is_active=True).order_by(Category.name).all()
         return jsonify([c.to_dict() for c in categories])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_all_categories failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/categories/<int:segment_id>')
 def api_categories(segment_id):
@@ -274,7 +282,8 @@ def api_categories(segment_id):
         categories = Category.query.filter_by(segment_id=segment_id, is_active=True).all()
         return jsonify([c.to_dict() for c in categories])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("categories-by-segment API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/menu-data')
 def api_menu_data():
@@ -290,7 +299,8 @@ def api_menu_data():
             })
         return jsonify(result)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_menu_data failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/subcategories/<int:category_id>')
 def api_subcategories(category_id):
@@ -298,7 +308,8 @@ def api_subcategories(category_id):
         subcategories = Subcategory.query.filter_by(category_id=category_id, is_active=True).all()
         return jsonify([s.to_dict() for s in subcategories])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("subcategories-by-category API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/products/<int:subcategory_id>')
 def api_products(subcategory_id):
@@ -306,7 +317,8 @@ def api_products(subcategory_id):
         products = Product.query.filter_by(subcategory_id=subcategory_id, is_active=True).all()
         return jsonify([p.to_dict() for p in products])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("products-by-subcategory API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/direct-products/<int:category_id>')
 def api_direct_products(category_id):
@@ -314,7 +326,8 @@ def api_direct_products(category_id):
         products = Product.query.filter_by(category_id=category_id, is_active=True).all()
         return jsonify([p.to_dict() for p in products])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_direct_products failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/product/<int:product_id>')
 def api_single_product(product_id):
@@ -332,7 +345,8 @@ def api_single_product(product_id):
 
         return jsonify(product_dict)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_single_product failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/dynamic-sections')
 def api_dynamic_sections():
@@ -340,7 +354,8 @@ def api_dynamic_sections():
         sections = DynamicSection.query.filter_by(is_visible=True).order_by(DynamicSection.display_order).all()
         return jsonify([s.to_dict() for s in sections])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_dynamic_sections failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/admin/get-resources')
 @admin_required
@@ -413,7 +428,8 @@ def api_dynamic_section_items(section_id):
             'items': items
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("api_dynamic_section_items failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 # ==================== FRONTEND ROUTES ====================
 
@@ -429,7 +445,8 @@ def categories_page(segment_id):
             categories=categories
         )
     except Exception as e:
-        return f"Error loading categories: {str(e)}", 404
+        logger.exception("Failed loading categories page")
+        return "Something went wrong. Please try again later.", 404
 
 @app.route('/subcategories/<int:category_id>')
 def subcategories_page(category_id):
@@ -464,7 +481,8 @@ def subcategories_page(category_id):
             direct_products=direct_products
         )
     except Exception as e:
-        return f"Error loading subcategories: {str(e)}", 404
+        logger.exception("Failed loading subcategories page")
+        return "Something went wrong. Please try again later.", 404
 
 @app.route('/product/<segment_name>/<category_name>/<subcategory_name>/<product_name>/<int:product_id>')
 def product_detail(segment_name, category_name, subcategory_name, product_name, product_id):
@@ -499,7 +517,8 @@ def product_detail(segment_name, category_name, subcategory_name, product_name, 
             other_segments=other_segments
         )
     except Exception as e:
-        return f"Error loading product: {str(e)}", 404
+        logger.exception("Failed loading product detail page")
+        return "Something went wrong. Please try again later.", 404
 
     # ==================== MISSING ROUTE - ADD THIS ====================
 
@@ -551,7 +570,8 @@ def product_listing_by_slug(segment_name, category_name, subcategory_name):
             products=pagination.items,
             pagination=pagination)
     except Exception as e:
-        return f"Error: {str(e)}", 404
+        logger.exception("Failed loading product listing by slug")
+        return "Something went wrong. Please try again later.", 404
 
 @app.route('/product-listing/all/all/all')
 def product_listing_all():
@@ -574,7 +594,8 @@ def product_listing_all():
             page_title="All Products"
         )
     except Exception as e:
-        return f"Error loading products: {str(e)}", 500
+        logger.exception("Failed loading all-products listing")
+        return "Something went wrong. Please try again later.", 500
 
 @app.route('/search')
 def search():
@@ -609,7 +630,8 @@ def search():
             total_results=len(products) + len(categories)
         )
     except Exception as e:
-        return f"Error searching: {str(e)}", 500
+        logger.exception("Search failed")
+        return "Something went wrong. Please try again later.", 500
 
 @app.route('/best-selling')
 def best_selling_products():
@@ -627,23 +649,27 @@ def best_selling_products():
             pagination=pagination
         )
     except Exception as e:
-        return f"Error loading best selling products: {str(e)}", 500
+        logger.exception("Failed loading best-selling products")
+        return "Something went wrong. Please try again later.", 500
 
 # ==================== ADMIN AUTH ====================
 
 @app.route('/admin/login', methods=['GET', 'POST'])
+@limiter.limit("5 per minute", methods=["POST"])
 def admin_login():
     """Admin login - checks .env first, then database"""
     if request.method == 'POST':
-        username = request.form.get('email')  # Can be email or username
-        password = request.form.get('password')
+        username = request.form.get('email') or ''  # Can be email or username
+        password = request.form.get('password') or ''
 
         # ✅ STEP 1: Check .env credentials FIRST
         env_username = os.getenv('ADMIN_USERNAME')
         env_password = os.getenv('ADMIN_PASSWORD')
 
         if env_username and env_password:
-            if username == env_username and password == env_password:
+            username_ok = hmac.compare_digest(username.encode(), env_username.encode())
+            password_ok = hmac.compare_digest(password.encode(), env_password.encode())
+            if username_ok and password_ok:
                 # Create temporary session for .env admin
                 session['admin_user_id'] = 'env_admin'
                 session['is_env_admin'] = True
@@ -866,16 +892,16 @@ def admin_add_segment():
                 segments = Segment.query.order_by(Segment.created_at.desc()).all()
                 return render_template('admin/add-segment.html', segments=segments)
             
-            print(f"📝 Attempting to add segment: {name}")  # DEBUG
-            
+            logger.debug(f"Attempting to add segment: {name}")
+
             image_path = save_single_image(image, 'segments')
-            
+
             if not image_path:
                 flash('❌ Failed to save image!', 'error')
                 segments = Segment.query.order_by(Segment.created_at.desc()).all()
                 return render_template('admin/add-segment.html', segments=segments)
-            
-            print(f"✅ Image saved: {image_path}")  # DEBUG
+
+            logger.info(f"Image saved: {image_path}")
 
             segment = Segment(
                 name=name,
@@ -884,19 +910,17 @@ def admin_add_segment():
             )
             db.session.add(segment)
             db.session.commit()
-            
-            print(f"✅ Segment saved to DB: ID={segment.id}")  # DEBUG
+
+            logger.info(f"Segment saved to DB: ID={segment.id}")
 
             flash(f'Segment "{name}" added successfully!', 'success')
             segments = Segment.query.order_by(Segment.created_at.desc()).all()
             return render_template('admin/add-segment.html', segments=segments)
-            
+
         except Exception as e:
             db.session.rollback()
-            print(f"❌ ERROR: {str(e)}")  # DEBUG
-            import traceback
-            traceback.print_exc()  # FULL ERROR
-            
+            logger.exception("Failed to add segment")
+
             flash(f'Error: {str(e)}', 'error')
             segments = Segment.query.order_by(Segment.created_at.desc()).all()
             return render_template('admin/add-segment.html', segments=segments)
@@ -932,7 +956,7 @@ def admin_edit_segment(id):
 
     return render_template('admin/edit-segment.html', segment=segment)
 
-@app.route('/admin/delete-segment/<int:id>')
+@app.route('/admin/delete-segment/<int:id>', methods=['POST'])
 @admin_required
 def admin_delete_segment(id):
     try:
@@ -949,7 +973,7 @@ def admin_delete_segment(id):
 
     return redirect(url_for('admin_add_segment'))
 
-@app.route('/admin/toggle-segment/<int:id>')
+@app.route('/admin/toggle-segment/<int:id>', methods=['POST'])
 @admin_required
 def admin_toggle_segment(id):
     try:
@@ -1083,7 +1107,7 @@ def admin_edit_category(id):
 
     return render_template('admin/edit-category.html', category=category, segments=segments)
 
-@app.route('/admin/delete-category/<int:id>')
+@app.route('/admin/delete-category/<int:id>', methods=['POST'])
 @admin_required
 def admin_delete_category(id):
     try:
@@ -1103,7 +1127,7 @@ def admin_delete_category(id):
 
     return redirect(url_for('admin_add_category'))
 
-@app.route('/admin/toggle-category/<int:id>')
+@app.route('/admin/toggle-category/<int:id>', methods=['POST'])
 @admin_required
 def admin_toggle_category(id):
     try:
@@ -1234,7 +1258,7 @@ def admin_edit_subcategory(id):
 
     return render_template('admin/edit-subcategory.html', subcategory=subcategory, categories=categories)
 
-@app.route('/admin/delete-subcategory/<int:id>')
+@app.route('/admin/delete-subcategory/<int:id>', methods=['POST'])
 @manager_allowed
 def admin_delete_subcategory(id):
     try:
@@ -1254,7 +1278,7 @@ def admin_delete_subcategory(id):
 
     return redirect(url_for('admin_add_subcategory'))
 
-@app.route('/admin/toggle-subcategory/<int:id>')
+@app.route('/admin/toggle-subcategory/<int:id>', methods=['POST'])
 @manager_allowed
 def admin_toggle_subcategory(id):
     try:
@@ -1297,20 +1321,19 @@ def admin_add_product():
                     products = Product.query.order_by(Product.created_at.desc()).all()
                     return render_template('admin/add-product.html', subcategories=subcategories, categories=categories, products=products)
             
-            print(f"📝 Attempting to add product: {name}")  # DEBUG
-            print(f"   Parent type: {parent_type}")  # DEBUG
+            logger.debug(f"Attempting to add product: {name} (parent type: {parent_type})")
 
             primary_image = save_single_image(request.files.get('primary_image'), 'products/primary')
-            
+
             if not primary_image:
-                print(f"❌ Failed to save primary image!")
+                logger.warning("Failed to save primary image for new product")
                 flash('❌ Failed to save primary image!', 'error')
                 subcategories = Subcategory.query.all()
                 categories = Category.query.all()
                 products = Product.query.order_by(Product.created_at.desc()).all()
                 return render_template('admin/add-product.html', subcategories=subcategories, categories=categories, products=products)
-            
-            print(f"✅ Primary image saved: {primary_image}")
+
+            logger.info(f"Primary image saved: {primary_image}")
             
             gallery_images = save_gallery_images(
                 request.files, 'products/gallery',
@@ -1349,7 +1372,7 @@ def admin_add_product():
             db.session.add(product)
             db.session.commit()
             
-            print(f"✅ Product saved to DB: ID={product.id}")
+            logger.info(f"Product saved to DB: ID={product.id}")
 
             flash(f'Product "{name}" added successfully!', 'success')
             
@@ -1361,16 +1384,14 @@ def admin_add_product():
             
         except Exception as e:
             db.session.rollback()
-            print(f"❌ ERROR: {str(e)}")
-            import traceback
-            traceback.print_exc()
-            
+            logger.exception("Failed to add product")
+
             flash(f'Error: {str(e)}', 'error')
-            
+
             subcategories = Subcategory.query.all()
             categories = Category.query.all()
             products = Product.query.order_by(Product.created_at.desc()).all()
-            
+
             return render_template('admin/add-product.html', subcategories=subcategories, categories=categories, products=products)
 
     products = Product.query.order_by(Product.created_at.desc()).all()
@@ -1433,7 +1454,7 @@ def admin_edit_product(id):
 
     return render_template('admin/edit-product.html', product=product, subcategories=subcategories, categories=categories)
 
-@app.route('/admin/delete-product/<int:id>')
+@app.route('/admin/delete-product/<int:id>', methods=['POST'])
 @manager_allowed
 def admin_delete_product(id):
     try:
@@ -1453,7 +1474,7 @@ def admin_delete_product(id):
 
     return redirect(url_for('admin_add_product'))
 
-@app.route('/admin/toggle-product/<int:id>')
+@app.route('/admin/toggle-product/<int:id>', methods=['POST'])
 @manager_allowed
 def admin_toggle_product(id):
     try:
@@ -1566,7 +1587,7 @@ def admin_edit_dynamic_section(id):
 
     return render_template('admin/edit-dynamic-section.html', section=section)
 
-@app.route('/admin/toggle-section/<int:id>')
+@app.route('/admin/toggle-section/<int:id>', methods=['POST'])
 @admin_required
 def admin_toggle_section(id):
     try:
@@ -1581,7 +1602,7 @@ def admin_toggle_section(id):
 
     return redirect(url_for('admin_dynamic_section'))
 
-@app.route('/admin/delete-dynamic-section/<int:id>')
+@app.route('/admin/delete-dynamic-section/<int:id>', methods=['POST'])
 @admin_required
 def admin_delete_dynamic_section(id):
     try:
@@ -1852,7 +1873,8 @@ def get_categories_by_segment(segment_id):
         categories = Category.query.filter_by(segment_id=segment_id, is_active=True).all()
         return jsonify([c.to_dict() for c in categories])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("categories-by-segment API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/get-subcategories-by-category/<int:category_id>')
 def get_subcategories_by_category(category_id):
@@ -1860,7 +1882,8 @@ def get_subcategories_by_category(category_id):
         subcategories = Subcategory.query.filter_by(category_id=category_id, is_active=True).all()
         return jsonify([s.to_dict() for s in subcategories])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("subcategories-by-category API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 @app.route('/api/get-products-by-subcategory/<int:subcategory_id>')
 def get_products_by_subcategory(subcategory_id):
@@ -1868,7 +1891,8 @@ def get_products_by_subcategory(subcategory_id):
         products = Product.query.filter_by(subcategory_id=subcategory_id, is_active=True).all()
         return jsonify([p.to_dict() for p in products])
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        logger.exception("products-by-subcategory API failed")
+        return jsonify({'error': 'Something went wrong. Please try again later.'}), 500
 
 
 
@@ -1923,7 +1947,8 @@ def product_listing_direct(segment_name, category_name):
             pagination=pagination
         )
     except Exception as e:
-        return f"Error loading products: {str(e)}", 404
+        logger.exception("Failed loading direct-category products")
+        return "Something went wrong. Please try again later.", 404
 
 @app.route('/product/<segment_name>/<category_name>/direct/<product_name>/<int:product_id>')
 def product_detail_direct(segment_name, category_name, product_name, product_id):
@@ -1957,7 +1982,8 @@ def product_detail_direct(segment_name, category_name, product_name, product_id)
             other_segments=other_segments
         )
     except Exception as e:
-        return f"Error loading product: {str(e)}", 404
+        logger.exception("Failed loading direct product detail")
+        return "Something went wrong. Please try again later.", 404
 
 @app.route('/categories/<path:subpath>/images/<filename>')
 def serve_images_from_categories(subpath, filename):
@@ -1978,6 +2004,7 @@ def serve_images_from_product(subpath, filename):
 # ==================== CONTACT FORM API ====================
 
 @app.route('/api/contact', methods=['POST'])
+@csrf.exempt  # public anonymous inquiry form, not a privileged/session action
 def api_contact():
     """Save contact form submission"""
     try:
@@ -1998,7 +2025,8 @@ def api_contact():
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({'success': False, 'error': str(e)}), 500
+        logger.exception("api_contact failed")
+        return jsonify({'success': False, 'error': 'Something went wrong. Please try again later.'}), 500
 
 # ==================== ADMIN CONTACT INQUIRIES ====================
 
@@ -2024,7 +2052,7 @@ def admin_mark_inquiry_read(id):
 
     return redirect(url_for('admin_contact_inquiries'))
 
-@app.route('/admin/contact-inquiries/delete/<int:id>')
+@app.route('/admin/contact-inquiries/delete/<int:id>', methods=['POST'])
 @login_required
 def admin_delete_inquiry(id):
     """Delete contact inquiry"""
@@ -2114,12 +2142,18 @@ def admin_import_excel():
 # ==================== GOOGLE SHEET SYNC ====================
 
 @app.route('/api/sheet-sync', methods=['POST'])
+@csrf.exempt  # server-to-server call from Google Apps Script, authenticated via shared secret, not a browser session
 def api_sheet_sync():
     """Auto-sync from Google Sheets App Script"""
     try:
-        # Simple secret key check
-        secret = request.headers.get('X-Sync-Secret')
-        if secret != 'kjsync2025':
+        # Shared-secret check (constant-time compare)
+        expected_secret = os.getenv('SHEET_SYNC_SECRET')
+        if not expected_secret:
+            logger.error("SHEET_SYNC_SECRET is not configured; refusing sheet-sync request")
+            return jsonify({'error': 'Sync is not configured'}), 503
+
+        secret = request.headers.get('X-Sync-Secret') or ''
+        if not hmac.compare_digest(secret.encode(), expected_secret.encode()):
             return jsonify({'error': 'Unauthorized'}), 401
 
         data = request.get_json()

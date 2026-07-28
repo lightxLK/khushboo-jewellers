@@ -3,6 +3,7 @@ import uuid
 from PIL import Image
 import os, io, json, re
 from datetime import datetime
+from app import logger
 
 import_tasks_store = {}
 def get_drive_file_id(drive_link):
@@ -79,7 +80,7 @@ def download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
 
         return f"/uploads/{save_folder}/{save_filename}"
     except Exception as e:
-        print(f"Drive download error: {e}")
+        logger.exception(f"Drive download error: {e}")
         return None
 
 def run_import_background(file_bytes, overwrite_images=False):

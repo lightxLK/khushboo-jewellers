@@ -196,6 +196,7 @@
 
     <!-- MAIN FORM CARD -->
     <form action="/admin/edit-subcategory/{{ subcategory.id }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="section-card">
             <div class="section-header-top">
                 <i data-lucide="edit-2" style="stroke-width: 2.5; color: var(--lux-gold);"></i>

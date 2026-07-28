@@ -254,6 +254,7 @@
                                     <div style="height: 1px; background: #F1F5F9; margin: 4px 0;"></div>
                                     <form action="/admin/contact-inquiries/delete/{{ inquiry.id }}" method="POST"
                                         onsubmit="return confirm('Securely archive this communication?');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                         <button type="submit" class="dropdown-item-lux"
                                             style="width: 100%; border: none; background: none; color: var(--lux-danger); text-align: left; cursor: pointer;">
                                             <i data-lucide="trash-2" style="width: 14px;"></i> Archive Record

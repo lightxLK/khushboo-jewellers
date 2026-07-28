@@ -273,6 +273,7 @@
             </h2>
 
             <form action="/admin/dynamic-section/add" method="POST" id="createSectionForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <!-- Mode Selector -->
                 <label class="lux-label" style="font-size: 12px; margin-bottom: 12px; display: block;">SECTION
                     MODE</label>
@@ -422,7 +423,8 @@
                         <div style="font-size: 10px; color: var(--lux-text-secondary); font-style: italic;">Loading previews...</div>
                     </div>
 
-                    <form action="/admin/dynamic-section/delete/{{ section.id }}" method="POST"
+                    <form action="/admin/dynamic-section/delete/{{ section.id }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"
                         style="margin-top: 15px;">
                         <button type="submit" onclick="return confirm('Remove section?');"
                             style="background:transparent; border:none; color: #EF4444; font-size: 11px; font-weight: 700; cursor:pointer; display:flex; align-items:center; gap:5px;">

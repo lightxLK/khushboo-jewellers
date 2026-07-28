@@ -223,6 +223,7 @@
         </div>
 
         <form action="/admin/add-subcategory" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <!-- Classification -->
             <div class="form-group-section">
                 <div class="form-group-header">
@@ -340,6 +341,7 @@
                                 </a>
                                 <form action="/admin/delete-subcategory/{{ sub.id }}" method="POST"
                                     style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <button type="submit"
                                         onclick="return confirm('Delete this sub-category? This will affect products linked to it.');"
                                         style="background: transparent; border: none; cursor: pointer; color: #EF4444; transition: transform 0.2s; display: inline-flex;">

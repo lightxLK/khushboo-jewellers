@@ -253,6 +253,7 @@
 
             <form method="POST" enctype="multipart/form-data" id="importForm"
                 onsubmit="return handleIngestionStart(this)">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 
                 <!-- TABS -->
                 <div class="sync-tabs">
