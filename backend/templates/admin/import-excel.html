@@ -291,6 +291,20 @@
                     </div>
                 </div>
 
+                <div style="background: #F8FAFC; border: 1px dashed var(--lux-border); border-radius: 12px; padding: 25px; margin-bottom: 25px;">
+                    <label for="imagesZipInput" style="font-size: 13px; font-weight: 800; color: var(--lux-navy); margin-bottom: 10px; display: block;">
+                        <i data-lucide="folder-archive" style="width:14px; margin-right:5px; color:var(--lux-gold)"></i> Product Images (ZIP, optional)
+                    </label>
+                    <input type="file" id="imagesZipInput" name="images_zip" accept=".zip" style="width: 100%; padding: 14px; border-radius: 8px; border: 1px solid var(--lux-border); font-size: 13px; background: white;">
+                    <p style="font-size: 11px; color: var(--lux-text-secondary); margin-top: 12px; line-height: 1.5;">
+                        Zip your local photo folders into one file and upload it here. Images are matched to
+                        spreadsheet rows by filename (e.g. <code>ABC123.jpg</code> matches image code
+                        <code>ABC123</code>) — same matching Google Sheets links use, no need to sort by
+                        product/category first. Leave empty to use Google Drive links from the spreadsheet
+                        instead.
+                    </p>
+                </div>
+
                 <div id="fileDetailBox"
                     style="display:none; padding:15px; background:#F8FAFC; border-radius:12px; margin-bottom:20px; border:1px solid var(--lux-border);">
                     <div style="display:flex; align-items:center; gap:12px;">
