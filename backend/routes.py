@@ -2097,7 +2097,8 @@ def admin_import_excel():
         try:
             from tasks import run_import_background
             import openpyxl
-            
+            import tempfile
+
             sheet_url = request.form.get('sheet_url')
             if sheet_url and sheet_url.strip():
                 import requests
@@ -2128,9 +2129,19 @@ def admin_import_excel():
                     flash('Please upload a valid .xlsx file or provide a Google Sheets URL', 'error')
                     return redirect(url_for('admin_import_excel'))
                 file_bytes = file.read()
-                
-            overwrite_images = request.form.get('overwrite_images') == 'yes'    
-            task_id = run_import_background(file_bytes, overwrite_images=overwrite_images)
+
+            zip_path = None
+            images_zip = request.files.get('images_zip')
+            if images_zip and images_zip.filename:
+                if not images_zip.filename.lower().endswith('.zip'):
+                    flash('Product images file must be a .zip archive.', 'error')
+                    return redirect(url_for('admin_import_excel'))
+                fd, zip_path = tempfile.mkstemp(suffix='.zip')
+                os.close(fd)
+                images_zip.save(zip_path)
+
+            overwrite_images = request.form.get('overwrite_images') == 'yes'
+            task_id = run_import_background(file_bytes, overwrite_images=overwrite_images, zip_path=zip_path)
             return render_template('admin/import-excel.html', task_id=task_id)
         except Exception as e:
             flash(f'Import failed: {str(e)}', 'error')
