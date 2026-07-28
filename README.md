@@ -93,6 +93,58 @@ Nginx (public-facing, TLS termination)
 
 Do not edit application code directly on the VPS — all changes go through GitHub.
 
+## Local ZIP Image Import
+
+For bulk-importing product/category/subcategory/segment data with local photo files instead of
+(or in addition to) Google Drive links, `/admin/import-excel` accepts an optional `.zip` of
+images alongside the `.xlsx` spreadsheet. Images inside the ZIP are matched to spreadsheet rows
+by filename (e.g. `ABC123.jpg` matches image code `ABC123`), the same matching Google Drive
+links use — no folder structure inside the ZIP required.
+
+**1. Raise the upload size limit — local `.env` only.**
+
+The default `MAX_CONTENT_LENGTH_BYTES` (100MB) is sized for normal admin use and must stay as-is
+in production. If your photo ZIP is larger than that, raise the limit in your **local**
+`backend/.env` only:
+
+```
+MAX_CONTENT_LENGTH_BYTES=1073741824   # e.g. 1GB, local machine only
+```
+
+Never set a raised value in the production `backend/.env` — the default is intentional there as
+a DoS guard on a public-facing admin upload endpoint.
+
+**2. Zip your photo folders.**
+
+Gather all product/category/subcategory/segment photos into one `.zip`, with each file named
+after its image code from the spreadsheet (subfolders inside the zip are fine — only the
+filename is used for matching).
+
+**3. Run the import locally, against a copy of the database.**
+
+```bash
+cd backend
+cp database/jewellery.db database/jewellery-import-test.db   # work on a copy, not the live file
+python app.py
+```
+
+Visit `http://127.0.0.1:5000/admin/import-excel`, upload the spreadsheet and the images ZIP
+together, and submit. The progress UI shows `Extracting image ZIP...` and
+`Indexed N images from ZIP` before the normal per-sheet import progress. Re-running the same
+import with "Overwrite existing images" unchecked will not re-process images for records that
+already have one — consistent with the existing Drive-link upsert behavior.
+
+**4. Copy the result to the VPS.**
+
+Once you're satisfied with the local import (`backend/database/jewellery.db` and
+`backend/uploads/` reflect the imported data), copy both to the VPS manually:
+
+1. On the VPS, back up what's currently there (`backend/database/jewellery.db`,
+   `backend/uploads/`) before overwriting anything.
+2. Copy your local `backend/database/jewellery.db` and `backend/uploads/` to the same paths on
+   the VPS (scp/rsync/sftp — not git; both are gitignored).
+3. Restart the gunicorn service so the app picks up the new database file.
+
 ## Security Notes
 
 - `backend/.env`, `backend/database/`, `backend/uploads/` are gitignored and must never be

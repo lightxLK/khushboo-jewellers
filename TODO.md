@@ -42,6 +42,14 @@ status going forward — update it as items are closed or new ones are found.
       untracked (`git rm --cached`), added to `.gitignore`. Files remain on disk locally.
 - [x] `backend/.env.example` added documenting every required env var.
 - [x] `README.md` added (setup, structure, deployment flow, security notes).
+- [x] Excel import (`tasks.py`) can now index product/category/subcategory/segment images from
+      a locally-uploaded `.zip` (matched to spreadsheet rows by filename), as an alternative to
+      Google Drive links — for bulk imports where photos live on disk rather than in a shared
+      Drive folder. ZIP handling is hardened (path traversal, encrypted entries, file
+      count/size caps) and covered by unit tests (`backend/tests/test_zip_import.py`,
+      `test_resolve_image.py`). `MAX_CONTENT_LENGTH_BYTES` is now env-configurable so the upload
+      limit can be raised locally for large photo ZIPs without touching the production default.
+      See `README.md`'s "Local ZIP Image Import" section for the workflow.
 
 ## Verified locally (2026-07-28)
 
@@ -78,8 +86,6 @@ status going forward — update it as items are closed or new ones are found.
       enforcement, CRUD happy-path per entity, Excel import validation.
 - [ ] Rotate `SECRET_KEY`, `ADMIN_PASSWORD`, and mint a fresh `SHEET_SYNC_SECRET` for the real
       production `.env` — none of the values used in this local test run should reach prod.
-- [ ] Excel import (`tasks.py`) Google Drive downloads have no size/count cap on the folder
-      being pulled — low-priority DoS surface, admin-only trust boundary.
 - [ ] Heavy duplication across add/edit/delete/toggle CRUD routes for
       Segment/Category/Subcategory/Product — refactor candidate, not urgent.
 - [ ] No structured/rotating log file yet — `logging.basicConfig` currently writes to stdout
