@@ -1,7 +1,7 @@
 import threading
 import uuid
 from PIL import Image
-import os, io, json, re
+import os, io, json, re, tempfile, shutil, zipfile
 from datetime import datetime
 from app import logger
 
@@ -20,9 +20,44 @@ def get_drive_file_id(drive_link):
 
 _drive_folder_cache = {}
 
+def process_and_store_image(file_bytes, image_code, save_folder, upload_folder):
+    img = Image.open(io.BytesIO(file_bytes))
+    if img.mode in ('RGBA', 'LA', 'P'):
+        background = Image.new('RGB', img.size, (255, 255, 255))
+        if img.mode == 'P':
+            img = img.convert('RGBA')
+        background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+        img = background
+
+    img_ratio = img.size[0] / img.size[1]
+    if img_ratio > 1.0:
+        new_height = 1080
+        new_width = int(new_height * img_ratio)
+    else:
+        new_width = 1080
+        new_height = int(new_width / img_ratio)
+    img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+    left = (new_width - 1080) // 2
+    top = (new_height - 1080) // 2
+    img = img.crop((left, top, left + 1080, top + 1080))
+
+    out = io.BytesIO()
+    img.save(out, format='WEBP', quality=85)
+    out.seek(0)
+
+    folder_path = os.path.join(upload_folder, save_folder)
+    os.makedirs(folder_path, exist_ok=True)
+    save_filename = f"{int(datetime.now().timestamp())}_{image_code}.webp"
+    save_path = os.path.join(folder_path, save_filename)
+    with open(save_path, 'wb') as f:
+        f.write(out.read())
+
+    return f"/uploads/{save_folder}/{save_filename}"
+
+
 def download_image_from_drive(folder_id, image_code, save_folder, upload_folder):
     try:
-        import gdown, tempfile, shutil
+        import gdown
         if folder_id not in _drive_folder_cache:
             output_dir = os.path.join(tempfile.gettempdir(), f'kj_drive_{folder_id}')
             if os.path.exists(output_dir):
@@ -32,12 +67,27 @@ def download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
                 url=f"https://drive.google.com/drive/folders/{folder_id}",
                 output=output_dir, quiet=False, use_cookies=False
             )
-            file_index = {}
+
+            file_count = 0
+            total_bytes = 0
             for root, dirs, files in os.walk(output_dir):
                 for fname in files:
-                    base = fname.rsplit('.', 1)[0].upper()
-                    file_index[base] = os.path.join(root, fname)
-            _drive_folder_cache[folder_id] = file_index
+                    file_count += 1
+                    total_bytes += os.path.getsize(os.path.join(root, fname))
+            if file_count > MAX_DRIVE_FILES or total_bytes > MAX_DRIVE_TOTAL_BYTES:
+                shutil.rmtree(output_dir, ignore_errors=True)
+                logger.warning(
+                    f"Drive folder {folder_id} exceeded import limits "
+                    f"({file_count} files, {total_bytes} bytes) - skipped"
+                )
+                _drive_folder_cache[folder_id] = {}
+            else:
+                file_index = {}
+                for root, dirs, files in os.walk(output_dir):
+                    for fname in files:
+                        base = fname.rsplit('.', 1)[0].upper()
+                        file_index[base] = os.path.join(root, fname)
+                _drive_folder_cache[folder_id] = file_index
 
         file_index = _drive_folder_cache[folder_id]
         found_file = file_index.get(image_code.upper())
@@ -47,38 +97,7 @@ def download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
         with open(found_file, 'rb') as f:
             file_bytes = f.read()
 
-        img = Image.open(io.BytesIO(file_bytes))
-        if img.mode in ('RGBA', 'LA', 'P'):
-            background = Image.new('RGB', img.size, (255, 255, 255))
-            if img.mode == 'P':
-                img = img.convert('RGBA')
-            background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
-            img = background
-
-        img_ratio = img.size[0] / img.size[1]
-        if img_ratio > 1.0:
-            new_height = 1080
-            new_width = int(new_height * img_ratio)
-        else:
-            new_width = 1080
-            new_height = int(new_width / img_ratio)
-        img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-        left = (new_width - 1080) // 2
-        top = (new_height - 1080) // 2
-        img = img.crop((left, top, left + 1080, top + 1080))
-
-        out = io.BytesIO()
-        img.save(out, format='WEBP', quality=85)
-        out.seek(0)
-
-        folder_path = os.path.join(upload_folder, save_folder)
-        os.makedirs(folder_path, exist_ok=True)
-        save_filename = f"{int(datetime.now().timestamp())}_{image_code}.webp"
-        save_path = os.path.join(folder_path, save_filename)
-        with open(save_path, 'wb') as f:
-            f.write(out.read())
-
-        return f"/uploads/{save_folder}/{save_filename}"
+        return process_and_store_image(file_bytes, image_code, save_folder, upload_folder)
     except Exception as e:
         logger.exception(f"Drive download error: {e}")
         return None
