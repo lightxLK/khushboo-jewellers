@@ -58,7 +58,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'uploads')
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB max file size
+# 100MB default is correct for production (public-facing endpoints never need
+# more). The local bulk-image-import workflow raises this via
+# MAX_CONTENT_LENGTH_BYTES in a *local* .env only — never set this above the
+# default in the production .env.
+app.config['MAX_CONTENT_LENGTH'] = int(os.getenv('MAX_CONTENT_LENGTH_BYTES', 100 * 1024 * 1024))
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
