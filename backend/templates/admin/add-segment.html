@@ -223,6 +223,7 @@
         </div>
 
         <form action="/admin/add-segment" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <!-- Part 1: Basic Information -->
             <div class="form-group-section">
                 <div class="form-group-header">
@@ -345,6 +346,7 @@
                                 </a>
                                 <form action="/admin/delete-segment/{{ segment.id }}" method="POST"
                                     style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <button type="submit"
                                         onclick="return confirm('Delete this global segment? All nested categories and products will be affected.');"
                                         style="background: transparent; border: none; cursor: pointer; color: #EF4444; transition: transform 0.2s; display: inline-flex;">

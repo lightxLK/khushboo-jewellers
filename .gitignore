@@ -39,3 +39,9 @@ backend/database/
 backend/uploads/
 backend/instance/
 backend/your_database.db
+backend/temp_drive_downloads/
+
+# Business data (spreadsheets, not source code)
+backend/*.xlsx
+*.xlsx
+trad_search.csv

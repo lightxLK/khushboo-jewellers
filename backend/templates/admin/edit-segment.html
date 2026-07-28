@@ -142,6 +142,7 @@
     <div class="edit-grid">
         <!-- FORM COLUMN -->
         <form action="/admin/edit-segment/{{ segment.id }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="section-card">
                 <div class="section-header-top">
                     <i data-lucide="edit-3" style="stroke-width: 2.5;"></i>

@@ -195,6 +195,7 @@
 
     <!-- MAIN FORM -->
     <form action="/admin/edit-product/{{ product.id }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-container-grid">
             <!-- Left Panel -->
             <div>
