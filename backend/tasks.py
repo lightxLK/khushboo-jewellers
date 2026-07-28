@@ -26,6 +26,121 @@ _drive_folder_cache = {}
 MAX_DRIVE_FILES = 1000
 MAX_DRIVE_TOTAL_BYTES = 1024 * 1024 * 1024  # 1 GB
 
+# Guardrails on the local image ZIP upload — same spirit as the Drive caps
+# above, plus zip-specific checks (encryption, path traversal, pathological
+# archive structure) since this file comes straight from an admin's machine.
+SUPPORTED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
+MAX_IMPORT_FILES = 2000
+MAX_IMPORT_TOTAL_BYTES = 4 * 1024 * 1024 * 1024  # 4 GB
+MAX_IMPORT_PATH_DEPTH = 10
+MAX_IMPORT_FILENAME_LENGTH = 255
+
+
+def validate_and_index_zip(zip_path):
+    """Validate an uploaded image ZIP and return (index, extraction_dir).
+
+    index: {IMAGE_CODE_UPPER: absolute_path_on_disk}
+    extraction_dir: temp dir the ZIP was extracted into — caller must remove it.
+
+    Raises ValueError with a clear message on any validation failure. Every
+    entry in the archive is checked before a single byte is extracted.
+    """
+    if not zipfile.is_zipfile(zip_path):
+        raise ValueError("Uploaded file is not a valid ZIP archive.")
+
+    with zipfile.ZipFile(zip_path) as zf:
+        infolist = zf.infolist()
+
+        for zinfo in infolist:
+            if zinfo.flag_bits & 0x1:
+                raise ValueError(
+                    f"ZIP contains an encrypted entry ('{zinfo.filename}') - "
+                    "password-protected archives are not supported."
+                )
+
+        file_entries = [z for z in infolist if not z.is_dir()]
+
+        if len(file_entries) > MAX_IMPORT_FILES:
+            raise ValueError(
+                f"ZIP contains {len(file_entries)} files, exceeding the "
+                f"{MAX_IMPORT_FILES}-file import limit."
+            )
+
+        total_bytes = sum(z.file_size for z in file_entries)
+        if total_bytes > MAX_IMPORT_TOTAL_BYTES:
+            raise ValueError(
+                f"ZIP's uncompressed contents total {total_bytes} bytes, "
+                f"exceeding the {MAX_IMPORT_TOTAL_BYTES}-byte import limit."
+            )
+
+        extraction_dir = tempfile.mkdtemp(prefix='kj_import_')
+        extraction_dir_real = os.path.realpath(extraction_dir)
+
+        for zinfo in file_entries:
+            normalized = os.path.normpath(zinfo.filename)
+            if normalized.startswith('..') or os.path.isabs(normalized):
+                shutil.rmtree(extraction_dir, ignore_errors=True)
+                raise ValueError(
+                    f"ZIP entry '{zinfo.filename}' resolves outside the archive "
+                    "root - rejected (path traversal guard)."
+                )
+
+            depth = normalized.count(os.sep) + 1
+            if depth > MAX_IMPORT_PATH_DEPTH:
+                shutil.rmtree(extraction_dir, ignore_errors=True)
+                raise ValueError(
+                    f"ZIP entry '{zinfo.filename}' exceeds the maximum path "
+                    f"depth of {MAX_IMPORT_PATH_DEPTH}."
+                )
+
+            if len(os.path.basename(normalized)) > MAX_IMPORT_FILENAME_LENGTH:
+                shutil.rmtree(extraction_dir, ignore_errors=True)
+                raise ValueError(
+                    f"ZIP entry '{zinfo.filename}' has a filename longer than "
+                    f"{MAX_IMPORT_FILENAME_LENGTH} characters."
+                )
+
+            target_path = os.path.realpath(os.path.join(extraction_dir, normalized))
+            if not (target_path == extraction_dir_real
+                    or target_path.startswith(extraction_dir_real + os.sep)):
+                shutil.rmtree(extraction_dir, ignore_errors=True)
+                raise ValueError(
+                    f"ZIP entry '{zinfo.filename}' resolves outside the "
+                    "extraction directory - rejected (path traversal guard)."
+                )
+
+        # Every entry passed every check - safe to extract now.
+        zf.extractall(extraction_dir)
+
+    index = {}
+    duplicates = set()
+    skipped_non_image = 0
+    for root, dirs, files in os.walk(extraction_dir):
+        for fname in files:
+            ext = os.path.splitext(fname)[1].lower()
+            if ext not in SUPPORTED_IMAGE_EXTENSIONS:
+                skipped_non_image += 1
+                continue
+            code = os.path.splitext(fname)[0].upper()
+            path = os.path.join(root, fname)
+            if code in index:
+                duplicates.add(code)
+            else:
+                index[code] = path
+
+    if duplicates:
+        shutil.rmtree(extraction_dir, ignore_errors=True)
+        raise ValueError(
+            "ZIP contains duplicate image codes (same code, different files): "
+            + ", ".join(sorted(duplicates))
+        )
+
+    logger.info(
+        f"ZIP import indexed: {len(index)} images, {skipped_non_image} "
+        f"non-image files skipped, from {len(file_entries)} archive entries."
+    )
+    return index, extraction_dir
+
 def process_and_store_image(file_bytes, image_code, save_folder, upload_folder):
     img = Image.open(io.BytesIO(file_bytes))
     if img.mode in ('RGBA', 'LA', 'P'):
