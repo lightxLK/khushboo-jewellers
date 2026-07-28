@@ -599,7 +599,13 @@ Add the following at the end of the file (after the Badges section from Task 1B)
    Sidebar/topbar/page-header, relocated from base.html's old inline
    <style> block. Values are kept numerically identical to the original
    (not forced onto the --space-* scale) specifically to avoid visual
-   regression during this migration — see Task 2. */
+   regression during this migration — see Task 2. Rule of thumb for this
+   whole section and every per-page migration task: this pass moves and
+   renames CSS, it does not redesign it — don't change a spacing, size,
+   or color value while migrating a rule to a shared class unless a task
+   explicitly calls out the change (as Task 2 does for the two icon
+   rounding adjustments). If it looks like it should be tweaked, that's a
+   separate follow-up, not part of this migration. */
 .admin-container {
     display: flex;
     min-height: 100vh;

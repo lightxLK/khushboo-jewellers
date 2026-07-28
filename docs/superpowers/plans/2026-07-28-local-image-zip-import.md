@@ -128,6 +128,15 @@ git commit -m "Add pytest scaffold for backend unit tests"
   white, encodes WEBP quality 85, saves to `{upload_folder}/{save_folder}/{timestamp}_{image_code}.webp`, returns the public path `/uploads/{save_folder}/{filename}`. Used by Task 3's
   Drive-refactor and Task 4's dispatcher.
 
+**Known pre-existing behavior, unchanged by this extraction:** the saved filename is
+`{unix_timestamp}_{image_code}.webp`, not a hash or a fixed name per code. Re-importing the same
+`image_code` twice (e.g. retrying a failed import) writes a second file rather than overwriting
+the first — the DB row's `image_path` gets repointed to the newest file, but the older file is
+orphaned on disk rather than deleted. This is how `download_image_from_drive` already behaved
+before this feature; this task relocates that logic verbatim, it doesn't change it. Worth a
+dedicated cleanup pass later (e.g. deterministic filename per code, or deleting the old file
+when `overwrite_images` replaces it) — out of scope for this plan.
+
 - [ ] **Step 1: Write the failing tests**
 
 Create `backend/tests/test_image_processing.py`:
