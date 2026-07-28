@@ -128,3 +128,34 @@ def test_not_a_zip_file_is_rejected(tmp_path):
 
     with pytest.raises(ValueError, match='not a valid ZIP'):
         validate_and_index_zip(str(fake_zip))
+
+
+def test_extraction_dir_is_cleaned_up_when_extraction_fails(tmp_path, monkeypatch):
+    """A failure during zf.extractall()/indexing (not our own validation code)
+    must still clean up the temp extraction dir instead of leaking it."""
+    zip_path = tmp_path / 'images.zip'
+    _make_zip(zip_path, [
+        ('ABC123.jpg', b'fake-jpeg-bytes'),
+    ])
+
+    captured_dirs = []
+
+    import tasks as tasks_module
+    original_mkdtemp = tasks_module.tempfile.mkdtemp
+
+    def spying_mkdtemp(*args, **kwargs):
+        d = original_mkdtemp(*args, **kwargs)
+        captured_dirs.append(d)
+        return d
+
+    def boom(self, *args, **kwargs):
+        raise OSError("simulated extraction failure")
+
+    monkeypatch.setattr(tasks_module.tempfile, 'mkdtemp', spying_mkdtemp)
+    monkeypatch.setattr(zipfile.ZipFile, 'extractall', boom)
+
+    with pytest.raises(OSError, match='simulated extraction failure'):
+        validate_and_index_zip(str(zip_path))
+
+    assert len(captured_dirs) == 1
+    assert not os.path.isdir(captured_dirs[0])

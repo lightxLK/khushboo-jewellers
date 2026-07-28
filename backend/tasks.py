@@ -110,30 +110,33 @@ def validate_and_index_zip(zip_path):
                 )
 
         # Every entry passed every check - safe to extract now.
-        zf.extractall(extraction_dir)
+        try:
+            zf.extractall(extraction_dir)
 
-    index = {}
-    duplicates = set()
-    skipped_non_image = 0
-    for root, dirs, files in os.walk(extraction_dir):
-        for fname in files:
-            ext = os.path.splitext(fname)[1].lower()
-            if ext not in SUPPORTED_IMAGE_EXTENSIONS:
-                skipped_non_image += 1
-                continue
-            code = os.path.splitext(fname)[0].upper()
-            path = os.path.join(root, fname)
-            if code in index:
-                duplicates.add(code)
-            else:
-                index[code] = path
+            index = {}
+            duplicates = set()
+            skipped_non_image = 0
+            for root, dirs, files in os.walk(extraction_dir):
+                for fname in files:
+                    ext = os.path.splitext(fname)[1].lower()
+                    if ext not in SUPPORTED_IMAGE_EXTENSIONS:
+                        skipped_non_image += 1
+                        continue
+                    code = os.path.splitext(fname)[0].upper()
+                    path = os.path.join(root, fname)
+                    if code in index:
+                        duplicates.add(code)
+                    else:
+                        index[code] = path
 
-    if duplicates:
-        shutil.rmtree(extraction_dir, ignore_errors=True)
-        raise ValueError(
-            "ZIP contains duplicate image codes (same code, different files): "
-            + ", ".join(sorted(duplicates))
-        )
+            if duplicates:
+                raise ValueError(
+                    "ZIP contains duplicate image codes (same code, different files): "
+                    + ", ".join(sorted(duplicates))
+                )
+        except Exception:
+            shutil.rmtree(extraction_dir, ignore_errors=True)
+            raise
 
     logger.info(
         f"ZIP import indexed: {len(index)} images, {skipped_non_image} "
@@ -233,8 +236,12 @@ def resolve_image(image_code, save_folder, upload_folder, local_index, folder_id
         return None
     local_path = local_index.get(image_code.upper()) if local_index else None
     if local_path:
-        with open(local_path, 'rb') as f:
-            return process_and_store_image(f.read(), image_code, save_folder, upload_folder)
+        try:
+            with open(local_path, 'rb') as f:
+                return process_and_store_image(f.read(), image_code, save_folder, upload_folder)
+        except Exception as e:
+            logger.exception(f"Local image processing error for {image_code}: {e}")
+            return None
     if folder_id:
         return download_image_from_drive(folder_id, image_code, save_folder, upload_folder)
     return None

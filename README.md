@@ -120,11 +120,15 @@ Gather all product/category/subcategory/segment photos into one `.zip`, with eac
 after its image code from the spreadsheet (subfolders inside the zip are fine — only the
 filename is used for matching).
 
-**3. Run the import locally, against a copy of the database.**
+**3. Back up the database first, then run the import locally.**
+
+`backend/app.py` hardcodes the DB path to `database/jewellery.db` with no override — there is no
+"copy" mode. Running `python app.py` always reads from and writes to that exact file, so back it
+up before you start in case you need to undo the import:
 
 ```bash
 cd backend
-cp database/jewellery.db database/jewellery-import-test.db   # work on a copy, not the live file
+cp database/jewellery.db database/jewellery.db.backup   # backup first — restore from this if something goes wrong
 python app.py
 ```
 

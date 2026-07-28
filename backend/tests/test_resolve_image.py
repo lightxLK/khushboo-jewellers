@@ -51,3 +51,13 @@ def test_resolve_image_local_wins_over_drive_when_both_available(tmp_path):
 
     mock_drive.assert_not_called()
     assert result is not None
+
+
+def test_resolve_image_returns_none_for_corrupt_local_file(tmp_path):
+    bad_file = tmp_path / 'corrupt.jpg'
+    bad_file.write_bytes(b'this is not a valid jpeg')
+    local_index = {'CORRUPT1': str(bad_file)}
+
+    result = resolve_image('CORRUPT1', 'segments', str(tmp_path), local_index, None)
+
+    assert result is None
