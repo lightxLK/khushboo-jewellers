@@ -28,9 +28,9 @@ Display).
 - No new JS dependencies.
 - Playfair Display applies to exactly two places sitewide: each page's `<h1>` page title, and
   the login screen's `<h1>`. Nowhere else.
-- Lucide pinned to `1.27.0` (resolved from `unpkg.com/lucide@latest` on 2026-07-28 — verify this
-  is still current before pinning; if `unpkg.com/lucide@latest` now redirects to a newer version,
-  use that version instead and note the change).
+- Lucide pinned to `1.27.0` (resolved from `unpkg.com/lucide@latest` on 2026-07-28). Use this
+  exact version everywhere in this plan — don't re-resolve `@latest` mid-implementation, so
+  every task lands on the same icon set.
 - Going forward: new shared styling belongs in `admin.css`; inline styles are permitted only for
   genuinely page-specific values that cannot reasonably be represented by an existing token,
   primitive, component, or utility.
@@ -40,15 +40,18 @@ Display).
 
 ---
 
-### Task 1: Create the shared design-token + component stylesheet
+### Task 1A: Create `admin.css` — tokens, reset, typography, layout primitives
+
+Split from a single large stylesheet task into three (1A/1B/1C) so each is independently
+reviewable — a reviewer can approve the foundational tokens without having to also read every
+component definition in the same diff.
 
 **Files:**
 - Create: `backend/static/css/admin.css`
 
 **Interfaces:**
-- Produces: every CSS custom property and class name referenced by every later task in this
-  plan. This is the single source of truth for all of them — copy names/values exactly as
-  written here into later tasks' HTML.
+- Produces: every CSS custom property, the typography scale, and the layout primitives
+  referenced by later tasks. Tasks 1B and 1C append to this same file — do not create it again.
 
 - [ ] **Step 1: Create the directory and file**
 
@@ -56,7 +59,8 @@ Display).
 mkdir -p backend/static/css
 ```
 
-- [ ] **Step 2: Write `backend/static/css/admin.css`**
+- [ ] **Step 2: Write `backend/static/css/admin.css`** (file header + Tokens + Reset +
+  Typography + Layout primitives)
 
 ```css
 /* ====================================================================
@@ -245,7 +249,42 @@ textarea {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-5);
 }
+```
 
+- [ ] **Step 3: Verify brace balance so far**
+
+```bash
+python -c "s=open('backend/static/css/admin.css').read(); print('OPEN', s.count('{'), 'CLOSE', s.count('}'))"
+```
+
+Expected: both numbers equal.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add backend/static/css/admin.css
+git commit -m "Add admin.css: tokens, reset, typography, layout primitives"
+```
+
+---
+
+### Task 1B: Append buttons, forms, cards, tables, badges to `admin.css`
+
+**Files:**
+- Modify: `backend/static/css/admin.css` (created in Task 1A — append to it, don't recreate it)
+
+**Interfaces:**
+- Consumes: tokens from Task 1A (`--space-*`, `--radius-*`, `--border-light`,
+  `--transition-normal`, `--lux-*`).
+- Produces: `.btn`/`.btn-sm`/`.btn-md`/`.btn-lg`/`.btn-primary`/`.btn-danger`/`.btn-ghost`/
+  `.btn-icon`, `.form-*`, `.card`/`.stat-*`, `.table*`, `.badge*` — referenced by every
+  per-page migration task (3–18).
+
+- [ ] **Step 1: Append to `backend/static/css/admin.css`**
+
+Add the following at the end of the file (after the Layout primitives section from Task 1A):
+
+```css
 /* ==================== BUTTONS ==================== */
 .btn {
     display: inline-flex;
@@ -520,7 +559,42 @@ textarea {
     background: #F1F5F9;
     color: var(--lux-text-secondary);
 }
+```
 
+- [ ] **Step 2: Verify brace balance so far**
+
+```bash
+python -c "s=open('backend/static/css/admin.css').read(); print('OPEN', s.count('{'), 'CLOSE', s.count('}'))"
+```
+
+Expected: both numbers equal.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add backend/static/css/admin.css
+git commit -m "Append buttons, forms, cards, tables, badges to admin.css"
+```
+
+---
+
+### Task 1C: Append navigation, utilities, responsive to `admin.css`
+
+**Files:**
+- Modify: `backend/static/css/admin.css` (created in 1A, extended in 1B — append, don't
+  recreate).
+
+**Interfaces:**
+- Consumes: tokens from Task 1A.
+- Produces: `.admin-container`/`.sidebar*`/`.nav-*`/`.top-bar*`/`.logout-btn`/`.content-area`
+  (consumed by Task 2's `base.html` migration) and the utility classes/responsive rules
+  consumed by every later per-page task.
+
+- [ ] **Step 1: Append to `backend/static/css/admin.css`**
+
+Add the following at the end of the file (after the Badges section from Task 1B):
+
+```css
 /* ==================== NAVIGATION ====================
    Sidebar/topbar/page-header, relocated from base.html's old inline
    <style> block. Values are kept numerically identical to the original
@@ -770,9 +844,10 @@ textarea {
 }
 ```
 
-- [ ] **Step 3: Verify the file has no syntax errors**
+- [ ] **Step 2: Verify the complete file has no syntax errors**
 
-There's no CSS test runner in this repo. Verify by brace-balance (every `{` has a matching `}`):
+There's no CSS test runner in this repo. Verify by brace-balance (every `{` has a matching `}`)
+across the now-complete file:
 
 ```bash
 python -c "s=open('backend/static/css/admin.css').read(); print('OPEN', s.count('{'), 'CLOSE', s.count('}'))"
@@ -781,23 +856,27 @@ python -c "s=open('backend/static/css/admin.css').read(); print('OPEN', s.count(
 Expected: both numbers equal. Full functional verification happens in Task 2, when the file is
 actually linked into a rendered page.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
 git add backend/static/css/admin.css
-git commit -m "Add shared admin design-system stylesheet (tokens + components)"
+git commit -m "Append navigation, utilities, responsive to admin.css — admin.css complete"
 ```
 
 ---
 
 ### Task 2: Migrate `base.html` to the shared stylesheet
 
+Line numbers below are as of the current file (432 lines) and are navigational aids only — if
+the file has drifted since this plan was written, match on the literal original code shown in
+each step (reproduced verbatim below), not the line number.
+
 **Files:**
 - Modify: `backend/templates/admin/base.html` (currently 432 lines; full content read and
   reproduced below)
 
 **Interfaces:**
-- Consumes: every class name and token from Task 1's `admin.css`.
+- Consumes: every class name and token from Tasks 1A–1C's `admin.css`.
 - Produces: the page-header pattern (`<h1 class="font-display heading-xl">...`) and
   `.nav-badge` class that later per-page tasks rely on for their own titles.
 
@@ -819,7 +898,7 @@ Replace lines 4–308 with:
 ```
 
 (This drops the entire old `:root`/reset/layout/sidebar/topbar/`.lux-*` CSS block — it all now
-lives in `admin.css` from Task 1. `--sidebar-width` was the only token not prefixed `--lux-`;
+lives in `admin.css` from Tasks 1A–1C. `--sidebar-width` was the only token not prefixed `--lux-`;
 it's defined in `admin.css`'s Tokens section already.)
 
 - [ ] **Step 2: Update icon markup to use the new size classes**
@@ -915,6 +994,9 @@ git commit -m "Migrate base.html to shared admin.css, pin Lucide, drop inline st
 
 ### Task 3: Migration procedure + worked example (`login.html`)
 
+Line numbers below are as of the current 247-line file and are navigational aids only — match
+on the literal original code shown in each step, not the line number, if the file has drifted.
+
 `login.html` does **not** extend `base.html`** — it's a standalone document (its own `<head>`,
 no sidebar/topbar). It cannot "inherit" `admin.css` or fonts from `base.html` the way the other
 16 pages do; it needs its own `<link>` tags. This is a correction to the original design spec,
@@ -926,15 +1008,15 @@ procedure in Tasks 5+.
 - Modify: `backend/templates/admin/login.html` (full 247 lines read and reproduced below)
 
 **Interfaces:**
-- Consumes: `admin.css` tokens/reset from Task 1 (values only — no shared components; the login
+- Consumes: `admin.css` tokens/reset from Tasks 1A–1C (values only — no shared components; the login
   card is a deliberate bespoke design, called out as such in the spec).
 - Produces: the migration procedure every later per-page task (4, 6–19) follows:
   1. `grep -n "style=" backend/templates/admin/<file>` — list every inline `style=` attribute.
   2. `grep -n "<style>\|font-family\|fonts.googleapis" backend/templates/admin/<file>` — find the
      page's own `<style>` block and any duplicate font `<link>`.
   3. For each inline icon `style="width:Npx"`: replace with `class="icon-sm"` (≤16px),
-     `class="icon-md"` (17–19px), or `class="icon-lg"` (20px+) per Task 1's scale.
-  4. For each inline style that duplicates a Task 1 component (buttons, `.card`, `.table`,
+     `class="icon-md"` (17–19px), or `class="icon-lg"` (20px+) per Tasks 1A–1C's scale.
+  4. For each inline style that duplicates a Tasks 1A–1C component (buttons, `.card`, `.table`,
      `.badge-*`, `.form-*`, spacing) — replace with the shared class instead of the inline style.
   5. For each inline style that's genuinely page-specific (a one-off gradient, a specific
      shadow only this page uses) — leave it inline; that's the allowed exception per the
@@ -1188,7 +1270,7 @@ git commit -m "Migrate login.html to shared admin.css tokens, pin Lucide, standa
 - Modify: `backend/templates/admin/edit-dynamic-section.html` (338 lines)
 
 **Interfaces:**
-- Consumes: Task 1's `admin.css` classes/tokens, Task 3's migration procedure.
+- Consumes: Tasks 1A–1C's `admin.css` classes/tokens, Task 3's migration procedure.
 - Produces: nothing new — these follow the standard `extends base.html` procedure (unlike
   `login.html` in Task 3, both of these **do** extend `base.html`, confirmed via
   `grep -n "extends" backend/templates/admin/user_manual.html backend/templates/admin/edit-dynamic-section.html`).
@@ -1208,7 +1290,7 @@ Since it extends `base.html`: delete its local Google Fonts `<link>` (the duplic
 the grep above) and its local `<style>` block's `font-family: 'Playfair Display', serif` rules
 that only restate what `.font-display` now provides — replace those elements' classes with
 `font-display` (combined with `heading-xl`/`heading-lg`/`heading-md` per the element's role, per
-Task 1's typography scale) instead of a bespoke inline/`<style>`-block font-family rule. Replace
+Tasks 1A–1C's typography scale) instead of a bespoke inline/`<style>`-block font-family rule. Replace
 every inline `style="width:Npx"` icon sizing with `.icon-sm`/`.icon-md`/`.icon-lg` per the
 Task 3 size mapping. Any remaining page-specific layout CSS specific to the manual's content
 (step-by-step callouts, table-of-contents grid) stays in a trimmed local `<style>` block — this
@@ -1218,7 +1300,7 @@ page has genuinely unique content layout that isn't a duplicate of a shared comp
 
 Same approach: delete the duplicate font `<link>`, replace `font-family: 'Playfair Display'`
 usage with `.font-display`, replace inline icon sizing with the icon classes, replace any
-`<style>`-block button/card/form/table definitions that duplicate Task 1's components with the
+`<style>`-block button/card/form/table definitions that duplicate Tasks 1A–1C's components with the
 shared classes, leave genuinely page-specific rules (e.g. the section-preview grid unique to
 this page) in a trimmed local block.
 
@@ -1248,7 +1330,7 @@ git commit -m "Migrate user_manual.html and edit-dynamic-section.html to shared 
 
 Each of the following pages extends `base.html` and did **not** have its own duplicate font
 `<link>` — apply the Task 3 migration procedure (discovery greps -> icon class replacement ->
-replace shared-component inline/`<style>`-block CSS with Task 1's classes -> delete the local
+replace shared-component inline/`<style>`-block CSS with Tasks 1A–1C's classes -> delete the local
 `<style>` block entirely once nothing page-specific remains, or trim it to only genuine one-offs
 -> manual verification -> commit). One task per file so each is independently reviewable; work
 them in this order (smallest file first):
@@ -1267,7 +1349,7 @@ them in this order (smallest file first):
   `/admin/edit-subcategory/<id>`
 - **Task 11:** `backend/templates/admin/dashboard.html` (342 lines) — verify at
   `/admin/dashboard`; this page's stat tiles should migrate to `.stat-card`/`.stat-value`/
-  `.stat-label`/`.stat-icon` from Task 1 specifically (the spec calls this out as formalizing
+  `.stat-label`/`.stat-icon` from Tasks 1A–1C specifically (the spec calls this out as formalizing
   what's currently bespoke to this page)
 - **Task 12:** `backend/templates/admin/add-subcategory.html` (365 lines) — verify at
   `/admin/add-subcategory`
@@ -1288,7 +1370,7 @@ them in this order (smallest file first):
 - Modify: the one template listed for that task.
 
 **Interfaces:**
-- Consumes: Task 1's `admin.css` classes/tokens, Task 3's migration procedure.
+- Consumes: Tasks 1A–1C's `admin.css` classes/tokens, Task 3's migration procedure.
 - Produces: nothing new — these are leaf tasks.
 
 For each task:
@@ -1302,7 +1384,7 @@ For each task:
   use `.badge-*`, icons consistent, no console errors, visible focus ring).
 - [ ] **Step 4:** Repo-wide check after this page: `grep -n "style=" backend/templates/admin/<file>`
   — confirm every remaining hit is a genuine page-specific one-off (per the governance rule),
-  not something that should have used a Task 1 class.
+  not something that should have used a Tasks 1A–1C class.
 - [ ] **Step 5:** Commit with a message naming the file, e.g.:
 
 ```bash

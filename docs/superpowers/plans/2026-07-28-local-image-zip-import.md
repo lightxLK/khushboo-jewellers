@@ -738,6 +738,18 @@ real database to exercise (it already had zero test coverage before this feature
 pre-existing gap, not something this plan is introducing). It's verified manually in Task 9's
 end-to-end dry run instead.
 
+**Accepted behavior, stated explicitly so a reviewer doesn't have to infer it:** this import is
+**not atomic across the whole run**. It commits per sheet (all Segments, then all Categories,
+then Subcategories, then Products), and within a sheet, each row is wrapped in its own
+`try/except` that records the error and moves on rather than aborting. So if, say, product row
+231 of 250 throws, rows 1–230 (and every earlier sheet) are already committed to the database —
+only row 231 is skipped, logged in `results['errors']`, and the import continues to row 232.
+This is pre-existing behavior this feature does not change (the zip-level validation in Task 3
+is what's new — a bad zip aborts with zero DB writes; a bad *row* inside an otherwise-valid
+import has always partially succeeded, and continues to). If fully atomic multi-sheet imports
+become a real requirement later, that's a separate change to `run_import_logic`'s commit
+structure — out of scope here.
+
 - [ ] **Step 1: Update `run_import_background`'s signature**
 
 Current (lines 107–118):
@@ -945,7 +957,36 @@ becomes:
                                     secondary_paths.append(sp)
 ```
 
-- [ ] **Step 5: Confirm the module still imports cleanly**
+- [ ] **Step 5: Add stage-level progress messages and a completion summary log**
+
+The per-row messages (`"Importing segment: X"` etc., already in the existing code) only appear
+once a sheet's loop is already running. Add a stage header before each of the 4 sheet blocks so
+the admin sees which stage a multi-minute import is in even before the first row of that sheet
+completes. Immediately before each `if 'segments' in sheet_map:` / `if 'categories' in
+sheet_map:` / `if 'subcategories' in sheet_map:` / `if 'products' in sheet_map:` line, add:
+
+```python
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Importing Segments...'
+```
+
+(substituting `'Importing Categories...'`, `'Importing Subcategories...'`, `'Importing
+Products...'` for the other three sheets).
+
+Then, right before the existing success block near the end of the function (currently
+`if task_id in import_tasks_store: import_tasks_store[task_id]['state'] = 'SUCCESS'` ...), add a
+summary log line covering the whole run:
+
+```python
+        logger.info(
+            f"Import complete: {results['segments']} segments, {results['categories']} "
+            f"categories, {results['subcategories']} subcategories, {results['products']} "
+            f"products, {len(local_index)} images available from ZIP, "
+            f"{len(results['errors'])} row errors."
+        )
+```
+
+- [ ] **Step 6: Confirm the module still imports cleanly**
 
 ```bash
 cd backend
@@ -954,7 +995,7 @@ python -c "import tasks; print(callable(tasks.run_import_logic), callable(tasks.
 
 Expected: `True True`, no import errors.
 
-- [ ] **Step 6: Run the full test suite to confirm nothing broke**
+- [ ] **Step 7: Run the full test suite to confirm nothing broke**
 
 ```bash
 cd backend
@@ -964,11 +1005,11 @@ pytest tests/ -v
 Expected: all prior tests still pass (this task added no new tests, but a syntax error or typo
 in the edits above would break the import and fail every test).
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add backend/tasks.py
-git commit -m "Wire local ZIP into run_import_logic: extraction, cleanup, resolve_image at all 6 call sites"
+git commit -m "Wire local ZIP into run_import_logic: extraction, cleanup, resolve_image at all 6 call sites, progress + summary logging"
 ```
 
 ---
