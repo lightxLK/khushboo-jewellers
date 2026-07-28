@@ -38,10 +38,26 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION
 
 # ==================== LOGGING ====================
-logging.basicConfig(
-    level=logging.INFO if IS_PRODUCTION else logging.DEBUG,
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+from logging.handlers import RotatingFileHandler
+
+_log_level = logging.INFO if IS_PRODUCTION else logging.DEBUG
+_log_format = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+
+_root_logger = logging.getLogger()
+_root_logger.setLevel(_log_level)
+
+_stream_handler = logging.StreamHandler()
+_stream_handler.setFormatter(_log_format)
+_root_logger.addHandler(_stream_handler)
+
+LOG_DIR = os.getenv('LOG_DIR', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs'))
+os.makedirs(LOG_DIR, exist_ok=True)
+_file_handler = RotatingFileHandler(
+    os.path.join(LOG_DIR, 'khushboo.log'), maxBytes=5 * 1024 * 1024, backupCount=5
 )
+_file_handler.setFormatter(_log_format)
+_root_logger.addHandler(_file_handler)
+
 logger = logging.getLogger('khushboo')
 
 # CSRF protection for all session-authenticated forms/POSTs.

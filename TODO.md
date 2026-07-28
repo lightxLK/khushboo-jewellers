@@ -50,6 +50,15 @@ status going forward — update it as items are closed or new ones are found.
       `test_resolve_image.py`). `MAX_CONTENT_LENGTH_BYTES` is now env-configurable so the upload
       limit can be raised locally for large photo ZIPs without touching the production default.
       See `README.md`'s "Local ZIP Image Import" section for the workflow.
+- [x] `backend/templates/admin/dynamic-section.html` posted to `/admin/dynamic-section/add`
+      and `/admin/dynamic-section/delete/<id>`, neither of which existed — the real routes were
+      `/admin/dynamic-section` (POST, add) and `/admin/delete-dynamic-section/<id>`. Not a
+      missing feature, just a template/route name mismatch. Fixed both form `action`s;
+      confirmed via `app.url_map` that the corrected URLs resolve.
+- [x] `app.py` logging was `stdout`-only (`logging.basicConfig`) → added a `RotatingFileHandler`
+      (`backend/logs/khushboo.log`, 5MB × 5 backups) alongside the existing stream handler, via
+      `LOG_DIR` env var (defaults to `backend/logs/`). `logs/` and `*.log.*` added to
+      `.gitignore`.
 
 ## Verified locally (2026-07-28)
 
@@ -69,14 +78,6 @@ status going forward — update it as items are closed or new ones are found.
   `jewellery.db` and `uploads/` were left untouched (schema-only `db.create_all()` on startup,
   which is a no-op against existing tables).
 
-## Known pre-existing issue (not fixed — out of scope for security pass)
-
-- [ ] `backend/templates/admin/dynamic-section.html` links to `/admin/dynamic-section/add` and
-      `/admin/dynamic-section/delete/<id>`, but no matching routes exist in `routes.py` (only
-      an unreferenced `/admin/delete-dynamic-section/<id>`). This looks like a broken/unfinished
-      feature predating the recovery — 404s today regardless of auth. Needs product-owner
-      input on intended behavior before fixing.
-
 ## Still open / recommended next
 
 - [ ] Multi-worker gunicorn note above — move Flask-Limiter (and any other in-process state
@@ -88,9 +89,6 @@ status going forward — update it as items are closed or new ones are found.
       production `.env` — none of the values used in this local test run should reach prod.
 - [ ] Heavy duplication across add/edit/delete/toggle CRUD routes for
       Segment/Category/Subcategory/Product — refactor candidate, not urgent.
-- [ ] No structured/rotating log file yet — `logging.basicConfig` currently writes to stdout
-      only; wire up a `RotatingFileHandler` (or rely on systemd/gunicorn's log capture) before
-      go-live so logs survive restarts.
 - [ ] Once the ~250-product spreadsheet import is ready: test the Excel import path fully
       (including Google Drive image pulls) on a copy of the DB before running it against
       production data.

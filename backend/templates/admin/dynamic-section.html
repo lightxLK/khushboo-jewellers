@@ -272,7 +272,7 @@
                 Create New Dynamic Section
             </h2>
 
-            <form action="/admin/dynamic-section/add" method="POST" id="createSectionForm">
+            <form action="/admin/dynamic-section" method="POST" id="createSectionForm">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <!-- Mode Selector -->
                 <label class="lux-label" style="font-size: 12px; margin-bottom: 12px; display: block;">SECTION
@@ -423,7 +423,7 @@
                         <div style="font-size: 10px; color: var(--lux-text-secondary); font-style: italic;">Loading previews...</div>
                     </div>
 
-                    <form action="/admin/dynamic-section/delete/{{ section.id }}" method="POST">
+                    <form action="/admin/delete-dynamic-section/{{ section.id }}" method="POST">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"
                         style="margin-top: 15px;">
                         <button type="submit" onclick="return confirm('Remove section?');"

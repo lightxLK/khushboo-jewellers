@@ -16,6 +16,8 @@ backend/templates/admin/.env
 
 # Logs
 *.log
+*.log.*
+backend/logs/
 nohup.out
 backend/nohup.out
 
