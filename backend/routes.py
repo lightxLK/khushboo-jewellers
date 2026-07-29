@@ -12,6 +12,14 @@ from app import limiter, logger, csrf
 # Guard against decompression-bomb DoS on uploaded images (~40MP cap).
 Image.MAX_IMAGE_PIXELS = 40_000_000
 
+def slugify(name):
+    """URL-safe slug for pretty product/category URLs. Collapses any run of
+    non-alphanumeric characters (spaces, slashes, etc.) to a single hyphen -
+    a plain .replace(' ', '-') left slashes in names like "pink/green Anklet"
+    intact, inserting an extra path segment that 404'd on the 5-segment
+    /product/<segment>/<category>/<subcategory>/<product>/<id> route."""
+    return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+
 # ==================== validate_and_process_image() ====================
 
 def validate_and_process_image(file, max_size_mb=1):
@@ -470,15 +478,15 @@ def subcategories_page(category_id):
 
         # SMART ROUTING: only when no active subcategories exist
         if not subcategories:
-            seg_slug = segment.name.lower().replace(' ', '-')
-            cat_slug = category.name.lower().replace(' ', '-')
+            seg_slug = slugify(segment.name)
+            cat_slug = slugify(category.name)
 
             # Check direct products (Path B)
             direct_products = Product.query.filter_by(category_id=category_id, is_active=True).all()
 
             if len(direct_products) == 1:
                 p = direct_products[0]
-                prod_slug = p.name.lower().replace(' ', '-')
+                prod_slug = slugify(p.name)
                 return redirect(f'/product/{seg_slug}/{cat_slug}/direct/{prod_slug}/{p.id}')
             elif len(direct_products) > 1:
                 return redirect(f'/product-listing/{seg_slug}/{cat_slug}/direct')
@@ -555,28 +563,38 @@ def product_by_id(product_id):
         sub = product.subcategory
         cat = sub.category
         seg = cat.segment
-        seg_slug = seg.name.lower().replace(' ', '-')
-        cat_slug = cat.name.lower().replace(' ', '-')
-        sub_slug = sub.name.lower().replace(' ', '-')
-        prod_slug = product.name.lower().replace(' ', '-')
+        seg_slug = slugify(seg.name)
+        cat_slug = slugify(cat.name)
+        sub_slug = slugify(sub.name)
+        prod_slug = slugify(product.name)
         return redirect(f'/product/{seg_slug}/{cat_slug}/{sub_slug}/{prod_slug}/{product.id}')
     else:
         cat = product.category
         seg = cat.segment
-        seg_slug = seg.name.lower().replace(' ', '-')
-        cat_slug = cat.name.lower().replace(' ', '-')
-        prod_slug = product.name.lower().replace(' ', '-')
+        seg_slug = slugify(seg.name)
+        cat_slug = slugify(cat.name)
+        prod_slug = slugify(product.name)
         return redirect(f'/product/{seg_slug}/{cat_slug}/direct/{prod_slug}/{product.id}')
 
 @app.route('/product-listing/<int:subcategory_id>')
 def product_listing_by_id(subcategory_id):
+    """Render directly by ID rather than redirecting through the slug-based
+    route below. That route re-derives the subcategory via a name lookup
+    (segment/category/subcategory name reconstructed from the URL slug),
+    which is lossy for any name containing punctuation slugify() strips
+    (e.g. "Pooja & Gift Items" -> "pooja-gift-items" -> "pooja gift items"
+    on the way back - never matches the real "Pooja & Gift Items" via
+    ilike). Going straight from the reliable numeric ID avoids that
+    entirely; every current in-app link already points here by ID."""
     sub = Subcategory.query.get_or_404(subcategory_id)
-    cat = sub.category
-    seg = cat.segment
-    seg_slug = seg.name.lower().replace(' ', '-')
-    cat_slug = cat.name.lower().replace(' ', '-')
-    sub_slug = sub.name.lower().replace(' ', '-')
-    return redirect(f'/product-listing/{seg_slug}/{cat_slug}/{sub_slug}')
+    page = request.args.get('page', 1, type=int)
+    pagination = Product.query.filter_by(subcategory_id=sub.id, is_active=True).paginate(page=page, per_page=24, error_out=False)
+    return render_template('products.html',
+        subcategory=sub,
+        category=sub.category,
+        segment=sub.category.segment,
+        products=pagination.items,
+        pagination=pagination)
 
 
 @app.route('/product-listing/<segment_name>/<category_name>/<subcategory_name>')
