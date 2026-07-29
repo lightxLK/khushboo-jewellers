@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Best Selling Products | Khushboo Jewellers{% endblock %}
+
+{% block content %}
+<header class="bannerHead bannerheader w-100 overflow-hidden position-relative d-flex text-center">
+    <div class="alignHolder w-100 d-flex">
+        <div class="align my-auto py-2 w-100">
+            <div class="container headingHead">
+                <h1 class="hhHeading HDii">Best Selling Products</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Best Selling</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <span class="bgCover w-100 h-100 position-absolute bhBgImage" style="background-image: url('/images/hero-banner-2.png');"></span>
+</header>
+
+<div class="twoColumns w-100 position-relative overflow-hidden py-6 py-md-8 py-xl-10">
+    <div class="container">
+        {% if products %}
+        <div class="row">
+            {% for p in products %}
+            <div class="col-12 col-sm-6 col-xl-3 mb-5">
+                <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                    <div class="imgHolder mb-2">
+                        <a href="/product/{{ p.id }}">
+                            <img src="{{ p.primary_image or '/images/placeholder.png' }}" class="w-100 img-fluid" alt="{{ p.name }}">
+                        </a>
+                    </div>
+                    <h3 class="fw-light pcHeading mb-1">
+                        <a href="/product/{{ p.id }}" class="text-decoration-none">{{ p.name }}</a>
+                    </h3>
+                    <a href="/product/{{ p.id }}" class="pcBtnSubmit position-absolute fw-medium p-0 border-0 text-decoration-none">VIEW DETAILS</a>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+        {% if pagination and pagination.pages > 1 %}
+        <nav aria-label="Product pagination" class="mt-8">
+            <ul class="pagination justify-content-center list-unstyled d-flex gap-2">
+                {% if pagination.has_prev %}<li><a class="btn btnThemeOutlined px-4 py-2" href="?page={{ pagination.prev_num }}">Prev</a></li>{% endif %}
+                <li class="align-self-center">Page {{ pagination.page }} of {{ pagination.pages }}</li>
+                {% if pagination.has_next %}<li><a class="btn btnThemeOutlined px-4 py-2" href="?page={{ pagination.next_num }}">Next</a></li>{% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <p class="text-center">No best-selling products marked yet. Products can be flagged as best-sellers from the admin panel.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
