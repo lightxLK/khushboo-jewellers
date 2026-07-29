@@ -1,0 +1,31 @@
+@mixin pseudo($pseudo, $top: null, $right: null, $bottom: null, $left: null){
+
+	&:#{$pseudo}{
+		content: '';
+		position: absolute;
+		top: $top;
+		right: $right;
+		bottom: $bottom;
+		left: $left;
+	}
+}
+
+@mixin placeholder {
+	&::-webkit-input-placeholder {@content}
+	&::-moz-placeholder {opacity: 1; @content}
+	&:-moz-placeholder {@content}
+	&:-ms-input-placeholder {@content}
+	&.placeholder {@content}
+}
+
+%colorBg{
+	background-color: $wpThemeColor;
+}
+
+%colorBdr{
+	border-color: $wpThemeColor;
+}
+
+%colorClr{
+	color: $wpThemeColor;
+}

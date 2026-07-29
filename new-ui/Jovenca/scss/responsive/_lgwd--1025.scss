@@ -1,0 +1,19 @@
+@include media-breakpoint-up(lgwd){
+	
+    .introBlock{
+        .ibsColumn{
+            .hhHeadingI{
+                font-size: (40/16) * 1rem;
+                line-height: (42/16) * 1rem;
+            }
+            .subHeading{
+                font-size: (20/16) * 1rem;
+                line-height: (22/16) * 1rem;
+            }
+            .subTitle{
+                font-size: (30/16) * 1rem;
+                line-height: (32/16) * 1rem;
+            }
+        }
+    }
+}
