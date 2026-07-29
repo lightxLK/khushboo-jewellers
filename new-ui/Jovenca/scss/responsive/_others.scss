@@ -1,0 +1,28 @@
+@include media-breakpoint-down(sm){
+    #mainNavigation{
+        .nav-link{
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+}
+
+@include media-breakpoint-down(md){
+    #mainNavigation{
+        .mainNavigationCollapse{
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+    }
+}
+@include media-breakpoint-down(lg){
+    .product-accordion{
+        .ReviewForm{
+            .colII{
+                padding: 0;
+            }
+        }
+    }
+}

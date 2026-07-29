@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Khushboo Jewellers | Traditional Silver Wholesale{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Khushboo Jewellers - Odisha's trusted traditional silver jewellery wholesale partner since 2002.{% endblock %}">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="icon" href="/images/logo-blue.png" type="image/png">
+    <link rel="shortcut icon" href="/images/logo-blue.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
+    <script src="/js/popper.js" defer></script>
+    <script src="/js/bootstrap.js" defer></script>
+    <script src="/js/custom.js" defer></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div id="pageWrapper">
+        <header id="pageHeader">
+            <div class="phTopBar py-2 bg-dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-unstyled d-flex flex-wrap gap-3 gap-xlwd-5 justify-content-center justify-content-lg-start mb-0 phtbListInline">
+                                <li class="fw-normal text-white">
+                                    Wholesale enquiries: <a href="tel:+917873590001">+91 78735 90001</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 d-none d-lg-block">
+                            <ul class="list-unstyled d-flex flex-wrap gap-4 gap-xlwd-6 gap-xxl-8 mb-0 phtbListInline justify-content-end fw-normal">
+                                <li class="text-white">925 Sterling Silver &bull; BIS Certified &bull; Since 2002</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="phWrapper pt-2 pt-md-5 pt-xlwd-7 pb-2 pb-md-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 col-md-4 col-lg-4 col-xl-3 col-xlwd-3 position-relative">
+                           <ul class="list-unstyled d-flex flex-wrap justify-content-start mb-0 phActionsList gap-sm-4 gap-lg-6 pt-sm-1">
+                                <li class="navbar navbar-expand-md p-0 position-static d-md-none">
+                                    <button class="navbar-toggler border-0 p-0 mainNavigationToggle position-absolute" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                </li>
+                                <li class="d-none d-md-block">
+                                    <a href="/contact" class="d-flex align-items-center">
+                                        <i class="fa-solid fa-location-dot mbr"></i>
+                                        <span class="txt">Find Us</span>
+                                    </a>
+                                </li>
+                                <li class="d-none d-md-block" data-bs-toggle="offcanvas" data-bs-target="#searchCol" aria-controls="searchCol">
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="icomoon-search mbr"></i>
+                                        <span class="txt">Search</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 col-md-5 col-lg-3 col-xl-5 col-xlwd-6">
+                            <div class="logo text-center mx-auto">
+                                <a href="/">
+                                    <img src="/images/logo-blue.png" class="img-fluid" alt="Khushboo Jewellers" style="max-height:56px;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-5 col-xl-4 col-xlwd-3">
+                            <ul class="list-unstyled d-flex flex-wrap justify-content-end mb-0 phActionsList gap-2 gap-md-4 gap-lg-6 pt-1">
+                                <li>
+                                    <a href="/contact" class="d-flex align-items-center">
+                                        <i class="icomoon-headphone mbr"></i>
+                                        <span class="txt d-none d-lg-block">Wholesale Enquiry</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="phNavWrapper position-relative">
+                <div class="container">
+                    <nav class="navbar navbar-expand-md d-block position-static" id="mainNavigation">
+                        <div class="row align-items-center">
+                            <div class="col-12 mnCol d-none d-md-block">
+                                <div class="collapse navbar-collapse mainNavigationCollapse" id="mainNavigationCollapse">
+                                    <ul class="navbar-nav mx-auto gap-md-4 gap-xxl-7">
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase fw-medium{% if active_nav == 'home' %} active{% endif %}" href="/">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase fw-medium{% if active_nav == 'about' %} active{% endif %}" href="/about">About</a>
+                                        </li>
+                                        {% for seg in nav_segments %}
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium" href="/categories/{{ seg.id }}">{{ seg.name }}</a>
+                                            {% if seg.nav_categories %}
+                                            <ul class="dropdown-menu show rounded-0 pt-7 pb-5 px-5 ms-n6 mt-4">
+                                                {% for cat in seg.nav_categories %}
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="/subcategories/{{ cat.id }}">{{ cat.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% endif %}
+                                        </li>
+                                        {% endfor %}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase fw-medium{% if active_nav == 'contact' %} active{% endif %}" href="/contact">Contact Us</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+            <aside class="featuresBlock text-center w-100 position-relative py-9">
+                <div class="container">
+                    <ul class="list-unstyled d-flex flex-wrap justify-content-around gap-1 mb-0">
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="/images/ico-01.svg" width="37" height="30" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">100% Certified Silver</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">925 Sterling, BIS Hallmarked</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="/images/ico-02.svg" width="37" height="33" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">Pan-India Delivery</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">Reliable courier partners</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="/images/ico-03.svg" width="37" height="29" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">500+ Retail Partners</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">Trusted across Odisha &amp; India</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="/images/ico-04.svg" width="37" height="37" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">Wholesale Support</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">Call or WhatsApp anytime</h4>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+        <div class="footerAreaWrap">
+            <aside class="footerAside pt-7 pb-4 pt-md-10 pb-md-6 pt-xl-14 pb-xl-6">
+                <div class="container">
+                    <div class="ftColsWrap d-flex flex-wrap row-gap-3 px-3 px-md-0">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Shop by Segment</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                {% for seg in nav_segments %}
+                                <li><a href="/categories/{{ seg.id }}">{{ seg.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Company</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                                <li><a href="/terms-conditions">Terms &amp; Conditions</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Popular Categories</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                {% for seg in nav_segments %}{% for cat in seg.nav_categories[:3] %}
+                                <li><a href="/subcategories/{{ cat.id }}">{{ cat.name }}</a></li>
+                                {% endfor %}{% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Contact Info</h3>
+                            <address class="ftLocation">
+                                <a href="tel:+917873590001" class="d-flex align-items-center text-decoration-none gap-2 ftPhone fw-normal mb-3">
+                                    <i class="icnWrap flex-shrink-0 d-flex align-items-center justify-content-center icomoon-headphone rounded-circle"><span class="visually-hidden">icon</span></i>
+                                    <div>
+                                        <strong class="d-block fw-light ftTitle">Need Any Help?</strong>
+                                        Call us: +91 78735 90001
+                                    </div>
+                                </a>
+                                <span class="d-block mb-1"><strong class="fw-normal">Address:</strong> Nayasadak, Cuttack, <br> Odisha - 753002</span>
+                                <span class="d-block mb-1"><strong class="fw-normal">Email:</strong> <a href="mailto:khushboojewellers416@gmail.com" class="text-decoration-none">khushboojewellers416@gmail.com</a></span>
+                                <span class="d-block mb-1"><strong class="fw-normal">Hours:</strong> Mon-Sat, 10 AM - 8 PM</span>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <footer id="pageFooter" class="border-0 py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center text-md-end">
+                            <p class="mb-0">&copy; {{ current_year }} Khushboo Jewellers, Nayasadak, Cuttack. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div class="searchrow offcanvas offcanvas-top" tabindex="-1" id="searchCol" aria-labelledby="searchcol" style="height: 100vh;">
+            <div class="offcanvas-header justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column align-items-start justify-content-md-start px-4 pt-2">
+                <h5 class="srchHD fw-light mb-3">What are you looking for?</h5>
+                <form class="w-100" role="search" action="/search" method="GET">
+                    <div class="input-group">
+                        <input type="search" name="q" class="form-control border-0" placeholder="Search for products" aria-label="Search">
+                        <button class="btn" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Sidebar Menu Wrapper (mobile) -->
+        <div class="sidebarMenu offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarMenu">
+            <div class="offcanvas-header justify-content-between py-3 px-4">
+                <h5 class="offcanvas-title mb-0">Khushboo Jewellers</h5>
+                <a class="btn-close fw-light text-decoration-none" data-bs-dismiss="offcanvas" aria-label="Close"></a>
+            </div>
+            <div class="offcanvas-body p-0">
+                <ul class="list-unstyled mainmenu">
+                    <li class="py-2 px-4"><a href="/" class="text-decoration-none fw-medium d-block py-2">Home</a></li>
+                    <li class="py-2 px-4"><a href="/about" class="text-decoration-none fw-medium d-block py-2">About</a></li>
+                    {% for seg in nav_segments %}
+                    <li class="py-2 px-4">
+                        <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#navSeg{{ seg.id }}" role="button" aria-expanded="false">{{ seg.name }} <i class="fa-solid fa-angle-down"></i></a>
+                        <ul class="collapse list-unstyled submenu pt-3" id="navSeg{{ seg.id }}">
+                            {% for cat in seg.nav_categories %}
+                            <li class="py-2 px-2"><a href="/subcategories/{{ cat.id }}" class="nav-link fw-normal">{{ cat.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                    <li class="py-2 px-4"><a href="/contact" class="text-decoration-none fw-medium d-block py-2">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

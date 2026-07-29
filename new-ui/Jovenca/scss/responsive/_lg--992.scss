@@ -1,0 +1,185 @@
+@include media-breakpoint-up(lg) {
+	
+    #pageHeader{
+        .phWrapper{
+            .phSearchForm{ max-width: 294px; }
+            .phActionsList{ font-size: (23/16) * 1rem; }
+        }
+    }
+    .introBlock{
+        .ibsColumn{
+            .pdngS{ padding-left: 14.5%; }
+            h1, .h1{
+                font-size: (50/16) * 1rem;
+                line-height: (55/16) * 1rem;
+            }
+            .headII{
+                font-size: (50/16) * 1rem;
+                line-height: (55/16) * 1rem;
+            }
+            .hhHeadingI{
+                font-size: (35/16) * 1rem;
+                line-height: (37/16) * 1rem;
+            }
+            .subHeading{
+                font-size: (18/16) * 1rem;
+                line-height: (20/16) * 1rem;
+            }
+            .subTitle{
+                font-size: (25/16) * 1rem;
+                line-height: (27/16) * 1rem;
+            }
+            .imgholder{
+                top: 0;
+            }
+        }
+    }
+    .productsDetailsWrapper{
+        gap: 50px;
+    	.image,
+    	.imageWrapper{
+    	  max-width: 375px;
+    	}
+        .imagsItems{
+            width: 47.5%;
+        }
+    }
+    .tabsection{
+        .tab-content{
+            .tab-pane{
+                max-width: 707px;
+                &:last-child{ max-width: 833px; }
+            }
+            .ReviewForm{
+                .colI{ width: 20%; }
+                .colII{ width: 80%; }
+            }
+        }
+    }
+    .product-accordion{
+        .ReviewForm{
+            .colI{ width: 23%; }
+            .colII{ width: 77%; }
+        }
+    }
+    .introBlock{
+        .slickPrev{ left: 55px; }
+        .slickNext{ right: 55px; }
+    }
+    .vSection{
+        .mainHeading{
+            font-size: (40/16) * 1rem;
+            line-height: (50/16) * 1rem;
+        }
+        .mnHeading{
+            font-size: (40/16) * 1rem;
+            line-height: (45/16) * 1rem;
+        }
+    }
+    .ibSlickDots{ bottom: $spacer * 6; }
+    .collectionBlock{
+        .cbSlider{
+            margin-left: -45px;
+            margin-right: -45px;
+            padding-left: 45px;
+            padding-right: 45px;
+        }
+        .slidersColsHolder{
+            margin-right: -25px;
+            margin-left: -25px;
+            .schCol{
+                padding-right: 25px;
+                padding-left: 25px;
+            }
+        }
+    }
+    .featuresBlock{
+        li{ width: auto; }
+    }
+    .adBlock{
+        .contentblock{
+            min-height: calc(60vh - 200px);
+            .txtblock{
+                width: 506px;
+                padding: 7% 0 7% 12%;
+            }
+            .adHeading{
+                font-size: (30/16) * 1rem;
+                line-height: (32/16) * 1rem;
+            }
+            .adSub{
+                font-size: (20/16) * 1rem;
+                line-height: (22/16) * 1rem;
+            }
+            .adtxt{
+                font-size: (32/16) * 1rem;
+                line-height: (34/16) * 1rem;
+            }
+        }
+    }
+    .signupAsideBlock{
+        .newsCol{
+            .form-control{
+                width: 30%;
+            }
+        }
+    }
+    .sayQuote{
+        font-size: (25/16) * 1rem;
+        line-height: (33/16) * 1rem;
+        .sqHeading{
+            font-size: (20/16) * 1rem;
+            line-height: (25/16) * 1rem;
+        }
+        q{
+            margin-bottom: 30px;
+        }
+    }
+    .bioQuote{
+        font-size: (25/16) * 1rem;
+        line-height: (33/16) * 1rem;
+    }
+    .faqAccordion{
+        .accordion-button{
+            font-size: (24/16) * 1rem;
+            line-height: (30/16) * 1rem;
+        }
+    }
+    .pagination{
+        padding-top: 60px;
+    }
+    .widgetPosts{
+        font-size: (15/16) * 1rem;
+        .imgHolder{
+            width: 80px;
+            height: 80px;
+        }
+        .wdpHeading{
+            font-size: (18/16) * 1rem;
+            line-height: (22/16) * 1rem;
+        }
+    }
+    .headingHead{
+        .hHeading{
+            font-size: (150/16) * 1rem;
+            left: 18%;
+            top: 70px;
+        }
+    }
+    .collectionsection{
+        .txtColIII{
+            left: 36%;
+            top: -192px;
+        }
+        .hhHeading{
+            font-size: (40/16) * 1rem;
+            line-height: (50/16) * 1rem;
+        }
+    }
+    .countersection{
+        .counter{
+            font-size: (50/16) * 1rem;
+            line-height: (26/16) * 1rem;
+        }
+    }
+}

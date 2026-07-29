@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jovenca | Modern Jewelry Store HTML Template</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
+    <script src="js/popper.js" defer></script>
+    <script src="js/bootstrap.js" defer></script>
+    <script src="js/custom.js" defer></script>
+</head>
+<body>
+    <div id="pageWrapper">
+        <header id="pageHeader">
+            <div class="phTopBar py-2 bg-dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-unstyled d-flex flex-wrap gap-3 gap-xlwd-5 justify-content-center justify-content-lg-start mb-0 phtbListInline">
+                                <li class="fw-normal text-white">
+                                    Need help? Call us: <a href="javascript:void(0);">(+800) 1234 5678</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 d-none d-lg-block">
+                            <ul class="list-unstyled d-flex flex-wrap gap-4 gap-xlwd-6 gap-xxl-8 mb-0 phtbListInline justify-content-end fw-normal">
+                                <li>
+                                    <a href="javascript:void(0);">Special Offer</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Services</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Subscribe</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Gift Cards</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="phWrapper pt-2 pt-md-5 pt-xlwd-7 pb-2 pb-md-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 col-md-4 col-lg-4 col-xl-3 col-xlwd-3 position-relative">
+                           <ul class="list-unstyled d-flex flex-wrap justify-content-start mb-0 phActionsList gap-sm-4 gap-lg-6 pt-sm-1">
+                                <li class="navbar navbar-expand-md p-0 position-static d-md-none">
+                                    <button class="navbar-toggler border-0 p-0 mainNavigationToggle position-absolute" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                </li>
+                                <li class="d-none d-md-block">
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="fa-solid fa-location-dot mbr"></i>
+                                        <span class="txt">Store Locator</span>
+                                    </a>
+                                </li>
+                                <li class="d-none d-md-block" data-bs-toggle="offcanvas" data-bs-target="#searchCol" aria-controls="searchCol">
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="icomoon-search mbr"></i>
+                                        <span class="txt">Search</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 col-md-5 col-lg-3 col-xl-5 col-xlwd-6">
+                            <div class="logo text-center mx-auto">
+                                <a href="home.html">
+                                    <img src="images/logo.png" class="img-fluid" alt="Jovenca">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-5 col-xl-4 col-xlwd-3">
+                            <ul class="list-unstyled d-flex flex-wrap justify-content-end mb-0 phActionsList gap-2 gap-md-4 gap-lg-6 pt-1">
+                                <li class="d-none d-sm-block">
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="icomoon-heart-o mbr"></i>
+                                        <span class="txt d-none d-lg-block">wishlist</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="icomoon-user mbr"></i>
+                                        <span class="txt d-none d-lg-block">Sign in</span>
+                                    </a>
+                                </li>
+                                <li data-bs-toggle="offcanvas" data-bs-target="#filtersProduct" aria-controls="filtersProduct">
+                                    <a href="javascript:void(0);" class="d-flex align-items-center">
+                                        <i class="icomoon-cart mbr"></i>
+                                        <span class="txt mbr d-none d-lg-block">cart</span>
+                                        <strong class="phCartBubble phCBII fw-light  d-none d-lg-inline-block text-center rounded-circle">0</strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="phNavWrapper position-relative">
+                <div class="container">
+                    <nav class="navbar navbar-expand-md d-block position-static" id="mainNavigation">
+                        <div class="row align-items-center">
+                            <div class="col-12 mnCol d-none d-md-block">
+                                <div class="collapse navbar-collapse mainNavigationCollapse" id="mainNavigationCollapse">
+                                    <ul class="navbar-nav mx-auto gap-md-4 gap-xxl-7">
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium active" href="home.html">Home</a>
+                                        </li>
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium" href="about-us.html">About</a>
+                                        </li>
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium" href="javascript:void(0);">Shop</a>
+                                            <ul class="dropdown-menu show rounded-0 pt-7 pb-5 px-5 ms-n6 mt-4" aria-labelledby="homeDropdown">
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="shop-accordion.html">Shop Details</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium" href="javascript:void(0);">Pages</a>
+                                            <ul class="dropdown-menu show rounded-0 pt-7 pb-5 px-5 ms-n6 mt-4" aria-labelledby="homeDropdown">
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="cart-page.html">Cart Page</a></li>
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="checkout-page.html">Checkout Page</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item staf dropdown">
+                                            <a class="nav-link text-uppercase fw-medium" href="javascript:void(0);">Blog</a>
+                                            <ul class="dropdown-menu show rounded-0 pt-7 pb-5 px-5 ms-n6 mt-4" aria-labelledby="homeDropdown">
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="blog-grid.html">Blog Grid</a></li>
+                                                <li class="mb-3"><a class="dropdown-item p-0" href="blog-single.html">Blog Single</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase fw-medium" href="contact-us.html">Contact Us</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="introBlock position-relative overflow-hidden w-100">
+                <div class="container-fluid px-lgwd-18">
+                    <div class="ibSliderII">
+                        <div>
+                            <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr">
+                                <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                                    <div class="ahAlign">
+                                        <h1 class="hhHeadingI fw-normal mb-1">Limited Edition <br>Cage Rings</h1>
+                                        <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">World-class diamond</span>
+                                        <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Mother's Day Special</strong>
+                                        <a href="shop-accordion.html" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Shop Now">
+                                            <span class="btnText">Shop Now</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-7 imgHolder iMgII">
+                                    <img src="https://placehold.co/1000x600" class="w-100" alt="image description">
+                                </div>
+                            </article>
+                        </div>
+                        <div>
+                            <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr2">
+                                <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                                    <div class="ahAlign">
+                                        <h1 class="hhHeadingI fw-normal mb-1">Pearls Spring <br>Collections</h1>
+                                        <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Revitalizing Supreme</span>
+                                        <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">60% OFF Summer Sale</strong>
+                                        <a href="shop-accordion.html" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Shop Now">
+                                            <span class="btnText">Shop Now</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-7 imgHolder iMgII">
+                                    <img src="https://placehold.co/1000x600" class="w-100" alt="image description">
+                                </div>
+                            </article>
+                        </div>
+                        <div>
+                            <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr3">
+                                <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                                    <div class="ahAlign">
+                                        <h1 class="hhHeadingI fw-normal mb-1">Crown Brighter <br>Collections</h1>
+                                        <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Pavé diamonds sets</span>
+                                        <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Buy with 30% Discount</strong>
+                                        <a href="shop-accordion.html" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Shop Now">
+                                            <span class="btnText">Shop Now</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-7 imgHolder iMgII">
+                                    <img src="https://placehold.co/1000x600" class="w-100" alt="image description">
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="categoriesBlock position-relative w-100 overflow-hidden pt-4 pt-xl-14">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal">Popular Categories</h2>
+                    </header>
+                    <div class="colsHolder d-flex flex-wrap justify-content-center">
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">NECKLaCES</h3>
+                            </a>
+                        </div>
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">RINGS</h3>
+                            </a>
+                        </div>
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">BRACELETS</h3>
+                            </a>
+                        </div>
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">EARRINGS</h3>
+                            </a>
+                        </div>
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">CHARMS &amp; DANGLES</h3>
+                            </a>
+                        </div>
+                        <div class="chCol d-flex">
+                            <a href="shop-accordion.html" class="catColumn d-block w-100 text-center">
+                                <div class="imgHolder mx-auto mb-5">
+                                    <img src="https://placehold.co/185x185" class="w-100 h-100 object-fit-cover" alt="image description">
+                                </div>
+                                <h3 class="ctHeading d-inline-block text-uppercase align-top">GIFT IDEAS</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <aside class="badgerIIAsideBlock text-center pt-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="babWrapper d-flex align-items-center flex-wrap justify-content-center py-3 px-2">
+                                <i class="fa-solid fa-tag fa-flip-horizontal babIcn mb-2 mb-md-0 me-md-3"></i>
+                                <h3 class="mb-0 babHeading fw-light mb-2 mb-md-0 me-md-3">Super discount for your first purchase</h3>
+                                <a href="javascript:void(0);" class="btn text-uppercase fw-normal mb-2 mb-md-0 me-md-3 py-2">FREE15FIRST</a>
+                                <p class="mb-0">Use discount code in checkout!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-10 py-lg-15">
+                <div class="container">
+                    <header class="headingHead text-center mb-9">
+                        <h2 class="position-relative fw-normal hhHeading patternActive d-flex justify-content-center align-items-center gap-4 mb-4">Featured Products
+                        </h2>
+                        <ul class="list-unstyled cbFiltersList gap-2 gap-md-5 d-flex isoFiltersList flex-wrap justify-content-center">
+                            <li class="active">
+                                <a href="javascript:void(0);">New Arrivals</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-filter=".popular">Most Popular</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-filter=".bestSeller">Best Seller</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="row d-block isoContentHolder">
+                        <div class="col-12 col-sm-6 col-xl-3 isoCol bestSeller popular mb-5">
+                            <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                <div class="imgHolder mb-2">
+                                    <a href="shop-accordion.html">
+                                        <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                    </a>
+                                    <ul class="list-unstyled d-flex flex-column gap-1 pcActionsList">
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-heart-o">
+                                                    <span class="visually-hidden">favourite</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-search">
+                                                    <span class="visually-hidden">explore</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <strong class="d-block mb-1 fw-normal pcTitle">BRACELETS</strong>
+                                <h3 class="fw-light pcHeading mb-1">
+                                    <a href="shop-accordion.html" class="text-decoration-none">Cross Stripes &amp; Stone Bracelet</a>
+                                </h3>
+                                <h4 class="fw-normal pcPrice mb-0">
+                                    <span class="regPrice">£169.00</span>
+                                </h4>
+                                <button class="pcBtnSubmit position-absolute fw-medium p-0 border-0">ADD TO CART</button>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3 isoCol bestSeller mb-5">
+                            <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                <div class="imgHolder mb-2">
+                                    <a href="shop-accordion.html">
+                                        <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                    </a>
+                                    <ul class="list-unstyled d-flex flex-column gap-1 pcActionsList">
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-heart-o">
+                                                    <span class="visually-hidden">favourite</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-search">
+                                                    <span class="visually-hidden">explore</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <strong class="d-block mb-1 fw-normal pcTitle">CHARM AND DANGLES</strong>
+                                <h3 class="fw-light pcHeading mb-1">
+                                    <a href="shop-accordion.html" class="text-decoration-none">Echoes Necklace Extension Piece</a>
+                                </h3>
+                                <h4 class="fw-normal pcPrice mb-0">
+                                    <span class="regPrice">£199.00</span>
+                                </h4>
+                                <button class="pcBtnSubmit position-absolute fw-medium p-0 border-0">ADD TO CART</button>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3 isoCol bestSeller mb-5">
+                            <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                <div class="imgHolder mb-2">
+                                    <a href="shop-accordion.html">
+                                        <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                    </a>
+                                    <strong class="position-absolute text-uppercase bg-danger fw-semibold text-white pcTag">-30%</strong>
+                                    <ul class="list-unstyled d-flex flex-column gap-1 pcActionsList">
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-heart-o">
+                                                    <span class="visually-hidden">favourite</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-search">
+                                                    <span class="visually-hidden">explore</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <strong class="d-block mb-1 fw-normal pcTitle">RINGS</strong>
+                                <h3 class="fw-light pcHeading mb-1">
+                                    <a href="shop-accordion.html" class="text-decoration-none">Four-Leaf Clover Rings</a>
+                                </h3>
+                                <h4 class="fw-normal pcPrice mb-0">
+                                    <span class="salePrice">£99.00</span>
+                                    <span class="regPrice">£129.00</span>
+                                </h4>
+                                <button class="pcBtnSubmit position-absolute fw-medium p-0 border-0">ADD TO CART</button>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3 isoCol popular mb-5">
+                            <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                <div class="imgHolder mb-2">
+                                    <a href="shop-accordion.html">
+                                        <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                    </a>
+                                    <ul class="list-unstyled d-flex flex-column gap-1 pcActionsList">
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-heart-o">
+                                                    <span class="visually-hidden">favourite</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" class="rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="icomoon-search">
+                                                    <span class="visually-hidden">explore</span>
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <strong class="d-block mb-1 fw-normal pcTitle">NECKLACES</strong>
+                                <h3 class="fw-light pcHeading mb-1">
+                                    <a href="shop-accordion.html" class="text-decoration-none">Cross of Light Pendant</a>
+                                </h3>
+                                <h4 class="fw-normal pcPrice mb-0">
+                                    <span class="regPrice">£79.00</span>
+                                </h4>
+                                <button class="pcBtnSubmit position-absolute fw-medium p-0 border-0">ADD TO CART</button>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="adBlock w-100 overflow-hidden pb-6 py-xl-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="contentblock position-relative">
+                                <div class="txtblock text-center">
+                                    <h2 class="adHeading text-uppercase fw-normal text-white mb-1">Ready, Set, <br class="d-none d-xl-block"> Summer!</h2>
+                                    <span class="adSub d-block fw-light text-white mb-4">Avon Flourish Honey Blossom Set</span>
+                                    <strong class="adtxt d-block text-white mb-3 mb-lg-7">Buy 1 Get 1 Free</strong>
+                                    <a href="javascript:void(0);" class="btn btnTheme fw-normal px-5 px-lg-9">Shop Now</a>
+                                </div>
+                                <span class="position-absolute w-100 h-100 bgCover ibBgImage" style="background-image: url('https://placehold.co/1370x450');"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-7">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal mb-2">Necklaces</h2>
+                        <a href="shop-accordion.html" class="btnHeader fw-normal text-decoration-none">Show All Products</a>
+                    </header>
+                    <div class="row">
+                        <div class="col-lg-4 col-xl-3 pe-6 d-none d-lg-block">
+                            <article class="bannerColumn colII position-relative w-100 d-flex flex-column overflow-hidden">
+                                <div class="py-2 py-lg-5 py-xl-10 px-4 px-lg-8 txt position-absolute">
+                                    <h2 class="bcHeading fw-normal text-white mb-2">
+                                        <span class="d-block">New Earrings Arrival</span>
+                                    </h2>
+                                    <a href="shop-accordion.html" class="btn-link btnLink fw-normal d-inline-block align-end text-decoration-none">SHOP MORE</a>
+                                </div>
+                                <span class="bgCover bcImage position-absolute w-100 h-100" style="background-image: url('https://placehold.co/305x410');"></span>
+                            </article>
+                        </div>
+                        <div class="col-12 col-lg-8 col-xl-9">
+                            <div class="slidersColsHolder">
+                                <div class="nlSlider">
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">BRACELETS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Cross Stripes &amp; Stone Bracelet</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£169.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">CHARM AND DANGLES</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Echoes Necklace Extension Piece</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£199.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">RINGS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Four-Leaf Clover Rings</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="salePrice">£99.00</span>
+                                                <span class="regPrice">£129.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">NECKLACES</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Cross of Light Pendant</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£79.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-8">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal mb-2">Charm & Dangles</h2>
+                        <a href="shop-accordion.html" class="btnHeader fw-normal text-decoration-none">Show All Products</a>
+                    </header>
+                    <div class="row">
+                        <div class="col-lg-4 col-xl-3 pe-6 d-none d-lg-block">
+                            <article class="bannerColumn colII position-relative w-100 d-flex flex-column overflow-hidden">
+                                <div class="py-2 py-lg-5 py-xl-10 px-4 px-lg-8 txt position-absolute">
+                                    <h2 class="bcHeading fw-normal text-white mb-2">
+                                        <span class="d-block">Best Diamond Sets 2020</span>
+                                    </h2>
+                                    <a href="shop-accordion.html" class="btn-link btnLink fw-normal d-inline-block align-end text-decoration-none">SHOP MORE</a>
+                                </div>
+                                <span class="bgCover bcImage position-absolute w-100 h-100" style="background-image: url('https://placehold.co/305x410');"></span>
+                            </article>
+                        </div>
+                        <div class="col-12 col-lg-8 col-xl-9">
+                            <div class="slidersColsHolder">
+                                <div class="nlSlider">
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">BRACELETS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Cross Stripes &amp; Stone Bracelet</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£169.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">CHARM AND DANGLES</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Echoes Necklace Extension Piece</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£199.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">RINGS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Four-Leaf Clover Rings</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="salePrice">£99.00</span>
+                                                <span class="regPrice">£129.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-7">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal mb-2">Bracelets & Rings</h2>
+                        <a href="shop-accordion.html" class="btnHeader fw-normal text-decoration-none">Show All Products</a>
+                    </header>
+                    <div class="row">
+                        <div class="col-lg-4 col-xl-3 pe-6 d-none d-lg-block">
+                            <article class="bannerColumn colII position-relative w-100 d-flex flex-column overflow-hidden">
+                                <div class="py-2 py-lg-5 py-xl-10 px-4 px-lg-8 txt position-absolute">
+                                    <h2 class="bcHeading fw-normal text-white mb-2">
+                                        <span class="d-block">Diamond Bow Bracelets</span>
+                                    </h2>
+                                    <a href="shop-accordion.html" class="btn-link btnLink fw-normal d-inline-block align-end text-decoration-none">SHOP MORE</a>
+                                </div>
+                                <span class="bgCover bcImage position-absolute w-100 h-100" style="background-image: url('https://placehold.co/305x410');"></span>
+                            </article>
+                        </div>
+                        <div class="col-12 col-lg-8 col-xl-9">
+                            <div class="slidersColsHolder">
+                                <div class="nlSlider">
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">BRACELETS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Cross Stripes &amp; Stone Bracelet</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£169.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">CHARM AND DANGLES</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Echoes Necklace Extension Piece</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="regPrice">£199.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                    <div class="schCol">
+                                        <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                                            <div class="imgHolder mb-2">
+                                                <a href="shop-accordion.html">
+                                                    <img src="https://placehold.co/305x305" class="w-100 img-fluid" alt="image description">
+                                                </a>
+                                                <ul class="list-unstyled d-flex flex-row pcActionsListII">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-cart"></i>
+                                                            <span class="tool-tip fw-medium d-block">Add to Cart</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-heart-o"></i>
+                                                            <span class="tool-tip fw-medium d-block">Wishlist</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="d-flex align-items-center justify-content-center">
+                                                            <i class="icomoon-search"></i>
+                                                            <span class="tool-tip fw-medium d-block">Search</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <strong class="d-block mb-1 fw-normal pcTitle">RINGS</strong>
+                                            <h3 class="fw-light pcHeading mb-1">
+                                                <a href="shop-accordion.html" class="text-decoration-none">Four-Leaf Clover Rings</a>
+                                            </h3>
+                                            <h4 class="fw-normal pcprice mb-0">
+                                                <span class="salePrice">£99.00</span>
+                                                <span class="regPrice">£129.00</span>
+                                            </h4>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container pt-md-6"><hr></div>
+            <aside class="sponsorsBlock w-100 position-relative overflow-hidden py-8 text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <header class="headingHead text-center mb-8">
+                                <h2 class="hhHeading fw-normal mb-0">Only best brands</h2>
+                            </header>
+                        </div>
+                    </div>
+                    <div class="logosSlider">
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="logoWrap d-flex align-items-center justify-content-center">
+                                <span class="w-100">
+                                    <img src="https://placehold.co/115x40" class="img-fluid" alt="image description">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <aside class="signupAsideBlock overflow-hidden w-100 position-relative">
+                <div class="newsCol">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="sabHeading fw-normal mb-6">End of Summer! <br>Up to 40% off on all items.</h3>
+                                <form action="#" class="subscribeForm mb-3">
+                                    <div class="d-flex flex-column flex-sm-row gap-2">
+                                        <input id="signup-email" type="email" class="form-control border-0 bg-light" placeholder="Email address">
+                                        <button type="submit" class="btn btnTheme text-uppercase fw-medium">SUBSCRIBE</button>
+                                    </div>
+                                </form>
+                                <p class="d-block">Sign up to our Newsletter and get the discount code!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="position-absolute w-100 h-100 bgCover ibBgImage" style="background-image: url('https://placehold.co/1920x420');"></span>
+                </div>
+            </aside>
+            <section class="blogsBlock position-relative w-100 overflow-hidden py-6 py-lg-9 py-xl-17">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal">Read Journal</h2>
+                        <p>Latest trends and inspirations in fashion design.</p>
+                    </header>
+                    <div class="row row-gap-6 ">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <a href="blog-single.html" class="blogColumn overflow-hidden d-block text-decoration-none">
+                                <div class="imgHolder mb-5 position-relative">
+                                    <img src="https://placehold.co/435x285" class="img-fluid w-100" alt="image description">
+                                    <strong class="position-absolute fw-medium text-uppercase blgTag py-1 px-2">Accessories</strong>
+                                </div>
+                                <div class="blgTitle mb-2">
+                                    <strong class="blgAuthor fw-normal">NECKERT</strong>
+                                    -
+                                    <time class="fw-normal" datetime="2008-02-14">AUGEST 25, 2016</time>
+                                </div>
+                                <h3 class="fw-medium blgHeading mb-4">Christmas Gift Guide</h3>
+                                <span class="btnLink">Continue Reading</span>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <a href="blog-single.html" class="blogColumn overflow-hidden d-block text-decoration-none">
+                                <div class="imgHolder mb-5 position-relative">
+                                    <img src="https://placehold.co/435x285" class="img-fluid w-100" alt="image description">
+                                    <strong class="position-absolute fw-medium text-uppercase blgTag py-1 px-2">Fashion</strong>
+                                </div>
+                                <div class="blgTitle mb-2">
+                                    <strong class="blgAuthor fw-normal">SANCER</strong>
+                                    -
+                                    <time class="fw-normal" datetime="2008-02-14">AUGEST 25, 2016</time>
+                                </div>
+                                <h3 class="fw-medium blgHeading mb-4">How to Style a Quiff</h3>
+                                <span class="btnLink">Continue Reading</span>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <a href="blog-single.html" class="blogColumn overflow-hidden d-block text-decoration-none">
+                                <div class="imgHolder mb-5 position-relative">
+                                    <img src="https://placehold.co/435x285" class="img-fluid w-100" alt="image description">
+                                    <strong class="position-absolute fw-medium text-uppercase blgTag py-1 px-2">Collection</strong>
+                                </div>
+                                <div class="blgTitle mb-2">
+                                    <strong class="blgAuthor fw-normal">MONCK</strong>
+                                    -
+                                    <time class="fw-normal" datetime="2008-02-14">AUGEST 25, 2016</time>
+                                </div>
+                                <h3 class="fw-medium blgHeading mb-4">Selective Styles Help your look</h3>
+                                <span class="btnLink">Continue Reading</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <aside class="feedAsideBlock position-relative bgclr w-100 overflow-hidden py-6 py-lg-9 py-xl-15">
+                <div class="container">
+                    <header class="headingHead text-center mb-8">
+                        <h2 class="hhHeading fw-normal">Follow Us on Instagram</h2>
+                        <p>@theaarunthemes</p>
+                    </header>
+                    <div class="row row-gap-4">
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="javascript:void(0);" class="figColumn d-block text-decoration-none overflow-hidden">
+                                <img src="https://placehold.co/210x210" class="img-fluid object-fit-cover w-100 h-100" alt="image description">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <aside class="featuresBlock text-center w-100 position-relative py-9">
+                <div class="container">
+                    <ul class="list-unstyled d-flex flex-wrap justify-content-around gap-1 mb-0">
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="images/ico-01.svg" width="37" height="30" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">Free Shipping</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">For all orders over $100</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="images/ico-02.svg" width="37" height="33" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">30 Days Return</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">For an Exchange Product</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="images/ico-03.svg" width="37" height="29" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">Secured Payment</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">Payment Cards Accepted</h4>
+                        </li>
+                        <li>
+                            <i class="icnWrap d-flex align-items-center justify-content-center mx-auto mb-1">
+                                <img src="images/ico-04.svg" width="37" height="37" alt="icon">
+                            </i>
+                            <h3 class="fbbHeading fw-normal mb-0">Support 24/7</h3>
+                            <h4 class="fbbSubheading fw-light mb-0">Contact us Anytime.</h4>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+        <div class="footerAreaWrap">
+            <aside class="footerAside pt-7 pb-4 pt-md-10 pb-md-6 pt-xl-14 pb-xl-6">
+                <div class="container">
+                    <div class="ftColsWrap d-flex flex-wrap row-gap-3 px-3 px-md-0">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Shop Highlights</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                <li>
+                                    <a href="javascript:void(0);">Necklaces</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Bracelets</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Earings</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Rings</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Charms</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Gold Jewelry</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">About Jovenca</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                <li>
+                                    <a href="javascript:void(0);">About Us</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Core Values</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Careers</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Press Releases</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Sitemap</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Our Company</h3>
+                            <ul class="list-unstyled ftLinksList">
+                                <li>
+                                    <a href="javascript:void(0);">Shopping App</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Be an Affiliate</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Advertise your Product</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Media Enquiries</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Media Enquiries</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <h3 class="ftHeading mb-5 fw-normal">Contact Info</h3>
+                            <address class="ftLocation">
+                                <a href="javascript:void(0);" class="d-flex align-items-center text-decoration-none gap-2 ftPhone fw-normal mb-3">
+                                    <i class="icnWrap flex-shrink-0 d-flex align-items-center justify-content-center icomoon-headphone rounded-circle"><span class="visually-hidden">icon</span></i>
+                                    <div>
+                                        <strong class="d-block fw-light ftTitle">Need Any Help?</strong>
+                                        Call us: (+800) 1234 5678 90
+                                    </div>
+                                </a>
+                                <span class="d-block mb-1"><strong class="fw-normal">Address:</strong> 502 New Design Str, <br> Melbourne, Australia</span>
+                                <span class="d-block mb-1"><strong class="fw-normal">Email:</strong> <a href="mailto:contact@Jovenca.com" class="text-decoration-none">contact@Jovenca.com</a></span>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <footer id="pageFooter" class="border-0 py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="payment-gateway mb-4 mb-md-0">
+                                <img src="images/payment-gateway.png" class="img-fluid" alt="payment gateway">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 text-end">
+                            <ul class="navbar-nav footerNav d-flex flex-md-row justify-content-end align-items-center mb-3">
+                                <li class="me-2 me-lg-7 mb-3 mb-md-0">
+                                    <a class="fw-light" href="javascript:void(0);">Payment</a>
+                                </li>
+                                <li class="me-2 me-lg-7 mb-3 mb-md-0">
+                                    <a class="fw-light" href="javascript:void(0);">Shipping & Returns</a>
+                                </li>
+                                <li class="me-2 me-lg-7 mb-3 mb-md-0">
+                                    <a class="fw-light" href="javascript:void(0);">Gift Cards</a>
+                                </li>
+                                <li class="me-2 me-lg-7 mb-3 mb-md-0">
+                                    <a class="fw-light" href="javascript:void(0);">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a class="fw-light" href="contact-us.html">Stockists</a>
+                                </li>
+                            </ul>
+                            <p class="mb-0">&copy; Copyright 2025 - <a href="home.html" class="text-decoration-none">Jovenca</a> template by <a href="javascript:void(0);" class="text-decoration-none">Htmlbean</a></p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div id="pageHeader">
+        <!-- Search Menu Wrapper -->
+        <div class="searchrow offcanvas offcanvas-top" tabindex="-1" id="searchCol" aria-labelledby="searchcol" style="height: 100vh;">
+            <div class="offcanvas-header justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column align-items-start justify-content-md-start px-4 pt-2">
+                <h5 class="srchHD fw-light mb-3">What are you looking for?</h5>
+                <form class="w-100" role="search">
+                    <div class="input-group">
+                        <input type="search" class="form-control border-0" placeholder="Search for products" aria-label="Search">
+                        <button class="btn" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- cart Menu Wrapper -->
+        <div class="cartsection offcanvas offcanvas-end d-flex flex-column border-0" tabindex="-1" id="filtersProduct" aria-labelledby="filtersProductLabel">
+            <div class="offcanvas-header px-3 py-3 px-sm-8 py-sm-3">
+                <h6 class="cartHD mb-1 fw-normal">Your Cart (2)</h6>
+                <a class="btn-close fw-light text-decoration-none" data-bs-dismiss="offcanvas" aria-label="Close">Close</a>
+            </div>
+            <div class="offcanvas-body flex-grow-1 d-flex flex-column justify-content-between px-3 py-5 px-sm-8 py-sm-8">
+                <div>
+                    <div class="d-flex align-items-start justify-content-between mb-4">
+                        <div class="imgholder me-2">
+                            <img src="images/img85.jpg" alt="Ring" class="w-100 img-fluid">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="cartHding fw-light mb-1">Four-Leaf Clover Rings</h4>
+                            <small class="subheading fw-normal">1 × <strong class="fw-normal">£38.00</strong></small>
+                        </div>
+                        <button class="btn btn-sm p-0 ms-2 btnclose border-0 bg-transparent">&times;</button>
+                    </div>
+                    <hr class="mb-4">
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="imgholder me-2">
+                            <img src="images/img86.jpg" alt="Ring" class="w-100 img-fluid">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="cartHding fw-light mb-1">Circle of Chain Necklace</h4>
+                            <small class="subheading fw-normal">1 × <strong class="fw-normal">£199.00</strong></small>
+                        </div>
+                        <button class="btn btn-sm p-0 ms-2 btnclose border-0 bg-transparent">&times;</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between fw-semibold mb-3">
+                        <span class="HDtotal fw-normal">Total</span>
+                        <span class="HDprice fw-medium">£48.00</span>
+                    </div>
+                    <div class="d-grid gap-2 mb-4">
+                        <button class="btn btns btn-outline-dark fw-medium">View Cart</button>
+                        <button class="btn btns btn-dark fw-medium">Checkout</button>
+                    </div>
+
+                    <!-- Free Shipping Message -->
+                    <p class="spTxt fw-light text-center mb-0">Free Shipping on All <a href="javascript:void(0);" class="fw-normal">Orders Over $75</a></p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Sidebar Menu Wrapper -->
+        <div class="sidebarMenu offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarMenu">
+            <div class="offcanvas-header justify-content-between py-3 px-4">
+                <h5 class="offcanvas-title mb-0">Jovenca & CO</h5>
+                <a class="btn-close fw-light text-decoration-none" data-bs-dismiss="offcanvas" aria-label="Close"></a>
+            </div>
+            <div class="offcanvas-body p-0">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3 pt-4 px-4 text-uppercase" id="menuTab" role="tablist">
+                    <li class="nav-item me-6 mb-3">
+                        <a class="text-decoration-none active" href="javascript:void(0);" id="menu-tab" data-bs-toggle="tab" data-bs-target="#menu" role="tab" aria-controls="menu" aria-selected="true">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-decoration-none" href="javascript:void(0);" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" role="tab" aria-controls="categories" aria-selected="false">Categories</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="menuTabContent">
+                    <div class="tab-pane fade show active" id="menu" role="tabpanel" aria-labelledby="menu-tab">
+                        <ul class="list-unstyled mainmenu">
+                            <li class="py-2 px-4">
+                                <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#homeMenu" role="button" aria-expanded="false">Home  <i class="fa-solid fa-angle-down"></i></a>
+                                <ul class="collapse list-unstyled submenu pt-3" id="homeMenu">
+                                    <li class="py-2 px-2"><a href="home.html" class="nav-link fw-normal">Homepage 1</a></li>
+                                    <li class="py-2 px-2"><a href="home2.html" class="nav-link fw-normal">Homepage 2</a></li>
+                                    <li class="py-2 px-2"><a href="home3.html" class="nav-link fw-normal">Homepage 3</a></li>
+                                </ul>
+                             </li>
+                             <li class="py-2 px-4">
+                                <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#aboutMenu" role="button" aria-expanded="false">About  <i class="fa-solid fa-angle-down"></i></a>
+                                <ul class="collapse list-unstyled submenu pt-3" id="aboutMenu">
+                                    <li class="py-2 px-2"><a href="about-us.html" class="nav-link fw-normal">About Me</a></li>
+                                    <li class="py-2 px-2"><a href="about-us.html" class="nav-link fw-normal">About Us</a></li>
+                                </ul>
+                             </li>
+                             <li class="py-2 px-4">
+                                <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#shopMenu" role="button" aria-expanded="false">Shop  <i class="fa-solid fa-angle-down"></i></a>
+                                <ul class="collapse list-unstyled submenu pt-3" id="shopMenu">
+                                    <li class="py-2 px-2"><a href="shop-accordion.html" class="nav-link fw-normal">Shop Standard</a></li>
+                                    <li class="py-2 px-2"><a href="shop-second-page.html" class="nav-link fw-normal">Shop Second Page</a></li>
+                                    <li class="py-2 px-2"><a href="tab-default.html" class="nav-link fw-normal">Shop Details Page</a></li>
+                                    <li class="py-2 px-2"><a href="shop-accordion.html" class="nav-link fw-normal">Shop Details Page 2</a></li>
+                                </ul>
+                             </li>
+                             <li class="py-2 px-4">
+                                <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#pageMenu" role="button" aria-expanded="false">Pages  <i class="fa-solid fa-angle-down"></i></a>
+                                <ul class="collapse list-unstyled submenu pt-3" id="pageMenu">
+                                    <li class="py-2 px-2"><a href="faq.html" class="nav-link fw-normal">FAQ</a></li>
+                                    <li class="py-2 px-2"><a href="cart-page.html" class="nav-link fw-normal">Cart Page</a></li>
+                                    <li class="py-2 px-2"><a href="checkout-page.html" class="nav-link fw-normal">Checkout Page</a></li>
+                                </ul>
+                             </li>
+                             <li class="py-2 px-4">
+                                <a class="collapsed text-decoration-none fw-medium d-block py-2-toggle" data-bs-toggle="collapse" href="#blogMenu" role="button" aria-expanded="false">Blog  <i class="fa-solid fa-angle-down"></i></a>
+                                <ul class="collapse list-unstyled submenu pt-3" id="blogMenu">
+                                    <li class="py-2 px-2"><a class="nav-link fw-normal" href="blog-grid.html">Blog Grid</a></li>
+                                    <li class="py-2 px-2"><a class="nav-link fw-normal" href="blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
+                                    <li class="py-2 px-2"><a class="nav-link fw-normal" href="blog-list-sidebar.html">Blog List Sidebar</a></li>
+                                    <li class="py-2 px-2"><a class="nav-link fw-normal" href="blog-standard.html">Blog Standard</a></li>
+                                    <li class="py-2 px-2"><a class="nav-link fw-normal" href="blog-single.html">Blog Single</a></li>
+                                </ul>
+                             </li>
+                            <li class="py-2 px-4">
+                                <a href="contact-us.html" class="collapsed text-decoration-none fw-medium d-block">Contact Us</i></a>
+                            </li>
+                            <li class="py-2 px-4">
+                                <a href="javascript:void(0);" class="collapsed text-decoration-none fw-medium d-block">Buy theme!</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                        <ul class="list-unstyled catemenu fw-normal">
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block " href="javascript:void(0);">New Products</a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Today On Sale</a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Special Offer!</a></li>
+                            <li class="py-2 px-4"><a class="collapsed text-decoration-none d-block" href="javascript:void(0);">Necklaces <i class="fa-solid fa-angle-down"></i></a></li>
+                            <li class="py-2 px-4"><a class="collapsed text-decoration-none d-block" href="javascript:void(0);">Rings <i class="fa-solid fa-angle-down"></i></a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Bracelets</a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Earings</a></li>
+                            <li class="py-2 px-4"><a class="collapsed text-decoration-none d-block" href="javascript:void(0);">Charms & Dangles <i class="fa-solid fa-angle-down"></i></a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Watches</a></li>
+                            <li class="py-2 px-4"><a class="text-decoration-none d-block" href="javascript:void(0);">Gift Ideas</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

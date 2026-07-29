@@ -1,0 +1,158 @@
+@include media-breakpoint-up(sm){
+
+    #pageHeader{
+        .phWrapper{
+            .phActionsList{
+                .mbr{
+                    margin-right: 7px;
+                }
+            }
+        }
+    }
+    #mainNavigation{
+        .nav-link{
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+    .bgCover{ background-position: 0 50%; }
+    .patternActive{
+        &:before,
+        &:after{
+            width: 60px;
+            flex-shrink: 0;
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            border-top: 1px solid currentColor;
+            opacity: 0.1;
+        }
+    }
+    .introBlock{
+        .ibsColumn{
+            font-size: (24/16) * 1rem;
+            line-height: (42/16) * 1rem;
+            .pdts{ padding-top: 9%; }
+            .imgholder{
+                top: -60%;
+            }
+            h1, .h1{
+                font-size: (35/16) * 1rem;
+                line-height: (40/16) * 1rem;
+            }
+            .headII{
+                font-size: (40/16) * 1rem;
+                line-height: (45/16) * 1rem;
+            }
+            .btn{
+                --bs-btn-font-size: calc((18/16) * 1rem);
+                min-width: 172px;
+                margin-top: $spacer * 4;
+            }
+        }
+    }
+    .bannerColumn{
+        min-height: 300px;
+        &.bannerColumnLarge{ min-height: 405px; }
+    }
+    .categoriesBlock{
+        .colsHolder{
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        .chCol{
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .catColumn{
+            .imgHolder{
+                width: 186px;
+                height: 186px;
+            }
+            .ctHeading{
+                font-size: 1rem;
+                line-height: (18/16) * 1rem;
+            }
+        }
+    }
+    .bgCover{
+        background-position: 50% 50%;
+    }
+	.carttablewrap{
+		.mnHding{
+			font-size: (50/16) * 1rem;
+			line-height: (52/16) * 1rem;
+		}
+	}
+    .signupAsideBlock{
+        .newsCol{
+            .form-control{
+                width: 50%;
+            }
+        }
+    }
+    .adBlock{
+        .contentblock{
+            min-height: calc(51vh - 200px);
+            .txtblock{
+                width: 345px;
+                padding: 7% 0 7% 12%;
+            }
+        }
+    }
+    .productInfo{
+        .productInfoheader{
+            .PrdutHd{
+                font-size: (36/16) * 1rem;
+                line-height: (38/16) * 1rem;
+            }
+        }
+        .submitButton{
+            min-width: 214px;
+            &.btnII{ 
+                min-width: 328px;
+            }
+        }
+    }
+    .tabsection{
+        .tab-content{
+            .DetalsTable{
+                min-width: none;
+            }
+            .reviewsCol{
+                .HDreview{
+                    font-size: (24/16) * 1rem;
+                    line-height: (26/16) * 1rem;
+                }
+                .imgHolder{
+                    min-width: 72px;
+                }
+            }
+            .ReviewForm{
+                .colI{ width: 30%; }
+                .colII{ width: 70%; }
+            }
+    	}
+    }
+    .cartsection{ min-width: 420px; }
+    .blogColumn{
+        &.blogColumn--list-view{
+            .imgHolder{
+                width: 203px;
+                height: 153px;
+            }
+        }
+    }
+    .footerAside{
+        .ftColsWrap{
+            .ftCol{
+                width: 33.333%;
+                &:nth-child(4){ width: 66.666%; }
+            }
+        }
+    }
+    .mapFrameWrap{
+        padding-top: 36.8%;
+        height: auto;
+    }
+}

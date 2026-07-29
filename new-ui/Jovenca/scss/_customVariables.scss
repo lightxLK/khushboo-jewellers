@@ -1,0 +1,489 @@
+// Color system
+$white:    #fff;
+$light:    #f5f5f5;
+$light2:   #f4f4f4;
+$light3:   #eeeeee;
+$light4:   #f0f0f0;
+$gray-100: #444;
+$gray-150: #f7f8fa;
+$gray-200: #e5e5e5;
+$gray-250: #e8e8e8;
+$gray-300: #e0e0e0;
+$gray-400: #ccc;
+$gray-450: #c5c5c5;
+$gray-500: #aaa;
+$gray-525: #bbb;
+$gray-550: #999;
+$gray-575: #8e8e8e;
+$gray-587: #878787;
+$gray-600: #888;
+$gray-650: #666;
+$gray-700: #777;
+$gray-800: #555;
+$gray-850: #333;
+$gray-900: #222;
+$black:    #000;
+$pink-light: #ffbfca;
+$clr4: #d1b4a8;
+
+$grays: (
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "850": $gray-850,
+  "900": $gray-900
+);
+
+$clr1:  #d8f2e7;
+$clr2:  #122947;
+$clr3:  #ffc0cb;
+$clr5:  #e2e6ed;
+$clr6:  #f8e4e4;
+$clr7:  #f3e7e0;
+$clr8:  #7aa0b3;
+$clr9:  #b3917a;
+$clr10: #b3837a;
+$clr11: #f6f6f6;
+$clr12: #4e4e4e;
+$clr13: #dbf2f9;
+$clr14: #f6ecec;
+$clr15: #e2f2fd;
+$clr16: #f0c7fe;
+$clr17: #c0c0c0;
+$clr18: #f9f1ef;
+$clr19: #f2f2f2;
+$blue:    #0d6efd !default;
+$indigo:  #6610f2 !default;
+$purple:  #f9ebf9;
+$pink:    #eee3e3;
+$red:     #ff564e;
+$red2:    #f68773;
+$orange:  #ffaa65;
+$yellow:  #ffc107 !default;
+$green:   #198754 !default;
+$teal:    #20c997 !default;
+$cyan:    #58cbe6;
+
+$colors: (
+  "blue":       $blue,
+  "indigo":     $indigo,
+  "purple":     $purple,
+  "pink":       $pink,
+  "red":        $red,
+  "orange":     $orange,
+  "yellow":     $yellow,
+  "green":      $green,
+  "teal":       $teal,
+  "cyan":       $cyan,
+  "black":      $black,
+  "white":      $white,
+  "gray":       $gray-600,
+  "gray-dark":  $gray-800
+);
+
+$primary:       $gray-900;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan;
+$warning:       $orange;
+$danger:        $red;
+$light:         $light;
+$dark:          $gray-900;
+
+$purple-100: tint-color($purple, 80%);
+$purple-200: tint-color($purple, 60%);
+$purple-300: tint-color($purple, 40%);
+$purple-400: tint-color($purple, 20%);
+$purple-500: $purple;
+$purple-600: shade-color($purple, 20%);
+$purple-700: shade-color($purple, 40%);
+$purple-800: shade-color($purple, 60%);
+$purple-900: shade-color($purple, 80%);
+
+$purples: (
+  "purple-100": $purple-100,
+  "purple-200": $purple-200,
+  "purple-300": $purple-300,
+  "purple-400": $purple-400,
+  "purple-500": $purple-500,
+  "purple-600": $purple-600,
+  "purple-700": $purple-700,
+  "purple-800": $purple-800,
+  "purple-900": $purple-900
+);
+
+$pink-100: tint-color($pink, 80%);
+$pink-200: tint-color($pink, 60%);
+$pink-300: tint-color($pink, 40%);
+$pink-400: tint-color($pink, 20%);
+$pink-500: $pink;
+$pink-600: shade-color($pink, 20%);
+$pink-700: shade-color($pink, 40%);
+$pink-800: shade-color($pink, 60%);
+$pink-900: shade-color($pink, 80%);
+
+$pinks: (
+  "pink-100": $pink-100,
+  "pink-200": $pink-200,
+  "pink-300": $pink-300,
+  "pink-400": $pink-400,
+  "pink-500": $pink-500,
+  "pink-600": $pink-600,
+  "pink-700": $pink-700,
+  "pink-800": $pink-800,
+  "pink-900": $pink-900
+);
+
+$red-100: tint-color($red, 80%);
+$red-200: tint-color($red, 60%);
+$red-300: tint-color($red, 40%);
+$red-400: tint-color($red, 20%);
+$red-500: $red;
+$red-600: shade-color($red, 20%);
+$red-700: shade-color($red, 40%);
+$red-800: shade-color($red, 60%);
+$red-900: shade-color($red, 80%);
+
+$reds: (
+  "pink-100": $pink-100,
+  "pink-200": $pink-200,
+  "pink-300": $pink-300,
+  "pink-400": $pink-400,
+  "pink-500": $pink-500,
+  "pink-600": $pink-600,
+  "pink-700": $pink-700,
+  "pink-800": $pink-800,
+  "pink-900": $pink-900
+);
+
+$orange-100: tint-color($orange, 80%);
+$orange-200: tint-color($orange, 60%);
+$orange-300: tint-color($orange, 40%);
+$orange-400: tint-color($orange, 20%);
+$orange-500: $orange;
+$orange-600: shade-color($orange, 20%);
+$orange-700: shade-color($orange, 40%);
+$orange-800: shade-color($orange, 60%);
+$orange-900: shade-color($orange, 80%);
+
+$oranges: (
+  "orange-100": $orange-100,
+  "orange-200": $orange-200,
+  "orange-300": $orange-300,
+  "orange-400": $orange-400,
+  "orange-500": $orange-500,
+  "orange-600": $orange-600,
+  "orange-700": $orange-700,
+  "orange-800": $orange-800,
+  "orange-900": $orange-900
+);
+
+$cyan-100: tint-color($cyan, 80%);
+$cyan-200: tint-color($cyan, 60%);
+$cyan-300: tint-color($cyan, 40%);
+$cyan-400: tint-color($cyan, 20%);
+$cyan-500: $cyan;
+$cyan-600: shade-color($cyan, 20%);
+$cyan-700: shade-color($cyan, 40%);
+$cyan-800: shade-color($cyan, 60%);
+$cyan-900: shade-color($cyan, 80%);
+
+$cyans: (
+  "cyan-100": $cyan-100,
+  "cyan-200": $cyan-200,
+  "cyan-300": $cyan-300,
+  "cyan-400": $cyan-400,
+  "cyan-500": $cyan-500,
+  "cyan-600": $cyan-600,
+  "cyan-700": $cyan-700,
+  "cyan-800": $cyan-800,
+  "cyan-900": $cyan-900
+) !default;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
+
+$wpThemeColor: $primary;
+
+// Options
+$enable-shadows:  true;
+$enable-validation-icons: false;
+$enable-deprecation-messages: false;
+$enable-dark-mode:  false;
+$enable-negative-margins: true;
+
+// Spacing
+$spacer: 0.3125rem;
+$spacers: ();
+$spacers: map-merge(
+  (
+    0: 0,
+    1: $spacer,
+    2: ($spacer * 2),
+    3: ($spacer * 3.2),
+    4: ($spacer * 4),
+    5: ($spacer * 5),
+    6: ($spacer * 6),
+    7: ($spacer * 7),
+    8: ($spacer * 8),
+    9: ($spacer * 9),
+    10: ($spacer * 10),
+    11: ($spacer * 11),
+    12: ($spacer * 12),
+    13: ($spacer * 13),
+    14: ($spacer * 14),
+    15: ($spacer * 15),
+    16: ($spacer * 16),
+    17: ($spacer * 17),
+    18: ($spacer * 18),
+    19: ($spacer * 19),
+    20: ($spacer * 20),
+    21: ($spacer * 21),
+    22: ($spacer * 22),
+    23: ($spacer * 23),
+    24: ($spacer * 24),
+    25: ($spacer * 25),
+    26: ($spacer * 26),
+    27: ($spacer * 27),
+    28: ($spacer * 28),
+    29: ($spacer * 29),
+    30: ($spacer * 30),
+    31: ($spacer * 31),
+    32: ($spacer * 32),
+    33: ($spacer * 33),
+    34: ($spacer * 34),
+    35: ($spacer * 35),
+    36: ($spacer * 36),
+    37: ($spacer * 37),
+    38: ($spacer * 38),
+    39: ($spacer * 39),
+    40: ($spacer * 40),
+    41: ($spacer * 41),
+    42: ($spacer * 42),
+    43: ($spacer * 43),
+    44: ($spacer * 44),
+    45: ($spacer * 45),
+    46: ($spacer * 46),
+    47: ($spacer * 47),
+    48: ($spacer * 48),
+    49: ($spacer * 49),
+    50: ($spacer * 50),
+    51: ($spacer * 51),
+    52: ($spacer * 52),
+    53: ($spacer * 53),
+    54: ($spacer * 54),
+    55: ($spacer * 55),
+    56: ($spacer * 56),
+    57: ($spacer * 57),
+    58: ($spacer * 58),
+    59: ($spacer * 59),
+    60: ($spacer * 60)
+  ),
+  $spacers
+);
+
+// Position
+$position-values: (
+  16: 16.667%,
+  20: 20%,
+  25: 25%,
+  33: 33.333%,
+  50: 50%,
+  66: 66.667%,
+  80: 80%,
+  100: 100%
+);
+
+// Body
+$body-color:  $gray-800;
+
+// Links
+$link-color:  $gray-900;
+$link-hover-color:  shift-color($link-color, $link-shade-percentage);
+$link-hover-decoration: none;
+
+// Grid breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  lgwd: 1025px,
+  xl: 1230px,
+  xlwd: 1430px,
+  xxl: 1920px
+);
+
+// Grid containers
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1200px,
+  xlwd: 1400px
+);
+
+// Grid columns
+$grid-gutter-width: 1.875rem;
+$container-padding-x: $grid-gutter-width;
+
+// Components
+$border-color:  $gray-250;
+$component-active-bg: $primary;
+$transition-base: all .3s ease !default;
+$transition-fade: opacity .3s ease, visibility .3s ease;
+$transition-collapse: height .3s ease, transform .3s ease;
+$transition-collapse-width: width .3s ease;
+$caret-spacing: 0.5rem;
+
+// Typography
+$font-family-sans-serif:  "Jost", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-base:  var(--#{$prefix}font-sans-serif);
+$font-size-base:  1.125rem;
+$font-size-sm:  $font-size-base * .875;
+$font-size-lg:  1.25rem;
+$font-weight-lighter:         200;
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-medium:          500 !default;
+$font-weight-semibold:        600 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          800 !default;
+$font-weight-base:            $font-weight-light;
+$line-height-base:            1.55;
+$h1-font-size:                (40/16) * 1rem;
+$h2-font-size:                (30/16) * 1rem;
+$h3-font-size:                (26/16) * 1rem;
+$h4-font-size:                (20/16) * 1rem;
+$h5-font-size:                (22/16) * 1rem;
+$h6-font-size:                $font-size-base;
+$headings-margin-bottom:      $spacer * 3;
+$headings-font-weight:        $font-weight-medium;
+$headings-line-height:        1.1;
+$headings-color:              $gray-850;
+$input-btn-padding-y-sm:      (8/16) * 1rem;
+$input-btn-padding-x-sm:      (20/16) * 1rem;
+$input-btn-font-size-sm:      1rem;
+
+// Buttons + Forms
+$input-btn-padding-y: (10/16) * 1rem;
+$input-btn-padding-x: (18/16) * 1rem;
+$input-btn-font-family: $font-family-base;
+$input-btn-font-size: $font-size-base;
+$input-btn-line-height: 1.2;
+$input-btn-focus-width: 0;
+$input-btn-focus-box-shadow:  0 0 0 rgba($black, 0);
+$input-btn-border-width:  2px;
+$btn-padding-y-sm:  $input-btn-padding-y-sm;
+$btn-padding-x-sm:  $input-btn-padding-x-sm;
+$btn-font-size-sm:  $input-btn-font-size-sm;
+
+// Buttons
+$btn-color: var(--#{$prefix}body-color);
+$btn-padding-y: (11/16) * 1rem;
+$btn-padding-x: $input-btn-padding-x;
+$btn-font-family: $input-btn-font-family;
+$btn-font-size: $font-size-lg;
+$btn-line-height: $input-btn-line-height;
+$btn-border-width:  $input-btn-border-width;
+$btn-font-weight: $font-weight-normal;
+$btn-box-shadow:  0 0 0 rgba($black, 0);
+$btn-focus-width: $input-btn-focus-width;
+$btn-focus-box-shadow:  $input-btn-focus-box-shadow;
+$btn-active-box-shadow: $btn-focus-box-shadow;
+$btn-link-color:  var(--#{$prefix}link-color);
+$btn-link-hover-color:  (--#{$prefix}link-hover-color);
+$btn-link-disabled-color: $gray-600;
+$btn-border-radius: 0;
+$btn-border-radius-sm:  $btn-border-radius;
+$btn-border-radius-lg:  $btn-border-radius;
+$btn-transition:  color .3s ease, background-color .3s ease, border-color .3s ease;
+
+// Forms
+$input-padding-y: $input-btn-padding-y;
+$input-padding-x: $input-btn-padding-x;
+$input-font-family: $input-btn-font-family;
+$input-font-size: $input-btn-font-size;
+$input-font-weight: $font-weight-base;
+$input-line-height: $input-btn-line-height;
+$input-color: var(--#{$prefix}body-color);
+$input-border-color:  $gray-200;
+$input-border-width:  $input-btn-border-width;
+$input-box-shadow:  0 0 0 rgba($black, 0);
+$input-border-radius: 0;
+$input-border-radius-sm:  $input-border-radius;
+$input-border-radius-lg:  $input-border-radius;
+$input-focus-border-color:  tint-color($component-active-bg, 50%);
+$input-focus-color: $input-color;
+$input-focus-width: $input-btn-focus-width;
+$input-focus-box-shadow:  $input-btn-focus-box-shadow;
+$input-placeholder-color: $gray-700;
+$input-height:  3.125rem;
+
+// Dropdowns
+$dropdown-box-shadow: 0 0 10px rgba($black, 0.3);
+$dropdown-dark-box-shadow:  $dropdown-box-shadow;
+
+// Navs
+$nav-link-font-weight:  $font-weight-base;
+
+// Cards
+$card-title-color:  $gray-800;
+$card-subtitle-color: $gray-600;
+$card-box-shadow: $dropdown-box-shadow;
+$card-cap-color:  $gray-500;
+$card-height: auto;
+$card-color:  $gray-700;
+
+// Breadcrumbs
+$breadcrumb-bg: transparent;
+$breadcrumb-border-radius:  0;
+$breadcrumb-font-size:  (17/16) * 1rem;
+$breadcrumb-padding-y:  $spacer;
+$breadcrumb-padding-x:  0;
+$breadcrumb-item-padding-x: $spacer;
+$breadcrumb-margin-bottom:  0;
+$breadcrumb-bg: transparent;
+$breadcrumb-divider-color:  $gray-700;
+$breadcrumb-divider:  quote(">");
+$breadcrumb-divider-flipped:  $breadcrumb-divider;
+$breadcrumb-border-radius:  0;
+
+// Toasts
+$toast-color: $gray-700;
+
+// Modals
+$modal-content-color: $gray-700;
+$modal-footer-bg: $light;
+
+// Tooltips
+$tooltip-margin:  0;
+
+// Pagination
+$pagination-padding-y:  (4/16) * 1rem;
+$pagination-padding-x:  $spacer * 1;
+$pagination-font-size:  (18/16) * 1rem;
+$pagination-bg: transparent;
+$pagination-border-radius:  0;
+$pagination-border-width: 2px;
+$pagination-margin-start: 0;
+$pagination-border-color: $pagination-bg;
+$pagination-disabled-color: $gray-300;
+$pagination-disabled-bg:  $pagination-bg;
+$pagination-disabled-border-color:  $pagination-bg;
+
+// Paragraphs
+$paragraph-margin-bottom: $spacer * 4;

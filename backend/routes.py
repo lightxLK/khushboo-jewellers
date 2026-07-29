@@ -200,6 +200,18 @@ def inject_globals():
 
     return globals
 
+@app.context_processor
+def inject_nav_data():
+    """Real segments/categories for the public site nav (mega-menu, mobile
+    sidebar, footer shop links) - single source of truth so every page reads
+    live data instead of each template carrying its own copy that drifts."""
+    nav_segments = Segment.query.filter_by(is_active=True).order_by(Segment.display_order).all()
+    for seg in nav_segments:
+        seg.nav_categories = Category.query.filter_by(
+            segment_id=seg.id, is_active=True
+        ).order_by(Category.name).all()
+    return {'nav_segments': nav_segments, 'current_year': datetime.utcnow().year}
+
 # ==================== HELPER FUNCTIONS ====================
 
 def save_single_image(file, folder):
@@ -1849,7 +1861,26 @@ def admin_user_manual():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    popular_categories = Category.query.filter_by(is_active=True) \
+        .join(Subcategory, Subcategory.category_id == Category.id) \
+        .join(Product, Product.subcategory_id == Subcategory.id) \
+        .group_by(Category.id) \
+        .order_by(db.func.count(Product.id).desc()) \
+        .limit(6).all()
+
+    featured_products = Product.query.filter_by(is_active=True) \
+        .filter(Product.primary_image.isnot(None)) \
+        .order_by(db.func.random()).limit(8).all()
+
+    new_arrivals = Product.query.filter_by(is_active=True) \
+        .filter(Product.primary_image.isnot(None)) \
+        .order_by(Product.created_at.desc()).limit(8).all()
+
+    return render_template('home.html',
+        popular_categories=popular_categories,
+        featured_products=featured_products,
+        new_arrivals=new_arrivals
+    )
 
 @app.route('/about')
 def about():

@@ -1,0 +1,169 @@
+@include media-breakpoint-up(xl){
+	.sayingsSlider .slickPrev,
+	.sayingsSlider .slickNext{
+		transform: translateY(-50%);
+	}
+    .introBlock{
+        .ibsColumn{
+            &.ibsColII{ font-size: (20/16) * 1rem; }
+            .hhHeadingII{
+                font-size: (30/16) * 1rem;
+                line-height: (34/16) * 1rem;
+                .hdI{
+                    font-size: (40/16) * 1rem;
+                    line-height: (42/16) * 1rem;
+                }
+            }
+            .headII{
+                font-size: (70/16) * 1rem;
+                line-height: (75/16) * 1rem;
+            }
+            .hhHeadingI{
+                font-size: (50/16) * 1rem;
+                line-height: (52/16) * 1rem;
+            }
+            .subHeading{
+                font-size: (24/16) * 1rem;
+                line-height: (26/16) * 1rem;
+            }
+            .subTitle{
+                font-size: (36/16) * 1rem;
+                line-height: (38/16) * 1rem;
+            }
+        }
+    }
+    .categoriesBlock{
+        .chCol{ width: 16.667%; }
+        .catColumn{
+            .imgHolder{
+                width: 146px;
+                height: 146px;
+            }
+        }
+    }
+    .productsDetailsWrapper{
+        gap: 90px;
+    	.image,
+    	.imageWrapper{
+    	  max-width: 585px;
+    	}
+        .imagsItems{
+            width: 48%;
+        }
+    }
+    .headingHead{
+        .hhHeading{
+            font-size: (40/16) * 1rem;
+            &.HDii{ font-size: (50/16) * 1rem; }
+            &.hhHeadingII { font-size: (30/16) * 1rem; }
+        }
+        .hHeading{
+            font-size: (200/16) * 1rem;
+            left: 22%;
+            top: 162px;
+        }
+    }
+    .exploreColumn{
+        .pcTitle{
+            font-size: (32/16) * 1rem;
+            line-height: (34/16) * 1rem;
+        }
+    }
+    .craftBlock{
+        .imgHolder{
+            width: 73%;
+        }
+        .contentCol{
+            width: 33%;
+            top: 150px;
+            font-size: (20/16) * 1rem;
+            line-height: (24/16) * 1rem;
+            .subHeading{
+                font-size: (40/16) * 1rem;
+                line-height: (42/16) * 1rem;
+            }
+            .btn{
+                font-size: (18/16) * 1rem;
+                line-height: (20/16) * 1rem;
+            }
+        }
+    }
+    .adBlock{
+        .contentblock{
+            .adHeading{
+                font-size: (40/16) * 1rem;
+                line-height: (42/16) * 1rem;
+            }
+            .adSub{
+                font-size: (24/16) * 1rem;
+                line-height: (26/16) * 1rem;
+            }
+            .adtxt{
+                font-size: (36/16) * 1rem;
+                line-height: (38/16) * 1rem;
+            }
+        }
+    }
+    .signupAsideBlock{
+        .newsCol{
+            .form-control{
+                width: 24%;
+            }
+        }
+    }
+    .blogColumn{
+        &.blogColumn--list-view{
+            .imgHolder{
+                width: 436px;
+                height: 283px;
+            }
+        }
+        .blgHeading{ font-size: (26/16) * 1rem; }
+    }
+    .footerAside{
+        .ftColsWrap{
+            .ftCol{
+                width: 20%;
+                &:nth-child(4),
+                &:nth-child(5){ width: 20%; }
+            }
+        }
+    }
+    .lineHeading{ font-size: (40/16) * 1rem; }
+    .sayQuote{
+        font-size: (30/16) * 1rem;
+        line-height: (40/16) * 1rem;
+    }
+    .bioQuote{
+        font-size: (30/16) * 1rem;
+        line-height: (40/16) * 1rem;
+    }
+    .bioContact{
+        font-size: (18/16) * 1rem;
+        line-height: (26/16) * 1rem;
+    }
+    .collectionsection{
+        .hhHeading{
+            font-size: (50/16) * 1rem;
+            line-height: (60/16) * 1rem;
+        }
+        .txtColIII{
+            left: 29%;
+            min-width: 360px;
+            h2{
+                font-size: (40/16) * 1rem;
+                line-height: (50/16) * 1rem;
+            }
+        }
+    }
+    .vSection{
+        .mnHeading{
+            font-size: (50/16) * 1rem;
+            line-height: (55/16) * 1rem;
+        }
+        .para{
+            font-size: (24/16) * 1rem;
+            line-height: (32/16) * 1rem;
+        }
+    }
+}

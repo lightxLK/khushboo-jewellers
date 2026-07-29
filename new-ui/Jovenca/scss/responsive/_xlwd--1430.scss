@@ -1,0 +1,60 @@
+@include media-breakpoint-up(xlwd){
+
+    .introBlock{
+        .ibsColumn{
+            .pddngS{ padding-left: 10%; }
+            .imgholder{
+                top: -16%;
+            }
+        }
+    }
+    .headingHead{
+        .hHeading{
+            left: 27%;
+        }
+    }
+    .productsDetailsWrapper{
+        &.WrapII{
+            gap: 90px;
+        }
+          .imagsItems{
+            width: 48.5%;
+        }
+    }
+    .categoriesBlock{
+        .colsHolder{
+            margin-left: -25px;
+            margin-right: -25px;
+        }
+        .chCol{
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .catColumn{
+            margin-bottom: 50px;
+            .imgHolder{
+                width: 186px;
+                height: 186px;
+            }
+        }
+    }
+    .craftBlock{
+        .contentCol{
+            top: 150px;
+            font-size: (24/16) * 1rem;
+            line-height: (30/16) * 1rem;
+            .subHeading{
+                font-size: (60/16) * 1rem;
+                line-height: (62/16) * 1rem;
+            }
+        }
+    }
+    .pcActionsListIII{
+        padding: 13px 58px;
+    }
+    .collectionsection{
+        .txtColIII{
+            left: 40%;
+        }
+    }
+}

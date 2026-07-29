@@ -1,0 +1,222 @@
+@include media-breakpoint-up(md){
+    
+    #pageHeader{
+        .phTopBar{
+            font-size: 1rem;
+            line-height: (20/16) * 1rem;
+        }
+        .logo{ max-width: 210px; }
+        .phCartBubble{
+            width: 22px;
+            height: 22px;
+            font-size: (14/16) * 1rem;
+            top: -6px;
+            right: -17px;
+        }
+    }
+    #mainNavigation{
+        padding: 20px 0;
+        .nav-link{
+            text-align: left;
+            padding: 0;
+        }
+        .mnCol{
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    .introBlock{
+        .ibsColumn{
+            &.ibsColII{ font-size: (16/16) * 1rem; }
+            .pdngS{ padding-left: 14.5%; }
+            .pdts{ padding-top: 0; }
+            h1, .h1{
+                font-size: (40/16) * 1rem;
+                line-height: (45/16) * 1rem;
+            }
+            .titleHD{
+                font-size: (18/16) * 1rem;
+                line-height: (20/16) * 1rem;
+                letter-spacing: 2px;
+            }
+            .hhHeadingII{
+                font-size: (25/16) * 1rem;
+                line-height: (27/16) * 1rem;
+                .hdI{
+                    font-size: (30/16) * 1rem;
+                    line-height: (32/16) * 1rem;
+                }
+            }
+            .imgholder{
+                width: 40%;
+                left: -21%;
+                top: 10%;
+            }
+        }
+    }
+    .patternActive{
+        &:before,
+        &:after{ width: 100px; }
+    }
+    .categoriesBlock{
+        .chCol{ width: 33.333%; }
+    }
+	.postNavigatorNav{
+		.btnPrev{
+			top: 33px;
+		}
+		.btnNext{
+			top: 36px;
+		}
+	}
+	.carttablewrap{
+		.ChForm{
+			.formCol{
+		        &.formCol50{
+		            width: 50%;
+		        }
+		    }
+		}
+	}
+    .craftBlock{
+        .imgHolder{
+            width: 67%;
+        }
+        .contentCol{
+            position: absolute;
+            right: 0;
+            top: 56px;
+            width: 43%;
+            font-size: (18/16) * 1rem;
+            line-height: (20/16) * 1rem;
+            .subHeading{
+                font-size: (30/16) * 1rem;
+                line-height: (32/16) * 1rem;
+            }
+            .btn{
+                font-size: (16/16) * 1rem;
+                line-height: (18/16) * 1rem;
+            }
+        }
+    }
+    .signupAsideBlock{
+        .newsCol{
+            .form-control{
+                width: 40%;
+            }
+        }
+    }
+    .vSection{
+        .imgHolder{
+            .playBtn{
+                width: 80px;
+                height: 80px;
+            }
+        }
+        .mnHeading{
+            font-size: (35/16) * 1rem;
+            line-height: (40/16) * 1rem;
+        }
+    }
+	.bcDescription{
+		border-bottom: 1px solid $gray-250;
+	}
+    .productsDetailsWrapper{
+    	.imageWrapper,
+    	.image{
+    		max-width: 585px;
+    	}
+    	.imageslist{ max-width: 85px; }
+    }
+    .headingHead{
+        .hhHeadingI{
+            font-size: (50/16) * 1rem;
+            line-height: (60/16) * 1rem;
+        }
+        .hhHeading{ font-size: (30/16) * 1rem; }
+        .hHeading{
+            font-size: (100/16) * 1rem;
+            line-height: (50/16) * 1rem;
+            left: 22%;
+            top: 40px;
+        }
+    }
+    .tabsection{
+        .nav-tabs{
+            font-size: (24/16) * 1rem;
+            line-height: (26/16) * 1rem;
+        }
+    }
+    .blogColumn{
+        &.blogColumn--list-view{
+            .imgHolder{
+                width: 283px;
+                height: 283px;
+            }
+        }
+    }
+    .cbFiltersList{
+        a{
+            font-size: (20/16) * 1rem;
+            line-height: (24/16) * 1rem;
+        }
+    }
+    .listerBlock{
+        min-height: 540px;
+        .imgHolder{
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 52%;
+        }
+    }
+    .mcColumn{
+        .mccHeadaing{
+            font-size: (24/16) * 1rem;
+            line-height: (30/16) * 1rem;
+        }
+    }
+    .sayQuote{
+        .imgHolder{
+            max-width: none;
+        }
+    }
+    .sayingsSlider{
+        .slickPrev,
+        .slickNext{
+            left: -10px;
+        }
+        .slickNext{
+            left: 44px;
+            margin-left: 0;
+        }
+        .slickPrev{ margin-left: 0; }
+    }
+    .bioBlock{
+        min-height: calc(100vh - 192px);
+        .imgHolder{
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+        }
+    }
+    .bannerHead{ min-height: 296px; }
+    .collectionsection{
+        .txtCol{
+            right: -21%;
+            top: 71px;
+        }
+        .txtColIII{
+            position: absolute;
+            left: 9%;
+            top: -258px;
+        }
+        .hhHeading{
+            font-size: (30/16) * 1rem;
+            line-height: (40/16) * 1rem;
+        }
+    }
+}

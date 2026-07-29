@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Khushboo Jewellers | Traditional Silver Wholesale Since 2002{% endblock %}
+{% set active_nav = 'home' %}
+
+{% block content %}
+<section class="introBlock position-relative overflow-hidden w-100">
+    <div class="container-fluid px-lgwd-18">
+        <div class="ibSliderII">
+            <div>
+                <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr">
+                    <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                        <div class="ahAlign">
+                            <h1 class="hhHeadingI fw-normal mb-1">Timeless Elegance <br>Crafted for You</h1>
+                            <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">925 Sterling Silver, BIS Certified</span>
+                            <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Odisha's Largest Wholesale Hub</strong>
+                            <a href="/categories/{{ nav_segments[0].id if nav_segments else '' }}" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Shop Now">
+                                <span class="btnText">Shop Collections</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-7 imgHolder iMgII">
+                        <img src="/images/hero-banner-2.png" class="w-100" alt="Khushboo Jewellers Silver Collection">
+                    </div>
+                </article>
+            </div>
+            <div>
+                <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr2">
+                    <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                        <div class="ahAlign">
+                            <h1 class="hhHeadingI fw-normal mb-1">Exquisite <br>Craftsmanship</h1>
+                            <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Handcrafted Odia Silver Artistry</span>
+                            <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">Three Generations of Heritage</strong>
+                            <a href="/about" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Our Story">
+                                <span class="btnText">Our Story</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-7 imgHolder iMgII">
+                        <img src="/images/KJ-Web banner slider 1.jpg" class="w-100" alt="Exquisite Craftsmanship">
+                    </div>
+                </article>
+            </div>
+            <div>
+                <article class="ibsColumn ibsColII d-md-flex justify-content-md-center bgclr3">
+                    <div class="col-12 col-md-5 py-5 my-md-auto pddngS">
+                        <div class="ahAlign">
+                            <h1 class="hhHeadingI fw-normal mb-1">Bridal <br>Collections</h1>
+                            <span class="subHeading d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">For Every Special Occasion</span>
+                            <strong class="subTitle d-block fw-light mb-2 mb-lg-3 mb-lgwd-5">500+ Retail Partners Trust Us</strong>
+                            <a href="/contact" class="btn btnThemeOutlined py-2 py-lg-3 px-6 px-lg-9" data-hover="Enquire">
+                                <span class="btnText">Become a Partner</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-7 imgHolder iMgII">
+                        <img src="/images/KJ-Web banner slider 2.jpg" class="w-100" alt="Bridal Collections">
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="categoriesBlock position-relative w-100 overflow-hidden pt-4 pt-xl-14">
+    <div class="container">
+        <header class="headingHead text-center mb-8">
+            <h2 class="hhHeading fw-normal">Popular Categories</h2>
+        </header>
+        <div class="colsHolder d-flex flex-wrap justify-content-center">
+            {% for cat in popular_categories %}
+            <div class="chCol d-flex">
+                <a href="/subcategories/{{ cat.id }}" class="catColumn d-block w-100 text-center">
+                    <div class="imgHolder mx-auto mb-5">
+                        <img src="{{ cat.image_path or '/images/placeholder.png' }}" class="w-100 h-100 object-fit-cover" alt="{{ cat.name }}">
+                    </div>
+                    <h3 class="ctHeading d-inline-block text-uppercase align-top">{{ cat.name }}</h3>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-10 py-lg-15">
+    <div class="container">
+        <header class="headingHead text-center mb-9">
+            <h2 class="position-relative fw-normal hhHeading patternActive d-flex justify-content-center align-items-center gap-4 mb-4">Featured Products</h2>
+        </header>
+        <div class="row d-block isoContentHolder">
+            <div class="row">
+                {% for p in featured_products %}
+                <div class="col-12 col-sm-6 col-xl-3 isoCol mb-5">
+                    <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                        <div class="imgHolder mb-2">
+                            <a href="/product/{{ p.id }}">
+                                <img src="{{ p.primary_image or '/images/placeholder.png' }}" class="w-100 img-fluid" alt="{{ p.name }}">
+                            </a>
+                        </div>
+                        <strong class="d-block mb-1 fw-normal pcTitle">{{ p.subcategory.category.name if p.subcategory else '' }}</strong>
+                        <h3 class="fw-light pcHeading mb-1">
+                            <a href="/product/{{ p.id }}" class="text-decoration-none">{{ p.name }}</a>
+                        </h3>
+                        <a href="/product/{{ p.id }}" class="pcBtnSubmit position-absolute fw-medium p-0 border-0 text-decoration-none">VIEW DETAILS</a>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="collectionBlock position-relative w-100 overflow-hidden py-6 py-md-10 py-lg-15">
+    <div class="container">
+        <header class="headingHead text-center mb-9">
+            <h2 class="position-relative fw-normal hhHeading patternActive d-flex justify-content-center align-items-center gap-4 mb-4">New Arrivals</h2>
+        </header>
+        <div class="row d-block isoContentHolder">
+            <div class="row">
+                {% for p in new_arrivals %}
+                <div class="col-12 col-sm-6 col-xl-3 isoCol mb-5">
+                    <article class="productColumn text-center text-decoration-none position-relative d-block overflow-hidden">
+                        <div class="imgHolder mb-2">
+                            <a href="/product/{{ p.id }}">
+                                <img src="{{ p.primary_image or '/images/placeholder.png' }}" class="w-100 img-fluid" alt="{{ p.name }}">
+                            </a>
+                        </div>
+                        <strong class="d-block mb-1 fw-normal pcTitle">{{ p.subcategory.category.name if p.subcategory else '' }}</strong>
+                        <h3 class="fw-light pcHeading mb-1">
+                            <a href="/product/{{ p.id }}" class="text-decoration-none">{{ p.name }}</a>
+                        </h3>
+                        <a href="/product/{{ p.id }}" class="pcBtnSubmit position-absolute fw-medium p-0 border-0 text-decoration-none">VIEW DETAILS</a>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<aside class="badgerIIAsideBlock text-center pt-3 pb-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="babWrapper d-flex align-items-center flex-wrap justify-content-center py-3 px-2">
+                    <i class="fa-solid fa-handshake babIcn mb-2 mb-md-0 me-md-3"></i>
+                    <h3 class="mb-0 babHeading fw-light mb-2 mb-md-0 me-md-3">Join 500+ successful retail partners across Odisha and India</h3>
+                    <a href="/contact" class="btn text-uppercase fw-normal mb-2 mb-md-0 me-md-3 py-2">Become a Wholesale Partner</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+{% endblock %}
