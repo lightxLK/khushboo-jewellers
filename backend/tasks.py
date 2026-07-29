@@ -29,9 +29,11 @@ MAX_DRIVE_TOTAL_BYTES = 1024 * 1024 * 1024  # 1 GB
 # Guardrails on the local image ZIP upload — same spirit as the Drive caps
 # above, plus zip-specific checks (encryption, path traversal, pathological
 # archive structure) since this file comes straight from an admin's machine.
+# Env-overridable (like MAX_CONTENT_LENGTH_BYTES in app.py) so a large local
+# bulk-photo import doesn't require touching the production defaults.
 SUPPORTED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
-MAX_IMPORT_FILES = 2000
-MAX_IMPORT_TOTAL_BYTES = 4 * 1024 * 1024 * 1024  # 4 GB
+MAX_IMPORT_FILES = int(os.getenv('MAX_IMPORT_FILES', 2000))
+MAX_IMPORT_TOTAL_BYTES = int(os.getenv('MAX_IMPORT_TOTAL_BYTES', 4 * 1024 * 1024 * 1024))  # 4 GB
 MAX_IMPORT_PATH_DEPTH = 10
 MAX_IMPORT_FILENAME_LENGTH = 255
 
@@ -270,29 +272,49 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
             upload_folder = app.config['UPLOAD_FOLDER']
             wb = openpyxl.load_workbook(io.BytesIO(file_bytes))
             results = {'segments': 0, 'categories': 0, 'subcategories': 0, 'products': 0, 'errors': []}
+            if task_id in import_tasks_store:
+                # Live reference - mutations to `results` below are visible to
+                # pollers immediately, not just once the import finishes.
+                import_tasks_store[task_id]['result'] = results
+                import_tasks_store[task_id]['stage'] = 'validating'
+
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['status'] = 'Excel file validated'
 
             local_index = {}
             if zip_path:
                 if task_id in import_tasks_store:
+                    import_tasks_store[task_id]['stage'] = 'zip'
                     import_tasks_store[task_id]['status'] = 'Extracting image ZIP...'
                 local_index, extraction_dir = validate_and_index_zip(zip_path)
                 if task_id in import_tasks_store:
+                    import_tasks_store[task_id]['images_indexed'] = len(local_index)
                     import_tasks_store[task_id]['status'] = f'Indexed {len(local_index)} images from ZIP'
 
             # Identify sheets flexibly
             sheet_map = {}
             for sn in wb.sheetnames:
                 sn_norm = sn.upper().replace(' ', '')
+                # Match on the stem ("CATEGOR") rather than "CATEGORY"/"SUBCATEGORY" -
+                # the irregular plural "Categories" (Y -> IES) is not a substring of
+                # the singular "Category", so the old check silently dropped any sheet
+                # titled "... Categories" and cascaded into every downstream link failing.
                 if 'SEGMENT' in sn_norm: sheet_map['segments'] = sn
-                elif 'SUBCATEGORY' in sn_norm or 'SUBCAT' in sn_norm: sheet_map['subcategories'] = sn
-                elif 'CATEGORY' in sn_norm: sheet_map['categories'] = sn
+                elif 'SUBCATEGOR' in sn_norm or 'SUBCAT' in sn_norm: sheet_map['subcategories'] = sn
+                elif 'CATEGOR' in sn_norm: sheet_map['categories'] = sn
                 elif 'PRODUCT' in sn_norm: sheet_map['products'] = sn
 
-            # Count total rows for progress
+            # Count total rows for progress, and expose per-sheet totals so the
+            # UI can render a "N of M" checklist per sheet.
             total_rows = 0
+            totals = {'segments': 0, 'categories': 0, 'subcategories': 0, 'products': 0}
             for key in ['segments', 'categories', 'subcategories', 'products']:
                 if key in sheet_map:
-                    total_rows += wb[sheet_map[key]].max_row - 1
+                    n = wb[sheet_map[key]].max_row - 1
+                    totals[key] = n
+                    total_rows += n
+            if task_id in import_tasks_store:
+                import_tasks_store[task_id]['totals'] = totals
             
             done_rows = 0
             def update_progress(msg):
@@ -308,6 +330,7 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
 
             # SHEET 1: SEGMENTS
             if task_id in import_tasks_store:
+                import_tasks_store[task_id]['stage'] = 'segments'
                 import_tasks_store[task_id]['status'] = 'Importing Segments...'
             if 'segments' in sheet_map:
                 ws = wb[sheet_map['segments']]
@@ -354,6 +377,7 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
 
             # SHEET 2: CATEGORIES
             if task_id in import_tasks_store:
+                import_tasks_store[task_id]['stage'] = 'categories'
                 import_tasks_store[task_id]['status'] = 'Importing Categories...'
             if 'categories' in sheet_map:
                 ws = wb[sheet_map['categories']]
@@ -415,6 +439,7 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
 
             # SHEET 3: SUBCATEGORIES
             if task_id in import_tasks_store:
+                import_tasks_store[task_id]['stage'] = 'subcategories'
                 import_tasks_store[task_id]['status'] = 'Importing Subcategories...'
             if 'subcategories' in sheet_map:
                 ws = wb[sheet_map['subcategories']]
@@ -476,6 +501,7 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
 
             # SHEET 4: PRODUCTS
             if task_id in import_tasks_store:
+                import_tasks_store[task_id]['stage'] = 'products'
                 import_tasks_store[task_id]['status'] = 'Importing Products...'
             if 'products' in sheet_map:
                 ws = wb[sheet_map['products']]
@@ -538,6 +564,13 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
                             db.session.add(Product(name=prod_name, product_code=prod_code, details=details, subcategory_id=subcategory.id, category_id=None, primary_image=primary_path, secondary_images=json.dumps(secondary_paths) if secondary_paths else None, is_best_selling=best_sell, is_assured=is_assured, rating=rating, is_active=is_active))
                         db.session.flush()
                         results['products'] += 1
+                        # Commit incrementally (not just once at the end of the loop) -
+                        # each product involves a slow image resize/WebP encode, and a
+                        # 300+ row import held in one uncommitted transaction means a
+                        # server restart mid-import (crash, or the debug reloader firing
+                        # on a code edit) throws away everything processed so far.
+                        if results['products'] % 20 == 0:
+                            db.session.commit()
                         update_progress(f"Importing product: {prod_name}")
                     except Exception as e:
                         results['errors'].append(f"Product error: {str(e)}")
@@ -552,6 +585,7 @@ def run_import_logic(task_id, file_bytes, overwrite_images, zip_path=None):
         )
         if task_id in import_tasks_store:
             import_tasks_store[task_id]['state'] = 'SUCCESS'
+            import_tasks_store[task_id]['stage'] = 'done'
             import_tasks_store[task_id]['progress'] = 100
             import_tasks_store[task_id]['result'] = results
 

@@ -2093,6 +2093,14 @@ def admin_bulk_delete_inquiries():
 @app.route('/admin/import-excel', methods=['GET', 'POST'])
 @admin_required
 def admin_import_excel():
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    def fail(message):
+        if is_ajax:
+            return jsonify({'error': message}), 400
+        flash(message, 'error')
+        return redirect(url_for('admin_import_excel'))
+
     if request.method == 'POST':
         try:
             from tasks import run_import_background
@@ -2103,49 +2111,45 @@ def admin_import_excel():
             if sheet_url and sheet_url.strip():
                 import requests
                 import re
-                
+
                 # Extract ID from URL
                 match = re.search(r'/d/([a-zA-Z0-9-_]+)', sheet_url)
                 if not match:
-                    flash('Invalid Google Sheet URL format.', 'error')
-                    return redirect(url_for('admin_import_excel'))
-                
+                    return fail('Invalid Google Sheet URL format.')
+
                 sheet_id = match.group(1)
                 export_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx"
-                
+
                 try:
                     response = requests.get(export_url, timeout=30)
                     if response.status_code != 200:
-                        flash('Failed to fetch Google Sheet. Please make sure the sheet sharing settings are set to "Anyone with the link can view".', 'error')
-                        return redirect(url_for('admin_import_excel'))
+                        return fail('Failed to fetch Google Sheet. Please make sure the sheet sharing settings are set to "Anyone with the link can view".')
                     file_bytes = response.content
                 except requests.RequestException as e:
-                    flash(f'Failed to fetch Google Sheet: {str(e)}', 'error')
-                    return redirect(url_for('admin_import_excel'))
+                    return fail(f'Failed to fetch Google Sheet: {str(e)}')
 
             else:
                 file = request.files.get('excel_file')
                 if not file or not file.filename.endswith('.xlsx'):
-                    flash('Please upload a valid .xlsx file or provide a Google Sheets URL', 'error')
-                    return redirect(url_for('admin_import_excel'))
+                    return fail('Please upload a valid .xlsx file or provide a Google Sheets URL')
                 file_bytes = file.read()
 
             zip_path = None
             images_zip = request.files.get('images_zip')
             if images_zip and images_zip.filename:
                 if not images_zip.filename.lower().endswith('.zip'):
-                    flash('Product images file must be a .zip archive.', 'error')
-                    return redirect(url_for('admin_import_excel'))
+                    return fail('Product images file must be a .zip archive.')
                 fd, zip_path = tempfile.mkstemp(suffix='.zip')
                 os.close(fd)
                 images_zip.save(zip_path)
 
             overwrite_images = request.form.get('overwrite_images') == 'yes'
             task_id = run_import_background(file_bytes, overwrite_images=overwrite_images, zip_path=zip_path)
+            if is_ajax:
+                return jsonify({'task_id': task_id})
             return render_template('admin/import-excel.html', task_id=task_id)
         except Exception as e:
-            flash(f'Import failed: {str(e)}', 'error')
-            return redirect(url_for('admin_import_excel'))
+            return fail(f'Import failed: {str(e)}')
     return render_template('admin/import-excel.html', task_id=None)
 
 
@@ -2286,11 +2290,19 @@ def import_status(task_id):
     
     task_info = import_tasks_store.get(task_id)
     if not task_info:
-        return jsonify({'state': 'PENDING', 'progress': 0, 'status': 'Waiting to start...'})
+        # run_import_background() always writes the store entry synchronously
+        # before returning a task_id, so a missing entry here never means "not
+        # started yet" - it means the process restarted (dev reloader, crash)
+        # and the in-memory task store was wiped. Tell the client explicitly
+        # rather than reporting a "waiting" state that will never resolve.
+        return jsonify({'state': 'UNKNOWN', 'progress': 0, 'status': 'Import task no longer exists (server likely restarted).'})
         
     return jsonify({
         'state': task_info['state'],
         'progress': task_info.get('progress', 0),
         'status': task_info.get('status', ''),
+        'stage': task_info.get('stage'),
+        'totals': task_info.get('totals'),
+        'images_indexed': task_info.get('images_indexed'),
         'result': task_info.get('result')
     })

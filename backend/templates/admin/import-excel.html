@@ -155,6 +155,43 @@
         transition: width 0.4s;
     }
 
+    .stage-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--lux-text-secondary);
+        padding: 6px 0;
+    }
+
+    .stage-row .stage-icon {
+        width: 16px;
+        text-align: center;
+        color: #CBD5E1;
+        font-weight: 900;
+    }
+
+    .stage-row.stage-active {
+        color: var(--lux-navy);
+    }
+
+    .stage-row.stage-active .stage-icon {
+        color: var(--lux-gold);
+    }
+
+    .stage-row.stage-done {
+        color: #059669;
+    }
+
+    .stage-row.stage-done .stage-icon {
+        color: #10B981;
+    }
+
+    .stage-row.stage-warn .stage-icon {
+        color: #D97706;
+    }
+
     @keyframes spin-inf {
         from {
             transform: rotate(0deg);
@@ -314,6 +351,43 @@
                     </div>
                 </div>
 
+                <!-- UPLOAD PROGRESS (browser -> server transfer, tracked separately since
+                     large ZIPs can take a while before the server even starts ingesting) -->
+                <div class="import-prog-box" id="uploadProgBox" style="display:none;">
+                    <div class="prog-bar-root">
+                        <div class="prog-bar-fill" id="uploadFill"></div>
+                    </div>
+                    <div class="prog-metrics">
+                        <span id="uploadStatus">Uploading files...</span>
+                        <span id="uploadPerc">0%</span>
+                    </div>
+                </div>
+
+                <!-- STAGE CHECKLIST -->
+                <div id="stageChecklist" style="display:none; margin-bottom: 20px; background:#F8FAFC; border:1px solid var(--lux-border); border-radius:12px; padding: 16px 20px;">
+                    <div class="stage-row" data-stage="upload">
+                        <span class="stage-icon">○</span> Excel &amp; ZIP uploaded to server
+                    </div>
+                    <div class="stage-row" data-stage="zip">
+                        <span class="stage-icon">○</span> <span class="stage-label">Images indexed from ZIP</span>
+                    </div>
+                    <div class="stage-row" data-stage="segments">
+                        <span class="stage-icon">○</span> <span class="stage-label">Segments linked</span>
+                    </div>
+                    <div class="stage-row" data-stage="categories">
+                        <span class="stage-icon">○</span> <span class="stage-label">Categories linked</span>
+                    </div>
+                    <div class="stage-row" data-stage="subcategories">
+                        <span class="stage-icon">○</span> <span class="stage-label">Subcategories linked</span>
+                    </div>
+                    <div class="stage-row" data-stage="products">
+                        <span class="stage-icon">○</span> <span class="stage-label">Products linked</span>
+                    </div>
+                    <div class="stage-row" data-stage="verify">
+                        <span class="stage-icon">○</span> <span class="stage-label">Verification</span>
+                    </div>
+                </div>
+
                 <div class="import-prog-box" id="ingestionProg">
                     <div class="prog-bar-root">
                         <div class="prog-bar-fill" id="ingestionFill"></div>
@@ -442,9 +516,22 @@
 </div>
 
 <script>
+    const IMPORT_TASK_KEY = 'khushboo_active_import_task';
+
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
         {% if task_id %} initiatePolling("{{ task_id }}"); {% endif %}
+
+        // The server-side import keeps running in a background thread regardless
+        // of what the browser does - only the on-screen tracker was ever tied to
+        // this page. If an import was left running (navigated away, tab closed),
+        // resume watching it instead of showing a blank form.
+        const savedId = localStorage.getItem(IMPORT_TASK_KEY);
+        if (savedId && !{{ 'true' if task_id else 'false' }}) {
+            document.getElementById('stageChecklist').style.display = 'block';
+            document.getElementById('ingestBtn').disabled = true;
+            initiatePolling(savedId);
+        }
     });
 
     function onFileSelected(input) {
@@ -472,6 +559,18 @@
         }
     }
 
+    function setStage(name, mode, label) {
+        const row = document.querySelector(`.stage-row[data-stage="${name}"]`);
+        if (!row) return;
+        row.classList.remove('stage-active', 'stage-done', 'stage-warn');
+        if (mode) row.classList.add(mode);
+        row.querySelector('.stage-icon').textContent = mode === 'stage-done' ? '✓' : (mode === 'stage-warn' ? '!' : (mode === 'stage-active' ? '●' : '○'));
+        if (label) {
+            const labelEl = row.querySelector('.stage-label');
+            if (labelEl) labelEl.textContent = label;
+        }
+    }
+
     function handleIngestionStart(form) {
         const fileInput = document.getElementById('excelInput');
         const linkInput = document.getElementById('sheetUrlInput');
@@ -483,9 +582,65 @@
 
         const btn = document.getElementById('ingestBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i data-lucide="loader" class="spinning" style="width:18px;"></i> INITIALIZING...';
+        btn.innerHTML = '<i data-lucide="loader" class="spinning" style="width:18px;"></i> UPLOADING...';
         lucide.createIcons();
-        return true;
+
+        document.getElementById('stageChecklist').style.display = 'block';
+        startAjaxUpload(form);
+        return false; // XHR handles the submit — never let the browser navigate
+    }
+
+    function startAjaxUpload(form) {
+        const uploadBox = document.getElementById('uploadProgBox');
+        const uploadFill = document.getElementById('uploadFill');
+        const uploadStat = document.getElementById('uploadStatus');
+        const uploadPerc = document.getElementById('uploadPerc');
+        const btn = document.getElementById('ingestBtn');
+
+        uploadBox.style.display = 'block';
+        setStage('upload', 'stage-active');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action || window.location.href, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.upload.onprogress = (e) => {
+            if (!e.lengthComputable) return;
+            const pct = Math.round((e.loaded / e.total) * 100);
+            uploadFill.style.width = pct + '%';
+            uploadPerc.textContent = pct + '%';
+            uploadStat.textContent = pct < 100 ? 'Uploading files...' : 'Upload complete, server is processing...';
+        };
+
+        xhr.onload = () => {
+            let data;
+            try { data = JSON.parse(xhr.responseText); } catch (e) { data = null; }
+
+            if (xhr.status >= 200 && xhr.status < 300 && data && data.task_id) {
+                setStage('upload', 'stage-done');
+                localStorage.setItem(IMPORT_TASK_KEY, data.task_id);
+                initiatePolling(data.task_id);
+            } else {
+                setStage('upload', 'stage-warn');
+                const msg = (data && data.error) ? data.error : `Upload failed (HTTP ${xhr.status})`;
+                document.getElementById('ingestionStatus').textContent = '❌ ' + msg;
+                document.getElementById('ingestionProg').style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="database" style="width: 18px;"></i> EXECUTE INGESTION PROTOCOL';
+                lucide.createIcons();
+            }
+        };
+
+        xhr.onerror = () => {
+            setStage('upload', 'stage-warn');
+            document.getElementById('ingestionStatus').textContent = '❌ Network error during upload.';
+            document.getElementById('ingestionProg').style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="database" style="width: 18px;"></i> EXECUTE INGESTION PROTOCOL';
+            lucide.createIcons();
+        };
+
+        xhr.send(new FormData(form));
     }
 
     function initiatePolling(id) {
@@ -507,8 +662,30 @@
                     perc.textContent = data.progress + '%';
                     stat.textContent = data.status;
 
+                    if (data.images_indexed !== null && data.images_indexed !== undefined) {
+                        setStage('zip', data.stage && data.stage !== 'zip' ? 'stage-done' : 'stage-active',
+                            `Images indexed from ZIP: ${data.images_indexed}`);
+                    }
+
+                    const totals = data.totals || {};
+                    const counts = data.result || {};
+                    const stageOrder = ['segments', 'categories', 'subcategories', 'products'];
+                    const labelName = { segments: 'Segments', categories: 'Categories', subcategories: 'Subcategories', products: 'Products' };
+                    stageOrder.forEach((key) => {
+                        const total = totals[key];
+                        const count = counts[key];
+                        if (total === undefined) return;
+                        const label = `${labelName[key]} linked: ${count || 0} / ${total}`;
+                        let mode = 'stage-active';
+                        if (data.stage === key) mode = 'stage-active';
+                        else if (stageOrder.indexOf(data.stage) > stageOrder.indexOf(key) || data.state === 'SUCCESS') mode = 'stage-done';
+                        else mode = null;
+                        setStage(key, mode, label);
+                    });
+
                     if (data.state === 'SUCCESS') {
                         clearInterval(poll);
+                        localStorage.removeItem(IMPORT_TASK_KEY);
                         const res = data.result;
                         rSum.innerHTML = `
                             <span>📦 Segments: ${res.segments}</span>
@@ -517,12 +694,37 @@
                             <span>💎 Products: ${res.products}</span>
                         `;
                         rCard.style.display = 'block';
+
+                        // Verification: does every sheet's imported count match its row count,
+                        // and were there any per-row errors along the way?
+                        const mismatches = Object.keys(totals).filter(k => (counts[k] || 0) !== totals[k]);
+                        const errCount = (res.errors || []).length;
+                        if (mismatches.length === 0 && errCount === 0) {
+                            setStage('verify', 'stage-done', `Verification: all ${totals.products} products accounted for, 0 errors`);
+                        } else {
+                            const parts = [];
+                            if (mismatches.length) parts.push(`mismatched sheets: ${mismatches.join(', ')}`);
+                            if (errCount) parts.push(`${errCount} row error(s)`);
+                            setStage('verify', 'stage-warn', `Verification: ${parts.join(' · ')}`);
+                            if (errCount) {
+                                rSum.innerHTML += `<div style="width:100%; margin-top:10px; color:#B45309; font-weight:600;">
+                                    ⚠️ ${errCount} row error(s): ${(res.errors || []).slice(0, 5).join(' | ')}${errCount > 5 ? ' …' : ''}
+                                </div>`;
+                            }
+                        }
+
                         document.getElementById('ingestBtn').disabled = false;
                         document.getElementById('ingestBtn').innerHTML = '<i data-lucide="check-circle" style="width:18px;"></i> INGESTION COMPLETE';
                         lucide.createIcons();
                     } else if (data.state === 'FAILURE') {
                         clearInterval(poll);
+                        localStorage.removeItem(IMPORT_TASK_KEY);
                         stat.textContent = '❌ CRITICAL ERROR: ' + data.status;
+                        document.getElementById('ingestBtn').disabled = false;
+                    } else if (data.state === 'UNKNOWN') {
+                        clearInterval(poll);
+                        localStorage.removeItem(IMPORT_TASK_KEY);
+                        stat.textContent = '⚠️ ' + data.status + ' Any products committed before the restart are safely saved (commits happen every 20 products) - just re-run the import to pick up where it left off.';
                         document.getElementById('ingestBtn').disabled = false;
                     }
                 });
