@@ -11,15 +11,18 @@ jobs:
     steps:
       - name: Decode deploy key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.VPS_SSH_KEY_B64 }}" | base64 -d > "$GITHUB_WORKSPACE/deploy_key"
+          chmod 600 "$GITHUB_WORKSPACE/deploy_key"
 
       - name: SSH and run deploy script
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key_path: ~/.ssh/deploy_key
+          key_path: /github/workspace/deploy_key
           port: ${{ secrets.VPS_PORT }}
           script: sudo /usr/local/bin/khushboo-deploy.sh
+
+      - name: Clean up deploy key
+        if: always()
+        run: rm -f "$GITHUB_WORKSPACE/deploy_key"
