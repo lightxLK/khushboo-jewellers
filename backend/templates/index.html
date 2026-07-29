@@ -41,9 +41,7 @@
                     <li><a href="/contact.html" class="nav-link">Contact</a></li>
                 </ul>
                 <div class="header-actions">
-                    <button class="action-btn" title="Search"><i class="fas fa-search"></i></button>
-                    <button class="action-btn" title="Wishlist"><i class="far fa-heart"></i></button>
-                    <button class="action-btn" title="Cart"><i class="fas fa-shopping-bag"></i></button>
+                    <button class="action-btn" title="Search" onclick="const q=prompt('Search products...'); if(q&&q.trim()) window.location.href='/search?q='+encodeURIComponent(q.trim());"><i class="fas fa-search"></i></button>
                     <a href="#contact" class="cta-btn-header">Wholesale Partner</a>
                 </div>
                 <div class="hamburger" id="hamburger">
@@ -58,7 +56,7 @@
         <!-- Slider Backgrounds Container -->
         <div class="carousel-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
             <div class="carousel-slide active" style="position: absolute; width:100%; height:100%; transition: opacity 1.2s ease-in-out;">
-                <img src="/uploads/hero.png" alt="Luxury Silver Jewelry" style="width:100%; height:100%; object-fit: cover;">
+                <img src="/images/hero-banner-2.png" alt="Luxury Silver Jewelry" style="width:100%; height:100%; object-fit: cover;">
             </div>
             <div class="carousel-slide" style="position: absolute; width:100%; height:100%; opacity: 0; transition: opacity 1.2s ease-in-out;">
                 <img src="/images/KJ-Web banner slider 1.jpg" alt="Exquisite Craftsmanship" style="width:100%; height:100%; object-fit: cover;">
@@ -111,21 +109,21 @@
                 <div class="title-underline"></div>
             </div>
             <div class="category-luxury-grid" id="categoryGrid">
-                <a href="/categories/2" class="category-box">
-                    <img src="/uploads/necklace.png" alt="Necklaces">
-                    <div class="category-box-overlay"><h3>Necklaces</h3><span>Shop Now</span></div>
+                <a href="/subcategories/1" class="category-box">
+                    <img src="/uploads/products/primary/1785324307_MPK08492.webp" alt="Anklets">
+                    <div class="category-box-overlay"><h3>Anklets</h3><span>Shop Now</span></div>
                 </a>
-                <a href="/categories/3" class="category-box">
-                    <img src="/uploads/earring.png" alt="Earrings">
-                    <div class="category-box-overlay"><h3>Earrings</h3><span>Shop Now</span></div>
-                </a>
-                <a href="/categories/4" class="category-box">
-                    <img src="/uploads/ring.png" alt="Rings">
-                    <div class="category-box-overlay"><h3>Rings</h3><span>Shop Now</span></div>
-                </a>
-                <a href="/categories/5" class="category-box">
-                    <img src="/uploads/bracelet.png" alt="Bracelets">
+                <a href="/subcategories/3" class="category-box">
+                    <img src="/uploads/products/primary/1785324357_MPK08833.webp" alt="Bracelets">
                     <div class="category-box-overlay"><h3>Bracelets</h3><span>Shop Now</span></div>
+                </a>
+                <a href="/subcategories/5" class="category-box">
+                    <img src="/uploads/products/primary/1785324393_MPK08866.webp" alt="Toe Rings">
+                    <div class="category-box-overlay"><h3>Toe Rings</h3><span>Shop Now</span></div>
+                </a>
+                <a href="/subcategories/29" class="category-box">
+                    <img src="/uploads/products/primary/1785324551_MPK09403.webp" alt="Gift Items">
+                    <div class="category-box-overlay"><h3>Gift Items</h3><span>Shop Now</span></div>
                 </a>
             </div>
         </div>
@@ -191,32 +189,9 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Trusted by Retailers</h2>
-                <div class="title-underline"></div>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">&ldquo;</div>
-                    <p>Best wholesale partner for silver jewelry in Cuttack. Quality is consistent and delivery is always on time.</p>
-                    <div class="testimonial-author"><strong>Shree Jewellers</strong>, Bhubaneswar</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">&ldquo;</div>
-                    <p>Their Tarakasi designs are world-class. Our customers love the authenticity and finish of every piece.</p>
-                    <div class="testimonial-author"><strong>Heritage Silver</strong>, Puri</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">&ldquo;</div>
-                    <p>Reliable, professional, and high-quality. Khushboo Jewellers has helped us grow our retail business.</p>
-                    <div class="testimonial-author"><strong>Modern Gems</strong>, Sambalpur</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Testimonials section removed: contained fabricated retailer quotes
+         (invented business names, unverifiable claims) - not real client
+         testimonials. Re-add once real client quotes are available. -->
 
     <!-- Instagram Feed -->
     <section class="instagram-luxury">
@@ -228,12 +203,12 @@
             </div>
         </div>
         <div class="instagram-grid">
-            <div class="instagram-item"><img src="../images/featured-product-1.png" alt="Insta 1"></div>
-            <div class="instagram-item"><img src="../images/featured-product-2.png" alt="Insta 2"></div>
-            <div class="instagram-item"><img src="../images/featured-product-3.png" alt="Insta 3"></div>
-            <div class="instagram-item"><img src="../images/featured-product-4.png" alt="Insta 4"></div>
-            <div class="instagram-item"><img src="../images/featured-product-5.png" alt="Insta 5"></div>
-            <div class="instagram-item"><img src="../images/banner-modern-silver.png" alt="Insta 6"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324307_MPK08492.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324360_MPK08836.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324413_MPK08954.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324462_MPK09196.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324516_MPK09291.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324567_MPK09439.webp" alt="Khushboo Jewellers product"></div>
         </div>
     </section>
 
@@ -384,7 +359,7 @@
                             card.className = 'collection-card';
                             card.href = `/categories/${segment.id}`;
                             const img = segment.image_path ? `<img src="${segment.image_path}" alt="${segment.name}">` : `<div style="height:200px;background:#eee;"></div>`;
-                            card.innerHTML = `<img src="${segment.image_path || '/static/placeholder.png'}" alt="${segment.name}"><div class="collection-title">${segment.name}</div>`;
+                            card.innerHTML = `<img src="${segment.image_path || '/images/placeholder.png'}" alt="${segment.name}"><div class="collection-title">${segment.name}</div>`;
                             container.appendChild(card);
                         });
                     }
@@ -457,7 +432,7 @@
                     data.items.slice(0, 8).forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'dynamic-product-card';
-                        card.innerHTML = `<div class="dynamic-product-image"><img src="${item.image_path || item.primary_image || '/static/placeholder.png'}" alt="${item.name}"></div><div class="dynamic-product-info"><div class="dynamic-product-name">${item.name}</div></div>`;
+                        card.innerHTML = `<div class="dynamic-product-image"><img src="${item.image_path || item.primary_image || '/images/placeholder.png'}" alt="${item.name}"></div><div class="dynamic-product-info"><div class="dynamic-product-name">${item.name}</div></div>`;
                         grid.appendChild(card);
                     });
                 });
