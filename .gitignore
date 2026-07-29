@@ -47,3 +47,8 @@ backend/temp_drive_downloads/
 backend/*.xlsx
 *.xlsx
 trad_search.csv
+
+# Raw product photography (multi-GB source material, not source code)
+Product Images/
+misc/
+backend/*.zip
