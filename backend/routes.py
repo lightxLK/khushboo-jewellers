@@ -502,28 +502,42 @@ def product_detail(segment_name, category_name, subcategory_name, product_name, 
     try:
         product = Product.query.get_or_404(product_id)
         subcategory = product.subcategory
-        category = subcategory.category
-        segment = category.segment
+        category = subcategory.category if subcategory else product.category
+        segment = category.segment if category else None
 
-        similar_products = Product.query.filter(
-            Product.subcategory_id == product.subcategory_id,
-            Product.id != product_id
-        ).limit(4).all()
+        secondary_images = []
+        if product.secondary_images:
+            try:
+                secondary_images = json.loads(product.secondary_images)
+            except (ValueError, TypeError):
+                secondary_images = []
 
-        more_from_collection = Product.query.join(Subcategory).join(Category).filter(
-            Category.segment_id == segment.id,
-            Product.subcategory_id != product.subcategory_id
-        ).limit(4).all()
+        if subcategory:
+            similar_products = Product.query.filter(
+                Product.subcategory_id == product.subcategory_id,
+                Product.id != product_id
+            ).limit(4).all()
+        else:
+            similar_products = []
 
-        other_segments = Product.query.join(Subcategory).join(Category).filter(
-            Category.segment_id != segment.id
-        ).limit(4).all()
+        if segment:
+            more_from_collection = Product.query.join(Subcategory).join(Category).filter(
+                Category.segment_id == segment.id,
+                Product.subcategory_id != product.subcategory_id
+            ).limit(4).all()
+            other_segments = Product.query.join(Subcategory).join(Category).filter(
+                Category.segment_id != segment.id
+            ).limit(4).all()
+        else:
+            more_from_collection = []
+            other_segments = []
 
         return render_template('product-detail.html',
             product=product,
             segment=segment,
             category=category,
             subcategory=subcategory,
+            secondary_images=secondary_images,
             similar_products=similar_products,
             more_from_collection=more_from_collection,
             other_segments=other_segments
@@ -1989,6 +2003,13 @@ def product_detail_direct(segment_name, category_name, product_name, product_id)
         category = product.category
         segment = category.segment
 
+        secondary_images = []
+        if product.secondary_images:
+            try:
+                secondary_images = json.loads(product.secondary_images)
+            except (ValueError, TypeError):
+                secondary_images = []
+
         similar_products = Product.query.filter(
             Product.category_id == product.category_id,
             Product.id != product_id,
@@ -2008,6 +2029,7 @@ def product_detail_direct(segment_name, category_name, product_name, product_id)
             segment=segment,
             category=category,
             subcategory=None,
+            secondary_images=secondary_images,
             similar_products=similar_products,
             more_from_collection=more_from_collection,
             other_segments=other_segments
