@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushboo Jewellers | Luxury Silver | Since 2002</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/premium.css?v=3">
+    <link rel="stylesheet" href="css/luxury-redesign.css?v=7">
+    <link rel="icon" type="image/png" href="../images/logo-blue.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="scroll-progress-bar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="/" class="logo-container">
+                    <img src="../images/logo-blue.png" alt="Khushboo Jewellers" class="logo-img">
+                    <div class="logo-text">
+                        <span class="brand-name">KHUSHBOO</span>
+                        <span class="brand-subtitle">Since 2002 • Cuttack</span>
+                    </div>
+                </a>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li class="has-mega-menu">
+                        <a href="#collections" class="nav-link">Collections</a>
+                        <div class="mega-menu" id="megaMenu">
+                            <div class="mega-menu-content" id="megaMenuContent">
+                                <div style="text-align: center; color: #999; padding: 20px;">Loading collections...</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="/about.html" class="nav-link">About</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="header-actions">
+                    <button class="action-btn" title="Search" onclick="const q=prompt('Search products...'); if(q&&q.trim()) window.location.href='/search?q='+encodeURIComponent(q.trim());"><i class="fas fa-search"></i></button>
+                    <a href="#contact" class="cta-btn-header">Wholesale Partner</a>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-luxury" id="home" style="position: relative;">
+        <!-- Slider Backgrounds Container -->
+        <div class="carousel-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+            <div class="carousel-slide active" style="position: absolute; width:100%; height:100%; transition: opacity 1.2s ease-in-out;">
+                <img src="/images/hero-banner-2.png" alt="Luxury Silver Jewelry" style="width:100%; height:100%; object-fit: cover;">
+            </div>
+            <div class="carousel-slide" style="position: absolute; width:100%; height:100%; opacity: 0; transition: opacity 1.2s ease-in-out;">
+                <img src="/images/KJ-Web banner slider 1.jpg" alt="Exquisite Craftsmanship" style="width:100%; height:100%; object-fit: cover;">
+            </div>
+            <div class="carousel-slide" style="position: absolute; width:100%; height:100%; opacity: 0; transition: opacity 1.2s ease-in-out;">
+                <img src="/images/KJ-Web banner slider 2.jpg" alt="Bridal Collections" style="width:100%; height:100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <div class="hero-luxury-overlay" style="z-index: 2;"></div>
+        
+        <div class="hero-luxury-content" style="z-index: 3;">
+            <div class="hero-badge">Odisha's Largest Wholesale Hub</div>
+            <h1>Timeless Elegance, <br>Crafted for You</h1>
+            <p>Discover handcrafted silver jewelry designed to shine forever. Providing top-tier 925 sterling silver jewelry to 500+ partners since 2002.</p>
+            <div class="hero-luxury-btns">
+                <a href="#collections" class="btn-primary">Shop Collection</a>
+                <a href="#new-arrivals" class="btn-secondary">Explore New Arrivals</a>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="carousel-indicators" style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: 12px;">
+            <div class="dot active" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s;"></div>
+            <div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s;"></div>
+            <div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s;"></div>
+        </div>
+        <style>
+            .dot.active { background: #fff !important; transform: scale(1.2); }
+            .carousel-slide.active { opacity: 1 !important; z-index: 2; }
+            .carousel-slide { z-index: 1; }
+        </style>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="trust-bar-container">
+            <div class="trust-item-mini"><i class="fas fa-certificate"></i> 100% Certified Silver</div>
+            <div class="trust-item-mini"><i class="fas fa-truck"></i> Free Shipping</div>
+            <div class="trust-item-mini"><i class="fas fa-undo"></i> Easy Returns</div>
+            <div class="trust-item-mini"><i class="fas fa-lock"></i> Secure Payment</div>
+        </div>
+    </section>
+
+    <!-- Shop by Category -->
+    <section class="category-luxury" id="collections">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Shop by Category</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="category-luxury-grid" id="categoryGrid">
+                <a href="/subcategories/1" class="category-box">
+                    <img src="/uploads/products/primary/1785324307_MPK08492.webp" alt="Anklets">
+                    <div class="category-box-overlay"><h3>Anklets</h3><span>Shop Now</span></div>
+                </a>
+                <a href="/subcategories/3" class="category-box">
+                    <img src="/uploads/products/primary/1785324357_MPK08833.webp" alt="Bracelets">
+                    <div class="category-box-overlay"><h3>Bracelets</h3><span>Shop Now</span></div>
+                </a>
+                <a href="/subcategories/5" class="category-box">
+                    <img src="/uploads/products/primary/1785324393_MPK08866.webp" alt="Toe Rings">
+                    <div class="category-box-overlay"><h3>Toe Rings</h3><span>Shop Now</span></div>
+                </a>
+                <a href="/subcategories/29" class="category-box">
+                    <img src="/uploads/products/primary/1785324551_MPK09403.webp" alt="Gift Items">
+                    <div class="category-box-overlay"><h3>Gift Items</h3><span>Shop Now</span></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Collections (Dynamic) -->
+    <section class="wholesale-section" id="wholesale">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Special Collections</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="collection-grid" id="wholesaleGrid">
+                <!-- JS populates -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story -->
+    <section class="story-luxury">
+        <div class="story-luxury-container">
+            <div class="story-img-side">
+                <img src="../images/about.png" alt="Craftsmanship">
+            </div>
+            <div class="story-content-side">
+                <h2 class="section-title" style="text-align: left; margin-left: 0;">Crafted with Passion, <br>Designed for You</h2>
+                <p>Every piece tells a story of elegance, tradition, and modern beauty. We blend timeless craftsmanship with contemporary design to create jewelry that speaks to the heart.</p>
+                <p>For over two decades, we have been the cornerstone of traditional silver craftsmanship in Cuttack, ensuring unmatched design excellence for our retail partners.</p>
+                <a href="/about.html" class="btn-primary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose" id="why-choose">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Promise</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-gem"></i></div>
+                    <h3>Certified 925 Silver</h3>
+                    <p>Every piece is BIS hallmarked for guaranteed purity and trust.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <h3>Insured Shipping</h3>
+                    <p>Pan-India logistics ensuring your orders reach you safely.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <h3>Heritage Designs</h3>
+                    <p>Traditional Odia craftsmanship meeting modern aesthetics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                    <h3>Wholesale Pricing</h3>
+                    <p>Competitive rates tailored for our retail partners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials section removed: contained fabricated retailer quotes
+         (invented business names, unverifiable claims) - not real client
+         testimonials. Re-add once real client quotes are available. -->
+
+    <!-- Instagram Feed -->
+    <section class="instagram-luxury">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Follow Our Journey</h2>
+                <div class="title-underline"></div>
+                <p>@Khushboojewellers</p>
+            </div>
+        </div>
+        <div class="instagram-grid">
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324307_MPK08492.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324360_MPK08836.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324413_MPK08954.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324462_MPK09196.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324516_MPK09291.webp" alt="Khushboo Jewellers product"></div>
+            <div class="instagram-item"><img src="/uploads/products/primary/1785324567_MPK09439.webp" alt="Khushboo Jewellers product"></div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-luxury">
+        <div class="container">
+            <h2>Find Your Perfect Piece Today</h2>
+            <p>Ready to join Odisha's most trusted wholesale network?</p>
+            <div class="hero-luxury-btns" style="margin-top: 30px;">
+                <a href="#contact" class="btn-primary" style="background: #fff; color: #000;">Partner With Us</a>
+                <a href="/contact" class="btn-secondary" style="border-color: #fff; color: #fff;">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Sections Container -->
+    <div id="dynamicSectionsContainer"></div>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="title-underline"></div>
+                <p class="section-subtitle">Let's build a successful wholesale partnership together</p>
+            </div>
+            <div class="contact-wrapper">
+                <!-- Info cards same as before -->
+                <div class="contact-info">
+                    <div class="info-card"><div class="info-icon"><i class="fas fa-map-marker-alt"></i></div><div class="info-content"><h3>Visit Us</h3><p>Nayasadak, Cuttack, Odisha - 753002</p></div></div>
+                    <div class="info-card"><div class="info-icon"><i class="fas fa-phone-alt"></i></div><div class="info-content"><h3>Call Us</h3><p>+91 78735 90001</p></div></div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group"><input type="text" id="name" placeholder="Your Name *" required></div>
+                        <div class="form-group"><input type="email" id="email" placeholder="Email Address *" required></div>
+                        <div class="form-group"><input type="tel" id="phone" placeholder="Phone Number *" required></div>
+                        <div class="form-group"><textarea id="message" rows="5" placeholder="Your Message *" required></textarea></div>
+                        <button type="submit" class="btn-primary">Send Message →</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Chat -->
+    <a href="https://wa.me/917873590001" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="../images/logo-white.png" alt="Khushboo Jewellers">
+                    </div>
+                    <p class="footer-desc">Your Trusted Traditional Silver Jewellery Wholesale Partner in Cuttack,
+                        Odisha. Since 2002, we have been dedicated to preserving the rich heritage of handcrafted
+                        silver jewelry.</p>
+
+                    <div class="trust-badges" style="margin-top: 24px; display: flex; gap: 20px;">
+                        <div class="trust-badge"
+                            style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <span>BIS Certified</span>
+                        </div>
+                        <div class="trust-badge"
+                            style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <span>925 Sterling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/index.html#collections">Collections</a></li>
+                            <li><a href="/about.html">About Us</a></li>
+                            <li><a href="/contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Policies</h4>
+                        <ul>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/terms-conditions">Terms & Conditions</a></li>
+                            <li><a href="/contact.html">Shipping Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="https://wa.me/917873590001" target="_blank"
+                                class="social-link whatsapp-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                </svg>
+                                WhatsApp Us
+                            </a>
+                            <a href="mailto:khushboojewellers416@gmail.com" class="social-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                Email Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Khushboo Jewellers, Nayasadak Cuttack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Populate Featured Collections from segments
+            fetch('/api/segments')
+                .then(response => response.json())
+                .then(segments => {
+                    const container = document.getElementById('wholesaleGrid');
+                    if (container) {
+                        container.innerHTML = '';
+                        segments.forEach(segment => {
+                            const card = document.createElement('a');
+                            card.className = 'collection-card';
+                            card.href = `/categories/${segment.id}`;
+                            const img = segment.image_path ? `<img src="${segment.image_path}" alt="${segment.name}">` : `<div style="height:200px;background:#eee;"></div>`;
+                            card.innerHTML = `<img src="${segment.image_path || '/images/placeholder.png'}" alt="${segment.name}"><div class="collection-title">${segment.name}</div>`;
+                            container.appendChild(card);
+                        });
+                    }
+                });
+
+            // Dynamic Sections Logic (Automatic)
+            fetch('/api/dynamic-sections')
+                .then(r => r.json())
+                .then(sections => {
+                    const container = document.getElementById('dynamicSectionsContainer');
+                    sections.forEach(section => {
+                        if (!section.is_visible) return;
+                        const el = document.createElement('section');
+                        el.className = 'dynamic-section';
+                        el.innerHTML = `<div class="container"><div class="section-header"><h2 class="section-title">${section.title}</h2><div class="title-underline"></div></div><div class="dynamic-products-grid" id="section-${section.id}-items"></div></div>`;
+                        container.appendChild(el);
+                        loadSectionItems(section);
+                    });
+                });
+            // Auto Slider for Instagram Grid
+            const instaGrid = document.querySelector('.instagram-grid');
+            if (instaGrid) {
+                let scrollAmount = 0;
+                let step = 1;
+                let scrollMax = instaGrid.scrollWidth - instaGrid.clientWidth;
+
+                function autoScroll() {
+                    scrollAmount += step;
+                    if (scrollAmount >= scrollMax) {
+                        scrollAmount = 0;
+                    }
+                    instaGrid.scrollTo({
+                        left: scrollAmount,
+                        behavior: 'auto'
+                    });
+                    requestAnimationFrame(autoScroll);
+                }
+
+                // Pause on hover
+                let isPaused = false;
+                instaGrid.addEventListener('mouseenter', () => isPaused = true);
+                instaGrid.addEventListener('mouseleave', () => isPaused = false);
+
+                function animate() {
+                    if (!isPaused) {
+                        scrollAmount += 0.5;
+                        if (scrollAmount >= scrollMax) {
+                            scrollAmount = 0;
+                        }
+                        instaGrid.scrollLeft = scrollAmount;
+                    }
+                    requestAnimationFrame(animate);
+                }
+                
+                // Recalculate max on resize
+                window.addEventListener('resize', () => {
+                    scrollMax = instaGrid.scrollWidth - instaGrid.clientWidth;
+                });
+
+                // Start animating
+                setTimeout(animate, 1000);
+            }
+        });
+
+        function loadSectionItems(section) {
+            fetch('/api/dynamic-section-items/' + section.id)
+                .then(r => r.json())
+                .then(data => {
+                    const grid = document.getElementById(`section-${section.id}-items`);
+                    data.items.slice(0, 8).forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'dynamic-product-card';
+                        card.innerHTML = `<div class="dynamic-product-image"><img src="${item.image_path || item.primary_image || '/images/placeholder.png'}" alt="${item.name}"></div><div class="dynamic-product-info"><div class="dynamic-product-name">${item.name}</div></div>`;
+                        grid.appendChild(card);
+                    });
+                });
+        }
+    </script>
+    <script src="/js/script.js?v=3"></script>
+    <script src="/js/mega-menu-data.js?v=3"></script>
+</body>
+</html>
