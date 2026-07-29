@@ -12,7 +12,7 @@ jobs:
       - name: Decode deploy key
         run: |
           echo "${{ secrets.VPS_SSH_KEY_B64 }}" | base64 -d > "$GITHUB_WORKSPACE/deploy_key"
-          chmod 600 "$GITHUB_WORKSPACE/deploy_key"
+          chmod 644 "$GITHUB_WORKSPACE/deploy_key"
 
       - name: SSH and run deploy script
         uses: appleboy/ssh-action@v1.0.3
